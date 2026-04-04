@@ -60,4 +60,9 @@ app.post('/message', (req, res) => {
 app.get('/', (_, res) => res.send('Sofia proxy running ✅'));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+export default {
+  async fetch(request, env, ctx) {
+    // This allows your Express app to handle the Cloudflare request
+    return app.handle(request, env, ctx);
+  },
+};
