@@ -1,0 +1,10 @@
+name = "sofia-proxy"
+main = "server.js"  # Replace with your actual main filename (e.g., app.js)
+compatibility_date = "2026-04-04"
+
+[vars]
+# You will add your GROQ_API_KEY in the dashboard, not here!
+
+[site]
+bucket = "./public" # This is where your HTML/CSS files should live
+entry-point = "workers-site"
