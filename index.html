@@ -12,21 +12,75 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   display: flex; flex-direction: column;
-  height: 100vh;
-  height: 100dvh;
+  height: 100vh; height: 100dvh;
   background: #0f0e17; color: #fffffe;
   font-family: system-ui, -apple-system, sans-serif;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  top: 0; left: 0;
+  overflow: hidden; position: fixed; width: 100%; top: 0; left: 0;
 }
+
+/* ── SIDE MENU OVERLAY ── */
+#sideOverlay {
+  display: none; position: fixed; inset: 0; z-index: 160;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+}
+#sideDrawer {
+  position: absolute; top: 0; left: 0; bottom: 0; width: min(280px, 82vw);
+  background: #13121f; border-right: 1px solid #2a2945;
+  display: flex; flex-direction: column;
+  transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+}
+#sideOverlay.open #sideDrawer { transform: translateX(0); }
+
+.side-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 22px 18px 16px;
+  border-bottom: 1px solid #2a2945;
+}
+.side-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b, #ffd166);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+}
+.side-title { font-weight: 700; font-size: 15px; }
+.side-sub   { font-size: 11px; color: #7a79a0; margin-top: 2px; }
+
+.side-section-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: #4a4970; padding: 16px 18px 6px;
+}
+
+.subj-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; cursor: pointer;
+  background: transparent; border: none; width: 100%; text-align: left;
+  color: #a7a6c0; font-size: 14px; font-family: inherit;
+  border-left: 3px solid transparent; transition: all 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.subj-btn:active { background: rgba(255,255,255,0.03); }
+.subj-btn.active {
+  color: #fffffe; background: rgba(255,107,107,0.08);
+  border-left-color: #ff6b6b;
+}
+.subj-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+
+.side-divider { height: 1px; background: #2a2945; margin: 8px 0; }
+
+.side-action {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; cursor: pointer;
+  background: transparent; border: none; width: 100%; text-align: left;
+  color: #7a79a0; font-size: 14px; font-family: inherit; transition: all 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.side-action:active { background: rgba(255,255,255,0.03); }
+.side-action.exam-on { color: #ffd166; }
+.side-action .side-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
 
 /* ── HEADER ── */
 #header {
@@ -35,33 +89,36 @@ body {
   border-bottom: 1px solid #2a2945; background: #13121f; gap: 8px;
 }
 .hlogo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.avatar {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: linear-gradient(135deg, #ff6b6b, #ffd166);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
+#menuBtn {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: #1a1935; border: 1px solid #2a2945;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color 0.2s;
 }
+#menuBtn:active { border-color: #ff6b6b; }
+#menuBtn span { display: block; width: 16px; height: 2px; background: #7a79a0; border-radius: 2px; }
+
 .hname { font-weight: 700; font-size: 15px; }
 .hstatus { font-size: 11px; color: #7a79a0; display: flex; align-items: center; gap: 4px; }
 .dot { width: 6px; height: 6px; background: #06d6a0; border-radius: 50%; animation: pulse 2s infinite; }
 
-.header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-.pills { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-.pill {
-  font-size: 11px; padding: 4px 10px; border-radius: 20px;
-  border: 1px solid #2a2945; background: transparent;
-  color: #7a79a0; cursor: pointer; transition: all 0.2s;
+/* active subject badge in header */
+#subjectBadge {
+  font-size: 12px; padding: 3px 10px; border-radius: 20px;
+  background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.3);
+  color: #ff6b6b; white-space: nowrap; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.pill.active { border-color: #ff6b6b; background: rgba(255,107,107,0.12); color: #ff6b6b; }
 
-/* Exam mode button */
-#examBtn {
-  font-size: 11px; padding: 4px 10px; border-radius: 20px;
-  border: 1px solid #2a2945; background: transparent;
-  color: #7a79a0; cursor: pointer; white-space: nowrap;
-  -webkit-tap-highlight-color: transparent; transition: all 0.2s;
+.header-right { display: flex; align-items: center; gap: 6px; }
+
+/* icon buttons in header */
+.hbtn {
+  background: transparent; border: none; cursor: pointer;
+  color: #7a79a0; font-size: 17px; padding: 4px 5px;
+  -webkit-tap-highlight-color: transparent; transition: color 0.2s;
 }
-#examBtn.active { border-color: #ffd166; background: rgba(255,209,102,0.12); color: #ffd166; }
+.hbtn:active { color: #fffffe; }
 
 /* ── EXAM BANNER ── */
 #examBanner {
@@ -84,8 +141,7 @@ body {
 
 .msg-av {
   width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 14px;
-  margin-top: 2px;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px;
 }
 .msg.ai   .msg-av { background: linear-gradient(135deg, #ff6b6b, #ffd166); }
 .msg.user .msg-av { background: #1e1e35; border: 1px solid #2a2945; }
@@ -100,13 +156,8 @@ body {
 .bubble em { color: #06d6a0; }
 .bubble img { max-width: 100%; border-radius: 8px; margin-top: 6px; display: block; }
 
-/* date divider */
-.date-divider {
-  text-align: center; font-size: 11px; color: #4a4970;
-  margin: 4px 0; flex-shrink: 0;
-}
+.date-divider { text-align: center; font-size: 11px; color: #4a4970; margin: 4px 0; flex-shrink: 0; }
 
-/* Typing */
 .typing-dots { display: flex; gap: 4px; padding: 4px 0; }
 .typing-dots span {
   width: 7px; height: 7px; background: #7a79a0; border-radius: 50%;
@@ -117,8 +168,7 @@ body {
 
 /* ── CHIPS ── */
 #chips {
-  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 7px;
-  padding: 0 14px 8px;
+  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 8px;
 }
 .chip {
   font-size: 13px; padding: 8px 14px; border-radius: 20px;
@@ -132,8 +182,7 @@ body {
 #uploadPreview {
   display: none; flex-shrink: 0;
   padding: 8px 14px; background: #13121f;
-  border-top: 1px solid #2a2945;
-  flex-wrap: wrap; gap: 8px;
+  border-top: 1px solid #2a2945; flex-wrap: wrap; gap: 8px;
 }
 .preview-item {
   position: relative; display: inline-flex; align-items: center; gap: 6px;
@@ -173,6 +222,26 @@ textarea {
 textarea:focus { border-color: rgba(255,107,107,0.4); }
 textarea::placeholder { color: #4a4970; }
 
+/* ── VOICE BUTTON ── */
+#voiceBtn {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: #1a1935; border: 1px solid #2a2945;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; -webkit-tap-highlight-color: transparent; transition: all 0.2s;
+  position: relative; overflow: hidden;
+}
+#voiceBtn.listening {
+  background: rgba(255,107,107,0.15);
+  border-color: #ff6b6b;
+  animation: voicePulse 1s infinite;
+}
+#voiceBtn.unsupported { opacity: 0.35; cursor: not-allowed; }
+
+@keyframes voicePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,107,107,0.4); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,107,107,0); }
+}
+
 #sendBtn {
   width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
   background: linear-gradient(135deg, #ff6b6b, #ff8e53);
@@ -183,7 +252,7 @@ textarea::placeholder { color: #4a4970; }
 #sendBtn:disabled { background: #2a2945; box-shadow: none; cursor: default; }
 #sendBtn:not(:disabled):active { transform: scale(0.94); }
 
-/* history sidebar */
+/* ── HISTORY PANEL ── */
 #historyPanel {
   display: none; position: fixed; inset: 0; z-index: 150;
   background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
@@ -200,66 +269,205 @@ textarea::placeholder { color: #4a4970; }
   padding: 12px 14px; cursor: pointer; transition: all 0.2s;
 }
 .session-item:active { border-color: #ff6b6b; }
-.session-item .s-date { font-size: 11px; color: #4a4970; }
+.session-item .s-date    { font-size: 11px; color: #4a4970; }
 .session-item .s-preview { font-size: 13px; color: #a7a6c0; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.session-item .s-subj { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(255,107,107,0.12); color: #ff6b6b; margin-top: 4px; }
-#closeHistory {
-  align-self: flex-end; background: transparent; border: none; color: #7a79a0;
-  font-size: 22px; cursor: pointer; margin-bottom: 8px;
-}
+.session-item .s-subj    { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(255,107,107,0.12); color: #ff6b6b; margin-top: 4px; }
+#closeHistory { align-self: flex-end; background: transparent; border: none; color: #7a79a0; font-size: 22px; cursor: pointer; margin-bottom: 8px; }
 .no-sessions { font-size: 13px; color: #4a4970; text-align: center; padding: 20px 0; }
+
+/* ── SEARCH BAR ── */
+#searchBar {
+  display: none; flex-shrink: 0;
+  padding: 8px 14px; background: #13121f;
+  border-bottom: 1px solid #2a2945;
+  gap: 8px; align-items: center;
+}
+#searchInput {
+  flex: 1; padding: 8px 12px; border-radius: 10px;
+  background: #1a1935; border: 1px solid #2a2945; color: #fffffe;
+  font-size: 14px; outline: none;
+}
+
+/* ── SETTINGS MODAL ── */
+#settingsOverlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+#settingsModal {
+  background: #13121f; border: 1px solid #2a2945; border-radius: 22px;
+  padding: 28px 24px; width: 100%; max-width: 420px;
+  animation: fadeUp 0.22s ease;
+}
+#settingsModal h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+#settingsModal .modal-sub { font-size: 13px; color: #7a79a0; margin-bottom: 22px; }
+
+.field-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #4a4970; margin-bottom: 6px; display: block;
+}
+.field-input {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  background: #1a1935; border: 1px solid #2a2945; color: #fffffe;
+  font-size: 15px; font-family: inherit; outline: none;
+  transition: border-color 0.2s; margin-bottom: 16px;
+}
+.field-input:focus { border-color: rgba(255,107,107,0.5); }
+
+/* Grade selector grid */
+.grade-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
+}
+.grade-tile {
+  padding: 10px 6px; border-radius: 12px; text-align: center;
+  background: #1a1935; border: 1px solid #2a2945; cursor: pointer;
+  font-size: 13px; color: #7a79a0; transition: all 0.18s; line-height: 1.3;
+  -webkit-tap-highlight-color: transparent;
+}
+.grade-tile .grade-num { font-size: 17px; font-weight: 700; display: block; }
+.grade-tile:active { border-color: #ff6b6b; }
+.grade-tile.selected {
+  border-color: #ff6b6b; background: rgba(255,107,107,0.1); color: #fffffe;
+}
+.grade-tile.selected .grade-num { color: #ff6b6b; }
+
+.modal-actions { display: flex; gap: 10px; }
+.btn-save {
+  flex: 1; padding: 13px; border-radius: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  border: none; color: white; font-size: 15px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.btn-cancel {
+  padding: 13px 18px; border-radius: 12px;
+  background: transparent; border: 1px solid #2a2945;
+  color: #7a79a0; font-size: 15px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 
 @keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
 @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
 @keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
 </style>
 </head>
 <body>
 
-<!-- No API screen needed — key is stored securely in the Cloudflare Worker -->
+<!-- ── SIDE MENU ── -->
+<div id="sideOverlay" onclick="closeSideMenu(event)">
+  <div id="sideDrawer">
+    <div class="side-header">
+      <div class="side-avatar">🎓</div>
+      <div>
+        <div class="side-title">Sofía · Tutora IA</div>
+        <div class="side-sub" id="sideStudentInfo">1º ESO · Madrid</div>
+      </div>
+    </div>
+
+    <div class="side-section-label">Asignaturas</div>
+    <button class="subj-btn active" id="sb-Matemáticas" onclick="selectSubject('Matemáticas',this)">
+      <span class="subj-icon">🔢</span> Matemáticas
+    </button>
+    <button class="subj-btn" id="sb-Biología" onclick="selectSubject('Biología',this)">
+      <span class="subj-icon">🧬</span> Biología
+    </button>
+    <button class="subj-btn" id="sb-Historia" onclick="selectSubject('Historia',this)">
+      <span class="subj-icon">🏛️</span> Historia
+    </button>
+    <button class="subj-btn" id="sb-Lengua" onclick="selectSubject('Lengua',this)">
+      <span class="subj-icon">📖</span> Lengua
+    </button>
+    <button class="subj-btn" id="sb-Inglés" onclick="selectSubject('Inglés',this)">
+      <span class="subj-icon">🇬🇧</span> Inglés
+    </button>
+
+    <div class="side-divider"></div>
+    <div class="side-section-label">Acciones</div>
+
+    <button class="side-action" id="sideExamBtn" onclick="toggleExamFromMenu()">
+      <span class="side-icon">📝</span> Modo Examen
+    </button>
+    <button class="side-action" onclick="showHistory(); closeSideMenuDirect()">
+      <span class="side-icon">🕘</span> Sesiones anteriores
+    </button>
+    <button class="side-action" onclick="toggleSearch(); closeSideMenuDirect()">
+      <span class="side-icon">🔍</span> Buscar en chat
+    </button>
+
+    <div class="side-divider"></div>
+
+    <button class="side-action" onclick="deleteConversation()">
+      <span class="side-icon">🗑️</span> Borrar conversación
+    </button>
+    <button class="side-action" onclick="resetSettings()">
+      <span class="side-icon">⚙️</span> Nueva sesión
+    </button>
+    <button class="side-action" onclick="openSettings(); closeSideMenuDirect()">
+      <span class="side-icon">👤</span> Perfil del alumno
+    </button>
+  </div>
+</div>
+
+<!-- ── SETTINGS MODAL ── -->
+<div id="settingsOverlay" style="display:flex;">
+  <div id="settingsModal">
+    <div style="font-size:36px;margin-bottom:10px;">🎓</div>
+    <h2>Bienvenida a Sofía</h2>
+    <p class="modal-sub">Cuéntame un poco sobre ti para poder ayudarte mejor.</p>
+
+    <label class="field-label">Tu nombre</label>
+    <input id="settingName" class="field-input" type="text" placeholder="Ej: María" maxlength="30"
+      onkeydown="if(event.key==='Enter')saveSettings()"/>
+
+    <label class="field-label">Tu curso</label>
+    <div class="grade-grid">
+      <div class="grade-tile" onclick="selectGrade(this,'1º ESO')"><span class="grade-num">1º</span>ESO</div>
+      <div class="grade-tile" onclick="selectGrade(this,'2º ESO')"><span class="grade-num">2º</span>ESO</div>
+      <div class="grade-tile" onclick="selectGrade(this,'3º ESO')"><span class="grade-num">3º</span>ESO</div>
+      <div class="grade-tile" onclick="selectGrade(this,'4º ESO')"><span class="grade-num">4º</span>ESO</div>
+      <div class="grade-tile" onclick="selectGrade(this,'1º Bach')"><span class="grade-num">1º</span>Bachillerato</div>
+      <div class="grade-tile" onclick="selectGrade(this,'2º Bach')"><span class="grade-num">2º</span>Bachillerato</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveSettings()">Empezar →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── HISTORY PANEL ── -->
 <div id="historyPanel" onclick="closeHistory(event)">
   <div id="historyDrawer">
     <button id="closeHistory" onclick="document.getElementById('historyPanel').style.display='none'">✕</button>
-    <h3>📚 Previous Sessions</h3>
+    <h3>📚 Sesiones anteriores</h3>
     <div id="sessionList"></div>
-    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid #2a2945;color:#7a79a0;font-size:13px;cursor:pointer;">Clear all history</button>
+    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid #2a2945;color:#7a79a0;font-size:13px;cursor:pointer;">Borrar todo el historial</button>
   </div>
 </div>
 
 <!-- ── HEADER ── -->
 <div id="header">
   <div class="hlogo">
-    <div class="avatar">🎓</div>
+    <button id="menuBtn" onclick="openSideMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
     <div>
       <div class="hname">Sofía · Tutora IA</div>
-      <div class="hstatus"><span class="dot"></span>1º ESO · Madrid</div>
+      <div class="hstatus"><span class="dot"></span><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span></div>
     </div>
   </div>
   <div class="header-right">
-    <div class="pills">
-      <button class="pill active" onclick="setPill(this,'Matemáticas')">Mates</button>
-      <button class="pill" onclick="setPill(this,'Biología')">Bio</button>
-      <button class="pill" onclick="setPill(this,'Historia')">Historia</button>
-      <button class="pill" onclick="setPill(this,'Lengua')">Lengua</button>
-      <button class="pill" onclick="setPill(this,'Inglés')">Inglés</button>
-    </div>
-    <button id="examBtn" onclick="toggleExam()">📝 Exam</button>
-    <button onclick="toggleSearch()" style="font-size:16px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;" title="Search">🔍</button>
-    <button onclick="deleteConversation()" style="font-size:16px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;" title="Delete chat">🗑️</button>
-    <button onclick="resetSettings()" style="font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #2a2945;background:transparent;color:#7a79a0;cursor:pointer;">⚙️</button>
-    <button onclick="showHistory()" style="font-size:18px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;">🕘</button>
+    <button class="hbtn" onclick="toggleSearch()" title="Buscar">🔍</button>
+    <button class="hbtn" onclick="showHistory()" title="Historial">🕘</button>
   </div>
 </div>
 
 <!-- ── EXAM BANNER ── -->
-<div id="examBanner">📝 <b>Exam Mode ON</b> — Sofía will quiz you with questions and grade your answers</div>
+<div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
 
 <!-- ── SEARCH BAR ── -->
-<div id="searchBar" style="display:none;flex-shrink:0;padding:8px 14px;background:#13121f;border-bottom:1px solid #2a2945;gap:8px;align-items:center;flex-direction:row;">
-  <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"
-    style="flex:1;padding:8px 12px;border-radius:10px;background:#1a1935;border:1px solid #2a2945;color:#fffffe;font-size:14px;outline:none;"/>
+<div id="searchBar">
+  <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"/>
   <span id="searchCount" style="font-size:12px;color:#7a79a0;white-space:nowrap;"></span>
   <button onclick="toggleSearch()" style="background:transparent;border:none;color:#7a79a0;font-size:18px;cursor:pointer;">✕</button>
 </div>
@@ -281,9 +489,10 @@ textarea::placeholder { color: #4a4970; }
 <!-- ── INPUT ── -->
 <div id="footer">
   <div id="input-row">
-    <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Attach photo or document">📎</button>
+    <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Adjuntar foto o documento">📎</button>
     <input type="file" id="fileInput" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(event)"/>
     <textarea id="ta" placeholder="Escribe tu pregunta aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
+    <button id="voiceBtn" onclick="toggleVoice()" title="Entrada de voz">🎤</button>
     <button id="sendBtn" onclick="sendMsg()" disabled>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
@@ -292,45 +501,203 @@ textarea::placeholder { color: #4a4970; }
 
 <script>
 // ── CONFIG ──
-// 👇 Set this to your Cloudflare Worker URL
 const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
 
-// ── SYSTEM PROMPTS ──
-const SYSTEM_NORMAL = `Eres Sofía, una tutora privada experta y empática para una alumna de 1º de ESO en Madrid (13 años).
-Currículo de la Comunidad de Madrid, ley LOMLOE.
-Asignaturas: Matemáticas, Biología y Geología, Geografía e Historia, Lengua Castellana, Inglés.
-METODOLOGÍA: Nunca des la respuesta directamente — usa el método socrático. Si se equivoca: "¡Buen intento! Vamos a verlo desde otra perspectiva...". Scaffolding. Al inicio de un tema, pregunta qué recuerda de la clase anterior.
-ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
-LONGITUD DE RESPUESTAS: Sé BREVE y CONCISA por defecto — máximo 3-4 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si la alumna pide explícitamente "explícame más" o "no entiendo".`;
+// ── GRADE METADATA ──
+const GRADE_INFO = {
+  '1º ESO':  { age: 12, level: 'básico',      detail: 'Contenidos de iniciación. Usa ejemplos muy cotidianos y concretos. Frases cortas. Vocabulario sencillo.' },
+  '2º ESO':  { age: 13, level: 'básico',      detail: 'Consolida conceptos de 1º ESO. Introduce razonamiento abstracto poco a poco.' },
+  '3º ESO':  { age: 14, level: 'intermedio',  detail: 'Nivel intermedio. Puede manejar más abstracción y relaciones entre conceptos.' },
+  '4º ESO':  { age: 15, level: 'intermedio',  detail: 'Nivel intermedio-alto. Prepara para Bachillerato. Exige más rigor y precisión.' },
+  '1º Bach': { age: 16, level: 'avanzado',    detail: 'Nivel Bachillerato. Rigor académico alto. Puede usar terminología técnica y razonamiento formal.' },
+  '2º Bach': { age: 17, level: 'avanzado',    detail: 'Nivel máximo pre-universitario. Orientado a selectividad (EBAU). Máximo rigor, síntesis y precisión.' },
+};
 
-const SYSTEM_EXAM = `Eres Sofía en MODO EXAMEN. Estás ayudando a una alumna de 1º ESO Madrid a preparar un examen.
-REGLAS DEL MODO EXAMEN:
-1. Haz preguntas tipo examen una por una — espera la respuesta antes de continuar
-2. Después de cada respuesta: indica si es correcta ✅ o incorrecta ❌, explica por qué, da la respuesta correcta si falló
-3. Al final da una puntuación y resumen de lo que debe repasar
+function buildSystemNormal(name, grade, subject) {
+  const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const nombre = name || 'la alumna';
+  return `Eres Sofía, una tutora privada experta y empática.
+Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
+Currículo: Comunidad de Madrid, ley LOMLOE.
+Asignatura actual: ${subject}.
+NIVEL DE DIFICULTAD: ${g.detail}
+METODOLOGÍA: Nunca des la respuesta directamente — usa el método socrático. Si se equivoca: "¡Buen intento! Vamos a verlo desde otra perspectiva...". Scaffolding. Al inicio de un tema nuevo pregunta qué recuerda de clase.
+PERSONALIZACIÓN: Llama a la alumna por su nombre (${nombre}) de vez en cuando, de forma natural y cálida.
+ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
+LONGITUD: Sé BREVE — máximo 3-4 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o "no entiendo".`;
+}
+
+function buildSystemExam(name, grade, subject) {
+  const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const nombre = name || 'la alumna';
+  return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
+Asignatura: ${subject}.
+NIVEL: ${g.detail}
+REGLAS:
+1. Haz preguntas tipo examen una por una — espera la respuesta
+2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló
+3. Al final: puntuación y resumen de lo que debe repasar
 4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos
-5. Adapta dificultad al nivel 1º ESO Madrid (LOMLOE)
+5. Adapta la dificultad exactamente al nivel de ${grade} (LOMLOE Madrid)
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
+}
+
+const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
 
 // ── STATE ──
 let history = [];
 let subject = 'Matemáticas';
 let loading = false;
 let examMode = false;
-let pendingImages = []; // {base64, mediaType, name}
+let pendingImages = [];
+
+// Student profile — loaded from localStorage
+let studentName  = '';
+let studentGrade = '1º ESO';
+
+// ── SETTINGS MODAL ──
+let _selectedGrade = '';
+
+function selectGrade(el, grade) {
+  document.querySelectorAll('.grade-tile').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  _selectedGrade = grade;
+}
+
+function openSettings() {
+  // Pre-fill
+  document.getElementById('settingName').value = studentName;
+  _selectedGrade = studentGrade;
+  document.querySelectorAll('.grade-tile').forEach(t => {
+    t.classList.toggle('selected', t.getAttribute('onclick').includes(`'${studentGrade}'`));
+  });
+  const ov = document.getElementById('settingsOverlay');
+  ov.style.display = 'flex';
+  // Show cancel button if profile already set
+  const actions = ov.querySelector('.modal-actions');
+  if (studentName) {
+    if (!actions.querySelector('.btn-cancel')) {
+      const cancel = document.createElement('button');
+      cancel.className = 'btn-cancel';
+      cancel.textContent = 'Cancelar';
+      cancel.onclick = closeSettings;
+      actions.insertBefore(cancel, actions.firstChild);
+    }
+  }
+  setTimeout(() => document.getElementById('settingName').focus(), 100);
+}
+
+function closeSettings() {
+  document.getElementById('settingsOverlay').style.display = 'none';
+}
+
+function saveSettings() {
+  const nameVal  = document.getElementById('settingName').value.trim();
+  const gradeVal = _selectedGrade;
+  if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
+  if (!gradeVal) { shake('settingsModal'); return; }
+
+  studentName  = nameVal;
+  studentGrade = gradeVal;
+  localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade }));
+
+  updateStudentUI();
+  closeSettings();
+
+  // Personalised welcome
+  history = [];
+  document.getElementById('chat').innerHTML = '';
+  const g = GRADE_INFO[studentGrade];
+  const msg = `¡Hola, **${studentName}**! 👋 Soy Sofía, tu tutora.\n\nVoy a adaptarme a tu nivel de **${studentGrade}** para que todo tenga sentido 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
+}
+
+function shake(id) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.offsetHeight; // reflow
+  el.style.animation = 'shake 0.35s ease';
+  setTimeout(() => el.style.animation = '', 400);
+}
+
+function updateStudentUI() {
+  // Side menu header
+  document.getElementById('sideStudentInfo').textContent =
+    studentName ? `${studentName} · ${studentGrade}` : `${studentGrade} · Madrid`;
+  // Header status
+  document.querySelector('.hstatus').innerHTML =
+    `<span class="dot"></span>${studentName ? studentName + ' · ' : ''}${studentGrade}`;
+}
+
+function loadStudentProfile() {
+  const saved = localStorage.getItem('sofia_student');
+  if (saved) {
+    try {
+      const p = JSON.parse(saved);
+      studentName  = p.name  || '';
+      studentGrade = p.grade || '1º ESO';
+      updateStudentUI();
+      return true;
+    } catch(e) {}
+  }
+  return false;
+}
 
 // ── INIT ──
-window.addEventListener('load', loadLastSession);
+window.addEventListener('load', () => {
+  const hasProfile = loadStudentProfile();
+  if (!hasProfile) {
+    openSettings(); // First-time setup — show modal immediately
+  } else {
+    closeSettings();
+    loadLastSession();
+  }
+});
 
+// ── SIDE MENU ──
+function openSideMenu() {
+  const ov = document.getElementById('sideOverlay');
+  ov.style.display = 'block';
+  requestAnimationFrame(() => ov.classList.add('open'));
+}
+function closeSideMenuDirect() {
+  const ov = document.getElementById('sideOverlay');
+  ov.classList.remove('open');
+  setTimeout(() => { ov.style.display = 'none'; }, 280);
+}
+function closeSideMenu(e) {
+  if (e.target === document.getElementById('sideOverlay')) closeSideMenuDirect();
+}
+
+function selectSubject(s, el) {
+  subject = s;
+  document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[s]||'📚'} ${s}`;
+  closeSideMenuDirect();
+  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ¡Vamos con **${s}**! ¿Qué tema tienes?`;
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
+}
+
+function toggleExamFromMenu() {
+  toggleExam();
+  closeSideMenuDirect();
+}
+
+// ── SETTINGS / RESET ──
 function resetSettings() {
   if (confirm('¿Reiniciar la sesión actual?')) newSession(null);
 }
+
 // ── DELETE CONVERSATION ──
 function deleteConversation() {
   if (!confirm('¿Borrar toda la conversación?')) return;
   history = [];
   document.getElementById('chat').innerHTML = '';
   document.getElementById('chips').style.display = 'flex';
+  closeSideMenuDirect();
   showWelcome();
 }
 
@@ -340,7 +707,7 @@ function toggleSearch() {
   searchActive = !searchActive;
   const bar = document.getElementById('searchBar');
   bar.style.display = searchActive ? 'flex' : 'none';
-  if (searchActive) { document.getElementById('searchInput').focus(); }
+  if (searchActive) document.getElementById('searchInput').focus();
   else { doSearch(''); document.getElementById('searchInput').value=''; document.getElementById('searchCount').textContent=''; }
 }
 
@@ -362,28 +729,19 @@ function doSearch(query) {
   if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
 }
 
-function setPill(el, s) {
-  if (s === subject) return;
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  subject = s;
-  const emojis = {'Matemáticas':'🔢','Biología':'🧬','Historia':'🏛️','Lengua':'📖','Inglés':'🇬🇧'};
-  const msg = `${emojis[s]||'📚'} ¡Vamos con **${s}**! ¿Qué tema tienes?`;
-  addMsg('ai', msg);
-  history.push({ role: 'assistant', content: msg });
-}
-
 // ── EXAM MODE ──
 function toggleExam() {
   examMode = !examMode;
-  const btn = document.getElementById('examBtn');
   const banner = document.getElementById('examBanner');
-  btn.classList.toggle('active', examMode);
+  const sideBtn = document.getElementById('sideExamBtn');
   banner.style.display = examMode ? 'block' : 'none';
+  sideBtn.classList.toggle('exam-on', examMode);
+  sideBtn.querySelector('.side-icon').textContent = examMode ? '✅' : '📝';
   if (examMode) {
     history = [];
     document.getElementById('chat').innerHTML = '';
-    const msg = `¡Hola! 🎯 Estoy en **Modo Examen**. Vamos a practicar juntas.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
+    const nombre = studentName || '';
+    const msg = `¡${nombre ? 'Vamos, **' + nombre + '**' : 'Vamos'}! 🎯 Estoy en **Modo Examen**.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
     addMsg('ai', msg);
     history.push({ role: 'assistant', content: msg });
   }
@@ -391,13 +749,10 @@ function toggleExam() {
 
 // ── FILE UPLOAD ──
 function handleFiles(e) {
-  const files = Array.from(e.target.files);
-  files.forEach(file => {
+  Array.from(e.target.files).forEach(file => {
     const reader = new FileReader();
     reader.onload = ev => {
-      const b64 = ev.target.result.split(',')[1];
-      const mediaType = file.type || 'image/jpeg';
-      pendingImages.push({ base64: b64, mediaType, name: file.name });
+      pendingImages.push({ base64: ev.target.result.split(',')[1], mediaType: file.type || 'image/jpeg', name: file.name });
       renderPreviews();
     };
     reader.readAsDataURL(file);
@@ -413,19 +768,85 @@ function renderPreviews() {
   pendingImages.forEach((img, i) => {
     const item = document.createElement('div');
     item.className = 'preview-item';
-    const isImage = img.mediaType.startsWith('image/');
-    if (isImage) {
-      item.innerHTML = `<img src="data:${img.mediaType};base64,${img.base64}"/><span>${img.name.slice(0,20)}</span>`;
-    } else {
-      item.innerHTML = `<span style="font-size:24px">📄</span><span>${img.name.slice(0,20)}</span>`;
-    }
+    item.innerHTML = img.mediaType.startsWith('image/')
+      ? `<img src="data:${img.mediaType};base64,${img.base64}"/><span>${img.name.slice(0,20)}</span>`
+      : `<span style="font-size:24px">📄</span><span>${img.name.slice(0,20)}</span>`;
     const rm = document.createElement('div');
-    rm.className = 'remove';
-    rm.textContent = '×';
+    rm.className = 'remove'; rm.textContent = '×';
     rm.onclick = () => { pendingImages.splice(i,1); renderPreviews(); updateSendBtn(); };
     item.appendChild(rm);
     container.appendChild(item);
   });
+}
+
+// ── VOICE INPUT ──
+let recognition = null;
+let isListening = false;
+
+(function initVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const voiceBtn = document.getElementById('voiceBtn');
+  if (!SpeechRecognition) {
+    voiceBtn.classList.add('unsupported');
+    voiceBtn.title = 'Reconocimiento de voz no disponible en este navegador';
+    return;
+  }
+  recognition = new SpeechRecognition();
+  recognition.lang = 'es-ES';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    voiceBtn.classList.add('listening');
+    voiceBtn.textContent = '⏹️';
+    document.getElementById('ta').placeholder = 'Escuchando...';
+  };
+
+  recognition.onresult = (e) => {
+    const ta = document.getElementById('ta');
+    let interim = '';
+    let final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    ta.value = final || interim;
+    resizeTA(ta);
+    updateSendBtn();
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    voiceBtn.classList.remove('listening');
+    voiceBtn.textContent = '🎤';
+    document.getElementById('ta').placeholder = 'Escribe tu pregunta aquí...';
+    // Auto-send if something was captured
+    const ta = document.getElementById('ta');
+    if (ta.value.trim()) sendMsg();
+  };
+
+  recognition.onerror = (e) => {
+    isListening = false;
+    voiceBtn.classList.remove('listening');
+    voiceBtn.textContent = '🎤';
+    document.getElementById('ta').placeholder = 'Escribe tu pregunta aquí...';
+    if (e.error !== 'no-speech' && e.error !== 'aborted') {
+      addMsg('ai', `⚠️ Error de micrófono: ${e.error}`);
+    }
+  };
+})();
+
+function toggleVoice() {
+  const voiceBtn = document.getElementById('voiceBtn');
+  if (voiceBtn.classList.contains('unsupported')) return;
+  if (!recognition) return;
+  if (isListening) {
+    recognition.stop();
+  } else {
+    document.getElementById('ta').value = '';
+    recognition.start();
+  }
 }
 
 // ── CHAT ──
@@ -478,7 +899,6 @@ async function sendMsg(txt) {
   document.getElementById('chips').style.display = 'none';
   btnEl.disabled = true;
 
-  // Build user content
   let userContent;
   const imgs = [...pendingImages];
   pendingImages = [];
@@ -490,7 +910,6 @@ async function sendMsg(txt) {
       userContent.push({ type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.base64 }});
     });
     if (text) userContent.push({ type: 'text', text });
-    // Show in chat
     const imgSrc = imgs[0].mediaType.startsWith('image/') ? `data:${imgs[0].mediaType};base64,${imgs[0].base64}` : null;
     addMsg('user', text || '📎 Archivo adjunto', imgSrc);
   } else {
@@ -503,7 +922,9 @@ async function sendMsg(txt) {
   showTyping();
 
   try {
-    const system = examMode ? SYSTEM_EXAM + `\nAsignatura: ${subject}` : SYSTEM_NORMAL + `\nAsignatura actual: ${subject}`;
+    const system = examMode
+      ? buildSystemExam(studentName, studentGrade, subject)
+      : buildSystemNormal(studentName, studentGrade, subject);
     const res = await fetch(`${WORKER_URL}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -546,27 +967,22 @@ function saveSession() {
   const preview = history.find(m => m.role==='user')?.content;
   const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
   sessions.unshift({ id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history });
-  // Keep last 20 sessions
   localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
 }
 
 function loadLastSession() {
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  if (sessions.length === 0) {
-    showWelcome();
-    return;
-  }
+  if (sessions.length === 0) { showWelcome(); return; }
   const last = sessions[0];
   const hourAgo = Date.now() - 60*60*1000;
-  // Only auto-resume if session was within the last hour
   if (new Date(last.date).getTime() > hourAgo) {
     history = last.history;
     subject = last.subject || 'Matemáticas';
-    // Set pill
-    document.querySelectorAll('.pill').forEach(p => {
-      if (p.textContent === subjectShort(subject)) p.classList.add('active');
-      else p.classList.remove('active');
-    });
+    // Sync side menu
+    document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById(`sb-${subject}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${subject}`;
     // Render messages
     history.forEach(m => {
       if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
@@ -575,19 +991,13 @@ function loadLastSession() {
         addMsg('user', text);
       }
     });
-    // Show resume banner
     const banner = document.createElement('div');
     banner.className = 'date-divider';
-    banner.innerHTML = `↩️ Resuming last session · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Start new</a>`;
+    banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Empezar nueva</a>`;
     chatEl.insertBefore(banner, chatEl.firstChild);
   } else {
     showWelcome();
   }
-}
-
-function subjectShort(s) {
-  const map = {'Matemáticas':'Mates','Biología':'Bio','Historia':'Historia','Lengua':'Lengua','Inglés':'Inglés'};
-  return map[s] || s;
 }
 
 function newSession(e) {
@@ -595,13 +1005,18 @@ function newSession(e) {
   history = [];
   chatEl.innerHTML = '';
   examMode = false;
-  document.getElementById('examBtn').classList.remove('active');
   document.getElementById('examBanner').style.display = 'none';
+  document.getElementById('sideExamBtn').classList.remove('exam-on');
+  document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
   showWelcome();
 }
 
 function showWelcome() {
-  const msg = `¡Hola! 👋 Soy **Sofía**, tu tutora de 1º ESO.\n\nEstoy aquí para ayudarte a *descubrir* las respuestas 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
+  const nombre = studentName || 'hola';
+  const greeting = studentName
+    ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.`
+    : `¡Hola! 👋 Soy **Sofía**, tu tutora.`;
+  const msg = `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
@@ -612,12 +1027,12 @@ function showHistory() {
   const list  = document.getElementById('sessionList');
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
   list.innerHTML = sessions.length === 0
-    ? '<div class="no-sessions">No previous sessions yet</div>'
+    ? '<div class="no-sessions">Aún no hay sesiones anteriores</div>'
     : sessions.map(s => `
       <div class="session-item" onclick="loadSession(${s.id})">
-        <div class="s-date">${new Date(s.date).toLocaleDateString('en-GB', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="s-date">${new Date(s.date).toLocaleDateString('es-ES', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
         <div class="s-preview">${s.preview || '...'}</div>
-        <span class="s-subj">${s.subject}${s.examMode?' · 📝 Exam':''}</span>
+        <span class="s-subj">${s.subject}${s.examMode?' · 📝 Examen':''}</span>
       </div>`).join('');
   panel.style.display = 'block';
 }
@@ -640,9 +1055,9 @@ function loadSession(id) {
 }
 
 function clearAllSessions() {
-  if (confirm('Delete all session history?')) {
+  if (confirm('¿Borrar todo el historial?')) {
     localStorage.removeItem('sofia_sessions');
-    document.getElementById('sessionList').innerHTML = '<div class="no-sessions">No previous sessions yet</div>';
+    document.getElementById('sessionList').innerHTML = '<div class="no-sessions">Aún no hay sesiones anteriores</div>';
   }
 }
 
@@ -658,7 +1073,7 @@ if (isIOS && !window.navigator.standalone && !localStorage.getItem('hint_shown')
   setTimeout(() => {
     const h = document.createElement('div');
     h.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1935;border:1px solid #2a2945;border-radius:14px;padding:12px 16px;font-size:13px;color:#a7a6c0;text-align:center;z-index:300;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,0.5)';
-    h.innerHTML='📲 <b style="color:#ffd166">Install as app:</b><br>Tap <b>Share</b> → <b>"Add to Home Screen"</b>';
+    h.innerHTML='📲 <b style="color:#ffd166">Instalar como app:</b><br>Pulsa <b>Compartir</b> → <b>"Añadir a inicio"</b>';
     h.onclick=()=>h.remove();
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),6000);
