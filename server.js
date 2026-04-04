@@ -9,7 +9,8 @@ async function saveToFirestore(env, userId, role, text) {
   const projectId = env.FIREBASE_PROJECT_ID;
   const apiKey = env.FIREBASE_API_KEY;
   // We use a simple collection 'chats' organized by userId
-  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chats/${userId}/messages?key=${apiKey}`;
+  // Change the URL path to 'sofia_messages' so it stays away from Freshlist data
+const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents/sofia_messages/${userId}/history?key=${env.FIREBASE_API_KEY}`;
 
   const payload = {
     fields: {
