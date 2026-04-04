@@ -349,6 +349,41 @@ textarea::placeholder { color: #4a4970; }
 @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
 @keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+
+/* ── EXAM OPTION BUTTONS ── */
+.exam-options {
+  display: flex; flex-direction: column; gap: 8px; margin-top: 10px;
+}
+.exam-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 12px;
+  background: #13121f; border: 1px solid #2a2945;
+  color: #fffffe; font-size: 15px; font-family: inherit;
+  cursor: pointer; text-align: left; line-height: 1.4;
+  transition: all 0.18s; -webkit-tap-highlight-color: transparent;
+  animation: fadeUp 0.2s ease both;
+}
+.exam-opt:nth-child(2) { animation-delay: 0.05s; }
+.exam-opt:nth-child(3) { animation-delay: 0.10s; }
+.exam-opt:nth-child(4) { animation-delay: 0.15s; }
+.exam-opt:nth-child(5) { animation-delay: 0.20s; }
+.exam-opt:not(:disabled):active {
+  border-color: #ffd166; background: rgba(255,209,102,0.1);
+}
+.exam-opt .opt-key {
+  min-width: 28px; height: 28px; border-radius: 8px;
+  background: #2a2945; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #7a79a0; flex-shrink: 0;
+  transition: all 0.18s;
+}
+.exam-opt:not(:disabled):hover .opt-key,
+.exam-opt:not(:disabled):active .opt-key {
+  background: #ffd166; color: #13121f;
+}
+/* after selection */
+.exam-opt:disabled { cursor: default; opacity: 0.55; }
+.exam-opt.chosen   { border-color: #ffd166; background: rgba(255,209,102,0.1); opacity: 1 !important; }
+.exam-opt.chosen .opt-key { background: #ffd166; color: #13121f; }
 </style>
 </head>
 <body>
@@ -539,6 +574,13 @@ REGLAS:
 3. Al final: puntuación y resumen de lo que debe repasar
 4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos
 5. Adapta la dificultad exactamente al nivel de ${grade} (LOMLOE Madrid)
+FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
+- Cuando hagas una pregunta de opción múltiple, SIEMPRE pon cada opción en su PROPIA LÍNEA, con el formato exacto:
+  a) texto de la opción
+  b) texto de la opción
+  c) texto de la opción
+- Nunca pongas las opciones en la misma línea separadas por comas o guiones.
+- Este formato es imprescindible para que la interfaz muestre botones táctiles.
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 }
 
@@ -861,6 +903,29 @@ function fmt(t) {
     .replace(/\n/g, '<br>');
 }
 
+// Detect multiple-choice options in exam mode.
+// Matches patterns like:  a) text   A) text   a. text   A. text
+// Returns [{key, text}, ...] or null if not a multi-choice message.
+function parseOptions(text) {
+  if (!examMode) return null;
+  // Must have at least 2 options that look like a) / b)
+  const re = /^([a-eA-E])[).]\s+(.+)/;
+  const lines = text.split('\n');
+  const opts = [];
+  const nonOptLines = [];
+
+  for (const line of lines) {
+    const m = line.trim().match(re);
+    if (m) {
+      opts.push({ key: m[1].toLowerCase(), text: m[2].trim() });
+    } else {
+      nonOptLines.push(line);
+    }
+  }
+  if (opts.length < 2) return null;
+  return { preamble: nonOptLines.join('\n').trim(), opts };
+}
+
 function addMsg(role, text, imgSrc) {
   const wrap = document.createElement('div');
   wrap.className = `msg ${role}`;
@@ -869,7 +934,26 @@ function addMsg(role, text, imgSrc) {
   av.textContent = role === 'ai' ? '🎓' : '👩‍🎓';
   const bub = document.createElement('div');
   bub.className = 'bubble';
-  bub.innerHTML = fmt(text);
+
+  // Try to render as option buttons (only for AI messages in exam mode)
+  const parsed = role === 'ai' ? parseOptions(text) : null;
+
+  if (parsed) {
+    bub.innerHTML = parsed.preamble ? fmt(parsed.preamble) : '';
+    const grid = document.createElement('div');
+    grid.className = 'exam-options';
+    parsed.opts.forEach(({ key, text: optText }) => {
+      const btn = document.createElement('button');
+      btn.className = 'exam-opt';
+      btn.innerHTML = `<span class="opt-key">${key}</span><span>${fmt(optText)}</span>`;
+      btn.onclick = () => pickOption(btn, grid, key, optText);
+      grid.appendChild(btn);
+    });
+    bub.appendChild(grid);
+  } else {
+    bub.innerHTML = fmt(text);
+  }
+
   if (imgSrc) {
     const img = document.createElement('img');
     img.src = imgSrc;
@@ -879,6 +963,17 @@ function addMsg(role, text, imgSrc) {
   wrap.appendChild(bub);
   chatEl.appendChild(wrap);
   chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function pickOption(btn, grid, key, optText) {
+  // Disable all buttons in this group
+  grid.querySelectorAll('.exam-opt').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('chosen');
+  });
+  btn.classList.add('chosen');
+  // Send answer as "key) optText"
+  sendMsg(`${key}) ${optText}`);
 }
 
 function showTyping() {
