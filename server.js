@@ -10,22 +10,22 @@ async function saveToFirestore(env, userId, role, text) {
   const apiKey = env.FIREBASE_API_KEY;
   // We use a simple collection 'chats' organized by userId
   // Change the URL path to 'sofia_messages' so it stays away from Freshlist data
+// 1. The URL points to the 'history' COLLECTION inside the user's document
 const url = `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents/sofia_messages/${userId}/history?key=${env.FIREBASE_API_KEY}`;
 
-  const payload = {
-    fields: {
-      role: { stringValue: role },
-      content: { stringValue: text },
-      timestamp: { timestampValue: new Date().toISOString() }
-    }
-  };
+const payload = {
+  fields: {
+    role: { stringValue: role },
+    content: { stringValue: text },
+    timestamp: { timestampValue: new Date().toISOString() }
+  }
+};
 
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-}
+await fetch(url, {
+  method: 'POST', // POST automatically generates a unique ID for each message
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload)
+});
 
 app.post('/message', async (c) => {
   const { messages, system, userId = 'guest_user' } = await c.req.json();
