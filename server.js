@@ -1,68 +1,39 @@
-const express = require('express');
-const cors = require('cors');
-const https = require('https');
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 
-const app = express();
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+const app = new Hono();
+app.use('/*', cors());
 
-app.post('/message', (req, res) => {
-  const { apiKey, messages, system } = req.body;
+app.post('/message', async (c) => {
+  const { apiKey, messages, system } = await c.req.json();
 
-  // Convert messages to Gemini format
-  const geminiMessages = messages.map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: Array.isArray(m.content)
-      ? m.content.map(c => c.type === 'text' ? { text: c.text } : { inlineData: { mimeType: c.source.media_type, data: c.source.data } })
-      : [{ text: m.content }]
-  }));
+  const groqMessages = [
+    { role: 'system', content: system },
+    ...messages.map(m => ({
+      role: m.role,
+      content: typeof m.content === 'string' ? m.content : m.content[0].text
+    }))
+  ];
 
-  const payload = JSON.stringify({
-    system_instruction: { parts: [{ text: system }] },
-    contents: geminiMessages,
-    generationConfig: { maxOutputTokens: 1000 }
-  });
-
-  const options = {
-    hostname: 'generativelanguage.googleapis.com',
-    path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(payload)
-    }
-  };
-
-  const proxyReq = https.request(options, proxyRes => {
-    let data = '';
-    proxyRes.on('data', chunk => data += chunk);
-    proxyRes.on('end', () => {
-      try {
-        const parsed = JSON.parse(data);
-        // Convert Gemini response to Anthropic-like format
-        const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          res.json({ content: [{ type: 'text', text }] });
-        } else {
-          res.status(500).json({ error: parsed.error || 'No response from Gemini' });
-        }
-      } catch(e) {
-        res.status(500).json({ error: 'Parse error: ' + data.slice(0, 200) });
-      }
-    });
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: groqMessages,
+      max_tokens: 1024
+    })
   });
 
-  proxyReq.on('error', err => res.status(500).json({ error: err.message }));
-  proxyReq.write(payload);
-  proxyReq.end();
+  const data = await response.json();
+  const text = data.choices?.[0]?.message?.content;
+
+  return c.json({ content: [{ type: 'text', text }] });
 });
 
-app.get('/', (_, res) => res.send('Sofia proxy running ✅'));
+app.get('/', (c) => c.text('Sofia Proxy running with Hono ✅'));
 
-const PORT = process.env.PORT || 3000;
-export default {
-  async fetch(request, env, ctx) {
-    // This allows your Express app to handle the Cloudflare request
-    return app.handle(request, env, ctx);
-  },
-};
+export default app;
