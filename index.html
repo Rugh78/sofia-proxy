@@ -10,68 +10,225 @@
 <meta name="theme-color" content="#0f0e17">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230f0e17'/%3E%3Ccircle cx='90' cy='90' r='70' fill='url(%23g)'/%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='40%25'%3E%3Cstop offset='0' stop-color='%23ff6b6b'/%3E%3Cstop offset='1' stop-color='%23ffd166'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ctext x='90' y='115' font-size='80' text-anchor='middle'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
 <style>
-/* ── ALL ORIGINAL STYLES PRESERVED ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: #0f0e17; color: #fffffe; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; position: fixed; width: 100%; top: 0; left: 0; }
-#header { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #2a2945; background: #13121f; gap: 8px; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex; flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  background: #0f0e17; color: #fffffe;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  top: 0; left: 0;
+}
+
+/* ── HEADER ── */
+#header {
+  flex-shrink: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 10px 14px;
+  border-bottom: 1px solid #2a2945; background: #13121f; gap: 8px;
+}
 .hlogo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #ff6b6b, #ffd166); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b, #ffd166);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
 .hname { font-weight: 700; font-size: 15px; }
 .hstatus { font-size: 11px; color: #7a79a0; display: flex; align-items: center; gap: 4px; }
 .dot { width: 6px; height: 6px; background: #06d6a0; border-radius: 50%; animation: pulse 2s infinite; }
+
 .header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .pills { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid #2a2945; background: transparent; color: #7a79a0; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+.pill {
+  font-size: 11px; padding: 4px 10px; border-radius: 20px;
+  border: 1px solid #2a2945; background: transparent;
+  color: #7a79a0; cursor: pointer; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
 .pill.active { border-color: #ff6b6b; background: rgba(255,107,107,0.12); color: #ff6b6b; }
-#examBtn { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid #2a2945; background: transparent; color: #7a79a0; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; transition: all 0.2s; }
+
+/* Exam mode button */
+#examBtn {
+  font-size: 11px; padding: 4px 10px; border-radius: 20px;
+  border: 1px solid #2a2945; background: transparent;
+  color: #7a79a0; cursor: pointer; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; transition: all 0.2s;
+}
 #examBtn.active { border-color: #ffd166; background: rgba(255,209,102,0.12); color: #ffd166; }
-#examBanner { display: none; flex-shrink: 0; background: rgba(255,209,102,0.08); border-bottom: 1px solid rgba(255,209,102,0.2); padding: 8px 14px; font-size: 13px; color: #ffd166; text-align: center; }
-#chat { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+
+/* ── EXAM BANNER ── */
+#examBanner {
+  display: none; flex-shrink: 0;
+  background: rgba(255,209,102,0.08); border-bottom: 1px solid rgba(255,209,102,0.2);
+  padding: 8px 14px; font-size: 13px; color: #ffd166; text-align: center;
+}
+
+/* ── CHAT ── */
+#chat {
+  flex: 1; overflow-y: auto; padding: 14px;
+  display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
+}
 #chat::-webkit-scrollbar { width: 3px; }
 #chat::-webkit-scrollbar-thumb { background: #2a2945; border-radius: 3px; }
+
 .msg { display: flex; gap: 8px; max-width: 88%; }
 .msg.user { align-self: flex-end; flex-direction: row-reverse; }
-.msg.ai { align-self: flex-start; }
-.msg-av { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; }
-.msg.ai .msg-av { background: linear-gradient(135deg, #ff6b6b, #ffd166); }
+.msg.ai   { align-self: flex-start; }
+
+.msg-av {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  margin-top: 2px;
+}
+.msg.ai   .msg-av { background: linear-gradient(135deg, #ff6b6b, #ffd166); }
 .msg.user .msg-av { background: #1e1e35; border: 1px solid #2a2945; }
-.bubble { padding: 11px 15px; font-size: 16px; line-height: 1.7; border-radius: 16px; animation: fadeUp 0.25s ease; }
-.msg.ai .bubble { background: #1a1935; border: 1px solid #2a2945; border-bottom-left-radius: 3px; }
+
+.bubble {
+  padding: 11px 15px; font-size: 16px; line-height: 1.7; border-radius: 16px;
+  animation: fadeUp 0.25s ease;
+}
+.msg.ai   .bubble { background: #1a1935; border: 1px solid #2a2945; border-bottom-left-radius: 3px; }
 .msg.user .bubble { background: #252440; border: 1px solid rgba(255,107,107,0.25); border-bottom-right-radius: 3px; }
-.bubble b { color: #ffd166; }
+.bubble b  { color: #ffd166; }
 .bubble em { color: #06d6a0; }
-.date-divider { text-align: center; font-size: 11px; color: #4a4970; margin: 4px 0; flex-shrink: 0; }
+.bubble img { max-width: 100%; border-radius: 8px; margin-top: 6px; display: block; }
+
+/* date divider */
+.date-divider {
+  text-align: center; font-size: 11px; color: #4a4970;
+  margin: 4px 0; flex-shrink: 0;
+}
+
+/* Typing */
 .typing-dots { display: flex; gap: 4px; padding: 4px 0; }
-.typing-dots span { width: 7px; height: 7px; background: #7a79a0; border-radius: 50%; display: inline-block; animation: bounce 1.2s infinite; }
+.typing-dots span {
+  width: 7px; height: 7px; background: #7a79a0; border-radius: 50%;
+  display: inline-block; animation: bounce 1.2s infinite;
+}
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-#chips { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 8px; }
-.chip { font-size: 13px; padding: 8px 14px; border-radius: 20px; background: #1a1935; border: 1px solid #2a2945; color: #7a79a0; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
-#footer { flex-shrink: 0; padding: 8px 14px 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); border-top: 1px solid #2a2945; background: #13121f; }
+
+/* ── CHIPS ── */
+#chips {
+  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 7px;
+  padding: 0 14px 8px;
+}
+.chip {
+  font-size: 13px; padding: 8px 14px; border-radius: 20px;
+  background: #1a1935; border: 1px solid #2a2945;
+  color: #7a79a0; cursor: pointer; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip:active { border-color: #ffd166; color: #ffd166; }
+
+/* ── UPLOAD PREVIEW ── */
+#uploadPreview {
+  display: none; flex-shrink: 0;
+  padding: 8px 14px; background: #13121f;
+  border-top: 1px solid #2a2945;
+  flex-wrap: wrap; gap: 8px;
+}
+.preview-item {
+  position: relative; display: inline-flex; align-items: center; gap: 6px;
+  background: #1a1935; border: 1px solid #2a2945; border-radius: 10px;
+  padding: 6px 10px; font-size: 12px; color: #a7a6c0; max-width: 200px;
+}
+.preview-item img { width: 36px; height: 36px; object-fit: cover; border-radius: 6px; }
+.preview-item .remove {
+  position: absolute; top: -6px; right: -6px;
+  width: 18px; height: 18px; background: #ff6b6b; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; cursor: pointer; color: white; font-weight: 700;
+}
+
+/* ── FOOTER / INPUT ── */
+#footer {
+  flex-shrink: 0; padding: 8px 14px 12px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  border-top: 1px solid #2a2945; background: #13121f;
+}
 #input-row { display: flex; gap: 8px; align-items: flex-end; }
-textarea { flex: 1; height: 44px; min-height: 44px; max-height: 120px; background: #1a1935; border: 1px solid #2a2945; border-radius: 12px; padding: 12px 14px; color: #fffffe; font-family: inherit; font-size: 16px; resize: none; outline: none; line-height: 1.4; transition: border-color 0.2s; }
-#sendBtn { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; background: linear-gradient(135deg, #ff6b6b, #ff8e53); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255,107,107,0.3); transition: all 0.2s; }
+
+#attachBtn {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: #1a1935; border: 1px solid #2a2945;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; -webkit-tap-highlight-color: transparent; transition: all 0.2s;
+}
+#attachBtn:active { border-color: #ffd166; }
+
+textarea {
+  flex: 1; height: 44px; min-height: 44px; max-height: 120px;
+  background: #1a1935; border: 1px solid #2a2945; border-radius: 12px;
+  padding: 12px 14px; color: #fffffe; font-family: inherit; font-size: 16px;
+  resize: none; outline: none; line-height: 1.4; transition: border-color 0.2s;
+}
+textarea:focus { border-color: rgba(255,107,107,0.4); }
+textarea::placeholder { color: #4a4970; }
+
+#sendBtn {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(255,107,107,0.3);
+  -webkit-tap-highlight-color: transparent; transition: all 0.2s;
+}
 #sendBtn:disabled { background: #2a2945; box-shadow: none; cursor: default; }
-#historyPanel { display: none; position: fixed; inset: 0; z-index: 150; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
-#historyDrawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(320px, 90vw); background: #13121f; border-left: 1px solid #2a2945; display: flex; flex-direction: column; padding: 20px 16px; overflow-y: auto; gap: 10px; }
-.session-item { background: #1a1935; border: 1px solid #2a2945; border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s; }
-@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+#sendBtn:not(:disabled):active { transform: scale(0.94); }
+
+/* history sidebar */
+#historyPanel {
+  display: none; position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+}
+#historyDrawer {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(320px, 90vw);
+  background: #13121f; border-left: 1px solid #2a2945;
+  display: flex; flex-direction: column; padding: 20px 16px;
+  overflow-y: auto; gap: 10px;
+}
+#historyDrawer h3 { font-size: 16px; color: #fffffe; margin-bottom: 4px; }
+.session-item {
+  background: #1a1935; border: 1px solid #2a2945; border-radius: 12px;
+  padding: 12px 14px; cursor: pointer; transition: all 0.2s;
+}
+.session-item:active { border-color: #ff6b6b; }
+.session-item .s-date { font-size: 11px; color: #4a4970; }
+.session-item .s-preview { font-size: 13px; color: #a7a6c0; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.session-item .s-subj { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(255,107,107,0.12); color: #ff6b6b; margin-top: 4px; }
+#closeHistory {
+  align-self: flex-end; background: transparent; border: none; color: #7a79a0;
+  font-size: 22px; cursor: pointer; margin-bottom: 8px;
+}
+.no-sessions { font-size: 13px; color: #4a4970; text-align: center; padding: 20px 0; }
+
+@keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
 
+<!-- No API screen needed — key is stored securely in the Cloudflare Worker -->
+
+<!-- ── HISTORY PANEL ── -->
 <div id="historyPanel" onclick="closeHistory(event)">
   <div id="historyDrawer">
-    <button onclick="document.getElementById('historyPanel').style.display='none'" style="background:none;border:none;color:#7a79a0;font-size:22px;cursor:pointer;align-self:flex-end;">✕</button>
-    <h3>📚 Historial</h3>
+    <button id="closeHistory" onclick="document.getElementById('historyPanel').style.display='none'">✕</button>
+    <h3>📚 Previous Sessions</h3>
     <div id="sessionList"></div>
-    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid #2a2945;color:#7a79a0;font-size:13px;cursor:pointer;">Borrar todo</button>
+    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid #2a2945;color:#7a79a0;font-size:13px;cursor:pointer;">Clear all history</button>
   </div>
 </div>
 
+<!-- ── HEADER ── -->
 <div id="header">
   <div class="hlogo">
     <div class="avatar">🎓</div>
@@ -85,25 +242,47 @@ textarea { flex: 1; height: 44px; min-height: 44px; max-height: 120px; backgroun
       <button class="pill active" onclick="setPill(this,'Matemáticas')">Mates</button>
       <button class="pill" onclick="setPill(this,'Biología')">Bio</button>
       <button class="pill" onclick="setPill(this,'Historia')">Historia</button>
+      <button class="pill" onclick="setPill(this,'Lengua')">Lengua</button>
+      <button class="pill" onclick="setPill(this,'Inglés')">Inglés</button>
     </div>
     <button id="examBtn" onclick="toggleExam()">📝 Exam</button>
-    <button onclick="deleteConversation()" style="font-size:16px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;">🗑️</button>
+    <button onclick="toggleSearch()" style="font-size:16px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;" title="Search">🔍</button>
+    <button onclick="deleteConversation()" style="font-size:16px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;" title="Delete chat">🗑️</button>
+    <button onclick="resetSettings()" style="font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #2a2945;background:transparent;color:#7a79a0;cursor:pointer;">⚙️</button>
     <button onclick="showHistory()" style="font-size:18px;background:transparent;border:none;cursor:pointer;color:#7a79a0;padding:2px 4px;">🕘</button>
   </div>
 </div>
 
-<div id="examBanner">📝 <b>Modo Examen Activo</b></div>
+<!-- ── EXAM BANNER ── -->
+<div id="examBanner">📝 <b>Exam Mode ON</b> — Sofía will quiz you with questions and grade your answers</div>
 
+<!-- ── SEARCH BAR ── -->
+<div id="searchBar" style="display:none;flex-shrink:0;padding:8px 14px;background:#13121f;border-bottom:1px solid #2a2945;gap:8px;align-items:center;flex-direction:row;">
+  <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"
+    style="flex:1;padding:8px 12px;border-radius:10px;background:#1a1935;border:1px solid #2a2945;color:#fffffe;font-size:14px;outline:none;"/>
+  <span id="searchCount" style="font-size:12px;color:#7a79a0;white-space:nowrap;"></span>
+  <button onclick="toggleSearch()" style="background:transparent;border:none;color:#7a79a0;font-size:18px;cursor:pointer;">✕</button>
+</div>
+
+<!-- ── CHAT ── -->
 <div id="chat"></div>
 
+<!-- ── QUICK CHIPS ── -->
 <div id="chips">
   <button class="chip" onclick="sendChip(this)">Fracciones</button>
   <button class="chip" onclick="sendChip(this)">Fotosíntesis</button>
-  <button class="chip" onclick="sendChip(this)">📝 Empezar examen</button>
+  <button class="chip" onclick="sendChip(this)">Historia de España</button>
+  <button class="chip" onclick="sendChip(this)">📝 Start exam</button>
 </div>
 
+<!-- ── UPLOAD PREVIEW ── -->
+<div id="uploadPreview"></div>
+
+<!-- ── INPUT ── -->
 <div id="footer">
   <div id="input-row">
+    <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Attach photo or document">📎</button>
+    <input type="file" id="fileInput" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(event)"/>
     <textarea id="ta" placeholder="Escribe tu pregunta aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
     <button id="sendBtn" onclick="sendMsg()" disabled>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -113,123 +292,378 @@ textarea { flex: 1; height: 44px; min-height: 44px; max-height: 120px; backgroun
 
 <script>
 // ── CONFIG ──
-const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev/message';
-const SYSTEM_NORMAL = `Eres Sofía, una tutora privada experta y empática para 1º ESO en Madrid. Usa el método socrático. Sé breve y concisa (máximo 3-4 líneas).`;
-const SYSTEM_EXAM = `Eres Sofía en MODO EXAMEN. Haz preguntas tipo examen una a una. Corrige después de cada respuesta.`;
+// 👇 Set this to your Cloudflare Worker URL
+const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
+
+// ── SYSTEM PROMPTS ──
+const SYSTEM_NORMAL = `Eres Sofía, una tutora privada experta y empática para una alumna de 1º de ESO en Madrid (13 años).
+Currículo de la Comunidad de Madrid, ley LOMLOE.
+Asignaturas: Matemáticas, Biología y Geología, Geografía e Historia, Lengua Castellana, Inglés.
+METODOLOGÍA: Nunca des la respuesta directamente — usa el método socrático. Si se equivoca: "¡Buen intento! Vamos a verlo desde otra perspectiva...". Scaffolding. Al inicio de un tema, pregunta qué recuerda de la clase anterior.
+ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
+LONGITUD DE RESPUESTAS: Sé BREVE y CONCISA por defecto — máximo 3-4 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si la alumna pide explícitamente "explícame más" o "no entiendo".`;
+
+const SYSTEM_EXAM = `Eres Sofía en MODO EXAMEN. Estás ayudando a una alumna de 1º ESO Madrid a preparar un examen.
+REGLAS DEL MODO EXAMEN:
+1. Haz preguntas tipo examen una por una — espera la respuesta antes de continuar
+2. Después de cada respuesta: indica si es correcta ✅ o incorrecta ❌, explica por qué, da la respuesta correcta si falló
+3. Al final da una puntuación y resumen de lo que debe repasar
+4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos
+5. Adapta dificultad al nivel 1º ESO Madrid (LOMLOE)
+Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 
 // ── STATE ──
 let history = [];
 let subject = 'Matemáticas';
 let loading = false;
 let examMode = false;
+let pendingImages = []; // {base64, mediaType, name}
 
-// ── CORE LOGIC ──
-async function sendMsg(txt) {
-  if (loading) return;
-  const ta = document.getElementById('ta');
-  const text = (txt || ta.value).trim();
-  if (!text) return;
+// ── INIT ──
+window.addEventListener('load', loadLastSession);
 
-  ta.value = '';
-  resizeTA(ta);
-  document.getElementById('chips').style.display = 'none';
-  
-  addMsg('user', text);
-  history.push({ role: 'user', content: text });
-  
-  loading = true;
-  updateSendBtn();
-  showTyping();
+function resetSettings() {
+  if (confirm('¿Reiniciar la sesión actual?')) newSession(null);
+}
+// ── DELETE CONVERSATION ──
+function deleteConversation() {
+  if (!confirm('¿Borrar toda la conversación?')) return;
+  history = [];
+  document.getElementById('chat').innerHTML = '';
+  document.getElementById('chips').style.display = 'flex';
+  showWelcome();
+}
 
-  try {
-    const currentSystem = examMode ? SYSTEM_EXAM : SYSTEM_NORMAL;
-    const res = await fetch('https://sofia-tutor.roi-abre.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        system: `${currentSystem} Asignatura: ${subject}`, 
-        messages: history,
-        userId: "estudiante_madrid_01" 
-      })
-    });
+// ── SEARCH ──
+let searchActive = false;
+function toggleSearch() {
+  searchActive = !searchActive;
+  const bar = document.getElementById('searchBar');
+  bar.style.display = searchActive ? 'flex' : 'none';
+  if (searchActive) { document.getElementById('searchInput').focus(); }
+  else { doSearch(''); document.getElementById('searchInput').value=''; document.getElementById('searchCount').textContent=''; }
+}
 
-    const data = await res.json();
-    const reply = data.content[0].text;
-    
-    hideTyping();
-    addMsg('ai', reply);
-    history.push({ role: 'assistant', content: reply });
-    saveSession();
-  } catch (err) {
-    hideTyping();
-    addMsg('ai', "⚠️ Error: No he podido conectar con mi cerebro artificial.");
+function doSearch(query) {
+  const bubbles = document.querySelectorAll('.bubble');
+  bubbles.forEach(b => { b.innerHTML = b.innerHTML.replace(/<mark class="search-hl"[^>]*>([^<]*)<\/mark>/g,'$1'); });
+  if (!query.trim()) { document.getElementById('searchCount').textContent=''; return; }
+  let count = 0;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  bubbles.forEach(b => {
+    const matches = b.textContent.match(regex);
+    if (matches) {
+      count += matches.length;
+      b.innerHTML = b.innerHTML.replace(regex, '<mark class="search-hl" style="background:rgba(255,209,102,0.4);border-radius:3px;padding:0 2px;">$1</mark>');
+    }
+  });
+  document.getElementById('searchCount').textContent = count ? `${count} resultado${count>1?'s':''}` : 'Sin resultados';
+  const first = document.querySelector('.search-hl');
+  if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function setPill(el, s) {
+  if (s === subject) return;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  subject = s;
+  const emojis = {'Matemáticas':'🔢','Biología':'🧬','Historia':'🏛️','Lengua':'📖','Inglés':'🇬🇧'};
+  const msg = `${emojis[s]||'📚'} ¡Vamos con **${s}**! ¿Qué tema tienes?`;
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
+}
+
+// ── EXAM MODE ──
+function toggleExam() {
+  examMode = !examMode;
+  const btn = document.getElementById('examBtn');
+  const banner = document.getElementById('examBanner');
+  btn.classList.toggle('active', examMode);
+  banner.style.display = examMode ? 'block' : 'none';
+  if (examMode) {
+    history = [];
+    document.getElementById('chat').innerHTML = '';
+    const msg = `¡Hola! 🎯 Estoy en **Modo Examen**. Vamos a practicar juntas.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
+    addMsg('ai', msg);
+    history.push({ role: 'assistant', content: msg });
   }
+}
 
-  loading = false;
+// ── FILE UPLOAD ──
+function handleFiles(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const b64 = ev.target.result.split(',')[1];
+      const mediaType = file.type || 'image/jpeg';
+      pendingImages.push({ base64: b64, mediaType, name: file.name });
+      renderPreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
   updateSendBtn();
 }
 
-function addMsg(role, text) {
-  const chat = document.getElementById('chat');
+function renderPreviews() {
+  const container = document.getElementById('uploadPreview');
+  container.innerHTML = '';
+  container.style.display = pendingImages.length ? 'flex' : 'none';
+  pendingImages.forEach((img, i) => {
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    const isImage = img.mediaType.startsWith('image/');
+    if (isImage) {
+      item.innerHTML = `<img src="data:${img.mediaType};base64,${img.base64}"/><span>${img.name.slice(0,20)}</span>`;
+    } else {
+      item.innerHTML = `<span style="font-size:24px">📄</span><span>${img.name.slice(0,20)}</span>`;
+    }
+    const rm = document.createElement('div');
+    rm.className = 'remove';
+    rm.textContent = '×';
+    rm.onclick = () => { pendingImages.splice(i,1); renderPreviews(); updateSendBtn(); };
+    item.appendChild(rm);
+    container.appendChild(item);
+  });
+}
+
+// ── CHAT ──
+const chatEl = document.getElementById('chat');
+const taEl   = document.getElementById('ta');
+const btnEl  = document.getElementById('sendBtn');
+
+function fmt(t) {
+  return t
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+function addMsg(role, text, imgSrc) {
   const wrap = document.createElement('div');
   wrap.className = `msg ${role}`;
-  wrap.innerHTML = `<div class="msg-av">${role==='ai'?'🎓':'👩‍🎓'}</div><div class="bubble">${text.replace(/\n/g, '<br>')}</div>`;
-  chat.appendChild(wrap);
-  chat.scrollTop = chat.scrollHeight;
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = role === 'ai' ? '🎓' : '👩‍🎓';
+  const bub = document.createElement('div');
+  bub.className = 'bubble';
+  bub.innerHTML = fmt(text);
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    bub.appendChild(img);
+  }
+  wrap.appendChild(av);
+  wrap.appendChild(bub);
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
 }
 
 function showTyping() {
   const wrap = document.createElement('div');
   wrap.className = 'msg ai'; wrap.id = 'typing';
   wrap.innerHTML = `<div class="msg-av">🎓</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
-  document.getElementById('chat').appendChild(wrap);
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
 }
-
 function hideTyping() { document.getElementById('typing')?.remove(); }
 
-function toggleExam() {
-  examMode = !examMode;
-  document.getElementById('examBtn').classList.toggle('active', examMode);
-  document.getElementById('examBanner').style.display = examMode ? 'block' : 'none';
-  addMsg('ai', examMode ? "🎯 ¡Modo Examen activado! ¿Qué tema practicamos?" : "✅ Volvemos al modo normal.");
+async function sendMsg(txt) {
+  if (loading) return;
+  const text = (txt || taEl.value).trim();
+  if (!text && pendingImages.length === 0) return;
+
+  taEl.value = ''; resizeTA(taEl);
+  document.getElementById('chips').style.display = 'none';
+  btnEl.disabled = true;
+
+  // Build user content
+  let userContent;
+  const imgs = [...pendingImages];
+  pendingImages = [];
+  renderPreviews();
+
+  if (imgs.length > 0) {
+    userContent = [];
+    imgs.forEach(img => {
+      userContent.push({ type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.base64 }});
+    });
+    if (text) userContent.push({ type: 'text', text });
+    // Show in chat
+    const imgSrc = imgs[0].mediaType.startsWith('image/') ? `data:${imgs[0].mediaType};base64,${imgs[0].base64}` : null;
+    addMsg('user', text || '📎 Archivo adjunto', imgSrc);
+  } else {
+    userContent = text;
+    addMsg('user', text);
+  }
+
+  history.push({ role: 'user', content: userContent });
+  loading = true;
+  showTyping();
+
+  try {
+    const system = examMode ? SYSTEM_EXAM + `\nAsignatura: ${subject}` : SYSTEM_NORMAL + `\nAsignatura actual: ${subject}`;
+    const res = await fetch(`${WORKER_URL}/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system, messages: history })
+    });
+    const d = await res.json();
+    if (d.error) { hideTyping(); addMsg('ai', `⚠️ API Error: ${d.error.message || JSON.stringify(d.error)}`); loading=false; updateSendBtn(); return; }
+    const replyText = d.content?.[0]?.text || '¡Lo siento! Error inesperado 🙈';
+    hideTyping();
+    history.push({ role: 'assistant', content: replyText });
+    addMsg('ai', replyText);
+    saveSession();
+  } catch(err) {
+    hideTyping();
+    addMsg('ai', `⚠️ Error de conexión. (${err.message})`);
+  }
+  loading = false;
+  updateSendBtn();
 }
 
-function setPill(el, s) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  subject = s;
-  addMsg('ai', `📚 ¡Vale! Vamos con **${s}**.`);
+function sendChip(el) {
+  if (el.textContent === '📝 Start exam' && !examMode) toggleExam();
+  else sendMsg(el.textContent);
+}
+function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
+function resizeTA(el) {
+  el.style.height='44px';
+  el.style.height=Math.min(el.scrollHeight,120)+'px';
+  updateSendBtn();
+}
+function updateSendBtn() {
+  btnEl.disabled = loading || (!taEl.value.trim() && pendingImages.length === 0);
 }
 
-function onKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } }
-function resizeTA(el) { el.style.height='44px'; el.style.height=Math.min(el.scrollHeight, 120)+'px'; updateSendBtn(); }
-function updateSendBtn() { document.getElementById('sendBtn').disabled = loading || !document.getElementById('ta').value.trim(); }
-function sendChip(el) { sendMsg(el.textContent); }
-function deleteConversation() { if(confirm('¿Borrar chat?')){ document.getElementById('chat').innerHTML=''; history=[]; showWelcome(); } }
-
-// ── MEMORY ──
+// ── SESSION MEMORY ──
 function saveSession() {
+  if (history.length < 2) return;
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  sessions.unshift({ date: new Date().toISOString(), subject, history });
-  localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0, 10)));
+  const id = Date.now();
+  const preview = history.find(m => m.role==='user')?.content;
+  const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
+  sessions.unshift({ id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history });
+  // Keep last 20 sessions
+  localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
 }
 
+function loadLastSession() {
+  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+  if (sessions.length === 0) {
+    showWelcome();
+    return;
+  }
+  const last = sessions[0];
+  const hourAgo = Date.now() - 60*60*1000;
+  // Only auto-resume if session was within the last hour
+  if (new Date(last.date).getTime() > hourAgo) {
+    history = last.history;
+    subject = last.subject || 'Matemáticas';
+    // Set pill
+    document.querySelectorAll('.pill').forEach(p => {
+      if (p.textContent === subjectShort(subject)) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+    // Render messages
+    history.forEach(m => {
+      if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
+      else if (m.role === 'user') {
+        const text = typeof m.content === 'string' ? m.content : (m.content.find?.(c=>c.type==='text')?.text || '📎');
+        addMsg('user', text);
+      }
+    });
+    // Show resume banner
+    const banner = document.createElement('div');
+    banner.className = 'date-divider';
+    banner.innerHTML = `↩️ Resuming last session · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Start new</a>`;
+    chatEl.insertBefore(banner, chatEl.firstChild);
+  } else {
+    showWelcome();
+  }
+}
+
+function subjectShort(s) {
+  const map = {'Matemáticas':'Mates','Biología':'Bio','Historia':'Historia','Lengua':'Lengua','Inglés':'Inglés'};
+  return map[s] || s;
+}
+
+function newSession(e) {
+  if (e) e.preventDefault();
+  history = [];
+  chatEl.innerHTML = '';
+  examMode = false;
+  document.getElementById('examBtn').classList.remove('active');
+  document.getElementById('examBanner').style.display = 'none';
+  showWelcome();
+}
+
+function showWelcome() {
+  const msg = `¡Hola! 👋 Soy **Sofía**, tu tutora de 1º ESO.\n\nEstoy aquí para ayudarte a *descubrir* las respuestas 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
+}
+
+// ── HISTORY PANEL ──
 function showHistory() {
-  const list = document.getElementById('sessionList');
+  const panel = document.getElementById('historyPanel');
+  const list  = document.getElementById('sessionList');
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  list.innerHTML = sessions.map((s, i) => `<div class="session-item" onclick="loadSession(${i})"><b>${new Date(s.date).toLocaleDateString()}</b> - ${s.subject}</div>`).join('') || "No hay historial.";
-  document.getElementById('historyPanel').style.display = 'block';
+  list.innerHTML = sessions.length === 0
+    ? '<div class="no-sessions">No previous sessions yet</div>'
+    : sessions.map(s => `
+      <div class="session-item" onclick="loadSession(${s.id})">
+        <div class="s-date">${new Date(s.date).toLocaleDateString('en-GB', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="s-preview">${s.preview || '...'}</div>
+        <span class="s-subj">${s.subject}${s.examMode?' · 📝 Exam':''}</span>
+      </div>`).join('');
+  panel.style.display = 'block';
 }
 
-function loadSession(i) {
-  const s = JSON.parse(localStorage.getItem('sofia_sessions'))[i];
-  history = s.history; document.getElementById('chat').innerHTML = '';
-  history.forEach(m => addMsg(m.role==='assistant'?'ai':'user', m.content));
+function loadSession(id) {
+  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+  const s = sessions.find(x => x.id === id);
+  if (!s) return;
+  history = s.history;
+  subject = s.subject;
+  chatEl.innerHTML = '';
+  history.forEach(m => {
+    if (m.role === 'assistant') addMsg('ai', typeof m.content==='string'?m.content:'');
+    else if (m.role === 'user') {
+      const text = typeof m.content==='string'?m.content:(m.content.find?.(c=>c.type==='text')?.text||'📎');
+      addMsg('user', text);
+    }
+  });
   document.getElementById('historyPanel').style.display = 'none';
 }
 
-function showWelcome() { addMsg('ai', "¡Hola! 👋 Soy Sofía. ¿Qué vamos a aprender hoy?"); }
-window.onload = showWelcome;
+function clearAllSessions() {
+  if (confirm('Delete all session history?')) {
+    localStorage.removeItem('sofia_sessions');
+    document.getElementById('sessionList').innerHTML = '<div class="no-sessions">No previous sessions yet</div>';
+  }
+}
+
+function closeHistory(e) {
+  if (e.target === document.getElementById('historyPanel'))
+    document.getElementById('historyPanel').style.display = 'none';
+}
+
+// ── PWA INSTALL HINT ──
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+if (isIOS && !window.navigator.standalone && !localStorage.getItem('hint_shown')) {
+  localStorage.setItem('hint_shown','1');
+  setTimeout(() => {
+    const h = document.createElement('div');
+    h.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1935;border:1px solid #2a2945;border-radius:14px;padding:12px 16px;font-size:13px;color:#a7a6c0;text-align:center;z-index:300;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,0.5)';
+    h.innerHTML='📲 <b style="color:#ffd166">Install as app:</b><br>Tap <b>Share</b> → <b>"Add to Home Screen"</b>';
+    h.onclick=()=>h.remove();
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  },2000);
+}
 </script>
 </body>
 </html>
