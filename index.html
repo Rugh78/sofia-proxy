@@ -131,11 +131,11 @@ body {
 .progress-card {
   background: linear-gradient(180deg, rgba(35,34,62,0.98), rgba(24,23,44,0.98));
   border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;
-  padding: 10px 11px; min-width: 0;
+  padding: 9px 11px; min-width: 0;
   box-shadow: 0 8px 18px rgba(0,0,0,0.18);
 }
 .progress-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a79a0; }
-.progress-value { font-size: 16px; font-weight: 700; color: #fffffe; margin-top: 3px; }
+.progress-value { font-size: 15px; font-weight: 700; color: #fffffe; margin-top: 2px; }
 .progress-note { font-size: 11px; color: #4a4970; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 #studyPanel {
@@ -146,18 +146,18 @@ body {
 }
 .study-card {
   background: linear-gradient(180deg, rgba(35,34,62,0.98), rgba(24,23,44,0.98));
-  border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 12px 13px;
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 11px 13px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.18);
 }
 .study-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a79a0; }
-.study-main { font-size: 14px; color: #fffffe; margin-top: 6px; line-height: 1.45; }
+.study-main { font-size: 13px; color: #fffffe; margin-top: 6px; line-height: 1.4; }
 .study-sub { font-size: 12px; color: #a7a6c0; margin-top: 5px; }
 .field-help {
   font-size: 12px; color: #7a79a0; margin-top: -10px; margin-bottom: 16px; line-height: 1.45;
 }
 
 #masteryPanel {
-  flex-shrink: 0; padding: 0 14px 10px;
+  flex-shrink: 0; padding: 0 14px 8px;
   background: #13121f;
 }
 #masteryHeader {
@@ -176,10 +176,10 @@ body {
 .mastery-card {
   background: linear-gradient(180deg, rgba(31,30,55,0.98), rgba(22,21,40,0.98));
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px; padding: 11px 12px;
+  border-radius: 16px; padding: 10px 12px;
 }
 .mastery-topic {
-  font-size: 13px; color: #fffffe; line-height: 1.35; min-height: 36px;
+  font-size: 12px; color: #fffffe; line-height: 1.35; min-height: 32px;
 }
 .mastery-bar {
   height: 7px; border-radius: 999px; background: rgba(255,255,255,0.06);
@@ -380,12 +380,15 @@ textarea::placeholder { color: #4a4970; }
   display: none; position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
   align-items: center; justify-content: center; padding: 20px;
+  overflow-y: auto;
 }
 #settingsModal {
   background: #13121f; border: 1px solid #2a2945; border-radius: 22px;
   padding: 28px 24px; width: 100%; max-width: 420px;
   animation: fadeUp 0.22s ease;
   box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  max-height: min(760px, calc(100dvh - 24px));
+  overflow-y: auto;
 }
 #settingsModal h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
 #settingsModal .modal-sub { font-size: 13px; color: #7a79a0; margin-bottom: 22px; }
@@ -402,6 +405,7 @@ textarea::placeholder { color: #4a4970; }
   border-radius: 12px; border: 1px solid #2a2945; background: #1a1935;
   color: #fffffe; padding: 0 12px; font-size: 13px; cursor: pointer;
   white-space: nowrap;
+  min-height: 52px;
 }
 .copy-btn:active { border-color: #ff6b6b; }
 
@@ -434,12 +438,19 @@ textarea::placeholder { color: #4a4970; }
 }
 .grade-tile.selected .grade-num { color: #ff6b6b; }
 
-.modal-actions { display: flex; gap: 10px; }
+.modal-actions {
+  display: flex; gap: 10px;
+  position: sticky; bottom: 0;
+  padding-top: 14px; padding-bottom: max(10px, env(safe-area-inset-bottom));
+  margin-top: 6px;
+  background: linear-gradient(180deg, rgba(19,18,31,0), rgba(19,18,31,0.96) 24%, rgba(19,18,31,1));
+}
 .btn-save {
-  flex: 1; padding: 13px; border-radius: 12px;
+  flex: 1; padding: 14px; border-radius: 12px;
   background: linear-gradient(135deg, #ff6b6b, #ff8e53);
   border: none; color: white; font-size: 15px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
+  min-height: 54px;
 }
 .btn-cancel {
   padding: 13px 18px; border-radius: 12px;
@@ -704,6 +715,15 @@ function buildSystemNormal(name, grade, subject) {
   const nombre = name || 'la alumna';
   const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
   const language = getSubjectLanguage(subject);
+  const languageRule = language === 'en'
+    ? `LANGUAGE MODE: ENGLISH ONLY.
+- Every part of the reply must be in English.
+- Do not switch to Spanish for headings, examples, topic names, recap text, or questions.
+- If any curriculum notes or source labels are in Spanish, translate them naturally before replying.
+- Keep the tone natural for a bilingual-school teacher.`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
+- Toda la respuesta debe estar en español.
+- No cambies al inglés en títulos, ejemplos, temas o preguntas.`;
   return `Eres Sofía, una tutora privada experta y empática.
 Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
 Currículo de referencia: Comunidad de Madrid para ESO. Si no está claro el contenido exacto, mantente en contenidos nucleares del curso y no inventes un criterio hiper-específico.
@@ -721,6 +741,7 @@ IDIOMA:
 - Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
 - Si la asignatura es en español, responde completamente en español.
 - Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+${languageRule}
 ESTRUCTURA OBLIGATORIA:
 1. Simple explanation
 2. Real-life example
@@ -738,6 +759,13 @@ function buildSystemExam(name, grade, subject) {
   const nombre = name || 'la alumna';
   const curriculum = getCurriculumGuide(grade, subject);
   const language = getSubjectLanguage(subject);
+  const languageRule = language === 'en'
+    ? `LANGUAGE MODE: ENGLISH ONLY.
+- Every correction, question, option, and topic reference must stay in English.
+- Translate any Spanish source notes internally before answering.
+- Never show Spanish headings or topic names to the student.`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
+- Toda la corrección y las preguntas deben permanecer en español.`;
   return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
 Asignatura: ${subject}.
 NIVEL: ${g.detail}
@@ -748,6 +776,7 @@ IDIOMA:
 - Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
 - Si la asignatura es en español, responde completamente en español.
 - Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+${languageRule}
 ESTRUCTURA OBLIGATORIA:
 1. Simple explanation
 2. Real-life example
@@ -1013,6 +1042,10 @@ function getTopMasteryUnits(limit = 3) {
     .slice(0, limit);
 }
 
+function getDisplayUnitTitle(unit, lang = getSubjectLanguage(subject)) {
+  return getUnitDisplayTitle(subject, unit, lang);
+}
+
 function updateStudyPanel() {
   const lang = getSubjectLanguage(subject);
   const goal = getDailyGoalText();
@@ -1025,8 +1058,8 @@ function updateStudyPanel() {
   const masteryTop = getMasterySnapshot();
   document.getElementById('recapSub').textContent = masteryTop
     ? (lang === 'en'
-      ? `Focus topic: ${masteryTop.unit.title}`
-      : `Tema de foco: ${masteryTop.unit.title}`)
+      ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}`
+      : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
     : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
 }
 
@@ -1045,7 +1078,7 @@ function updateMasteryPanel() {
 
   grid.innerHTML = top.map(({ unit, score }) => `
     <div class="mastery-card">
-      <div class="mastery-topic">${unit.title}</div>
+      <div class="mastery-topic">${getDisplayUnitTitle(unit, lang)}</div>
       <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.max(8, score * 20)}%"></div></div>
       <div class="mastery-meta">
         <span>${score >= 4 ? (lang === 'en' ? 'Confident' : 'Con confianza') : score >= 2 ? (lang === 'en' ? 'In progress' : 'En progreso') : (lang === 'en' ? 'Starting' : 'Empezando')}</span>
@@ -1056,14 +1089,16 @@ function updateMasteryPanel() {
 }
 
 function updateHomePanelsVisibility() {
-  const hasProgress = progressData.lessonsCompleted > 0 || progressData.score > 0 || progressData.streak > 0;
+  const hasProgress = progressData.lessonsCompleted > 1 || progressData.streak > 1;
   const hasRecap = Boolean(progressData.lastRecap);
-  const hasMastery = getTopMasteryUnits(3).some(item => item.score > 0);
+  const hasMastery = progressData.lessonsCompleted > 2 && getTopMasteryUnits(3).some(item => item.score > 1);
+  const hasActiveLesson = history.some(item => item.role === 'user');
 
-  document.getElementById('progressStrip').style.display = hasProgress ? 'grid' : 'none';
-  document.getElementById('recapCard').style.display = hasRecap ? 'block' : 'none';
-  document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
-  document.getElementById('masteryPanel').style.display = hasMastery ? 'block' : 'none';
+  document.getElementById('progressStrip').style.display = hasProgress && !hasActiveLesson ? 'grid' : 'none';
+  document.getElementById('recapCard').style.display = hasRecap && hasProgress && !hasActiveLesson ? 'block' : 'none';
+  document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !hasActiveLesson ? 'grid' : 'none';
+  document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
+  document.getElementById('masteryPanel').style.display = hasMastery && !hasActiveLesson ? 'block' : 'none';
 }
 
 function updateProgressUI() {
@@ -1116,9 +1151,10 @@ function updateStudyProgress(replyText, userText) {
     progressData.mastery[subject][studentGrade] ||= {};
     const next = Math.min((progressData.mastery[subject][studentGrade][detectedUnit.id] || 0) + 1, 5);
     progressData.mastery[subject][studentGrade][detectedUnit.id] = next;
+    const topicTitle = getUnitDisplayTitle(subject, detectedUnit, getSubjectLanguage(subject));
     progressData.lastRecap = getSubjectLanguage(subject) === 'en'
-      ? `You worked on ${detectedUnit.title}.`
-      : `Has trabajado ${detectedUnit.title}.`;
+      ? `You worked on ${topicTitle}.`
+      : `Has trabajado ${topicTitle}.`;
   } else {
     progressData.lastRecap = getSubjectLanguage(subject) === 'en'
       ? 'Nice work. You completed another guided study step.'
@@ -1711,3 +1747,65 @@ if (isIOS && !window.navigator.standalone && !localStorage.getItem('hint_shown')
 </script>
 </body>
 </html>
+@media (max-width: 900px) {
+  #progressStrip,
+  #studyPanel,
+  #masteryPanel {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  #header {
+    padding: 10px 10px;
+  }
+  .hname {
+    font-size: 14px;
+  }
+  #subjectBadge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  #footer {
+    padding: 8px 10px calc(12px + env(safe-area-inset-bottom));
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+  }
+  #input-row {
+    gap: 6px;
+  }
+  #attachBtn,
+  #voiceBtn,
+  #sendBtn {
+    width: 48px;
+    height: 48px;
+  }
+  textarea {
+    height: 48px;
+    min-height: 48px;
+    font-size: 16px;
+  }
+  #settingsOverlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  #settingsModal {
+    margin-top: 12px;
+    padding: 20px 16px 16px;
+    border-radius: 18px;
+    max-height: calc(100dvh - 24px);
+  }
+  .welcome-panel {
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+  .sync-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .grade-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

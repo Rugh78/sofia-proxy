@@ -171,7 +171,7 @@ const SUBJECT_LANGUAGE = {
   'Matemáticas': 'es',
   'Biología': 'en',
   'Física y Química': 'es',
-  'Historia': 'es',
+  'Historia': 'en',
   'Lengua': 'es',
   'Inglés': 'en',
 };
@@ -229,20 +229,20 @@ const SUBJECT_META = {
     },
   },
   'Historia': {
-    language: 'es',
-    badge: 'ES',
-    welcomePrompt: '¿Por qué tema de Historia empezamos hoy?',
-    topicPrompt: '¿Qué tema quieres trabajar y qué parte te cuesta más?',
+    language: 'en',
+    badge: 'EN',
+    welcomePrompt: 'Which Social Sciences topic should we start with today?',
+    topicPrompt: 'Which Geography or History topic do you want to work on, and what part feels hardest?',
     modePrompts: {
-      diagnostico: 'Vamos a empezar con un **diagnóstico** en Historia. Te haré preguntas cortas para ver qué recuerdas ya.',
-      guiada: 'Pasamos a **enseñanza guiada** en Historia. Iremos conectando ideas paso a paso.',
-      practica: 'Entramos en **práctica** de Historia. Te propondré preguntas cortas con corrección inmediata.',
+      diagnostico: 'Let’s start with a **diagnostic check** in Social Sciences. I’ll ask a few short questions to see what you already remember.',
+      guiada: 'We are switching to **guided learning** in Social Sciences. We will connect ideas step by step.',
+      practica: 'We are now in **practice mode** for Social Sciences. I’ll give you short questions with immediate feedback.',
     },
     chips: {
-      diagnostico: '🎯 Diagnóstico',
-      guiada: '🧭 Guiada',
-      practica: '💪 Práctica',
-      exam: '📝 Modo examen',
+      diagnostico: '🎯 Diagnose',
+      guiada: '🧭 Guided',
+      practica: '💪 Practice',
+      exam: '📝 Exam mode',
     },
   },
   'Lengua': {
@@ -300,32 +300,32 @@ const SUBJECT_UNIT_MAP = {
   },
   'Biología': {
     '1º ESO': [
-      { id: 'bg1-geosfera', title: 'La Geosfera terrestre e impactos de actividades humanas', keywords: ['geosfera', 'rocas', 'minerales', 'volcanes'] },
-      { id: 'bg1-atmosfera', title: 'La Atmósfera terrestre e impactos de actividades humanas', keywords: ['atmósfera', 'aire', 'capas', 'contaminación'] },
-      { id: 'bg1-hidrosfera', title: 'La Hidrosfera terrestre e impactos de actividades humanas', keywords: ['hidrosfera', 'agua', 'ríos', 'mares', 'ciclo del agua'] },
-      { id: 'bg1-biosfera-celula', title: 'La Biosfera terrestre y la célula', keywords: ['biosfera', 'seres vivos', 'célula', 'cell'] },
-      { id: 'bg1-clasificacion', title: 'Clasificación de seres vivos y reinos', keywords: ['clasificación', 'reinos', 'taxonomy', 'living things'] },
-      { id: 'bg1-plantas', title: 'Reino Plantas', keywords: ['plantas', 'plants', 'photosynthesis', 'fotosíntesis'] },
-      { id: 'bg1-animal', title: 'Reino Animal', keywords: ['animals', 'animales', 'animal kingdom'] },
-      { id: 'bg1-invertebrados', title: 'Animales invertebrados', keywords: ['invertebrates', 'invertebrados', 'arthropods'] },
-      { id: 'bg1-vertebrados', title: 'Animales vertebrados', keywords: ['vertebrates', 'vertebrados', 'mammals', 'birds', 'fish'] },
-      { id: 'bg1-salud', title: 'Hábitos saludables', keywords: ['healthy habits', 'hábitos saludables', 'health', 'alimentación'] },
+      { id: 'bg1-geosfera', title: 'La Geosfera terrestre e impactos de actividades humanas', titleEn: 'The geosphere and human impact', keywords: ['geosfera', 'rocas', 'minerales', 'volcanes'] },
+      { id: 'bg1-atmosfera', title: 'La Atmósfera terrestre e impactos de actividades humanas', titleEn: 'The atmosphere and human impact', keywords: ['atmósfera', 'aire', 'capas', 'contaminación'] },
+      { id: 'bg1-hidrosfera', title: 'La Hidrosfera terrestre e impactos de actividades humanas', titleEn: 'The hydrosphere and human impact', keywords: ['hidrosfera', 'agua', 'ríos', 'mares', 'ciclo del agua'] },
+      { id: 'bg1-biosfera-celula', title: 'La Biosfera terrestre y la célula', titleEn: 'The biosphere and the cell', keywords: ['biosfera', 'seres vivos', 'célula', 'cell'] },
+      { id: 'bg1-clasificacion', title: 'Clasificación de seres vivos y reinos', titleEn: 'Classification of living things and kingdoms', keywords: ['clasificación', 'reinos', 'taxonomy', 'living things'] },
+      { id: 'bg1-plantas', title: 'Reino Plantas', titleEn: 'Plant kingdom', keywords: ['plantas', 'plants', 'photosynthesis', 'fotosíntesis'] },
+      { id: 'bg1-animal', title: 'Reino Animal', titleEn: 'Animal kingdom', keywords: ['animals', 'animales', 'animal kingdom'] },
+      { id: 'bg1-invertebrados', title: 'Animales invertebrados', titleEn: 'Invertebrate animals', keywords: ['invertebrates', 'invertebrados', 'arthropods'] },
+      { id: 'bg1-vertebrados', title: 'Animales vertebrados', titleEn: 'Vertebrate animals', keywords: ['vertebrates', 'vertebrados', 'mammals', 'birds', 'fish'] },
+      { id: 'bg1-salud', title: 'Hábitos saludables', titleEn: 'Healthy habits', keywords: ['healthy habits', 'hábitos saludables', 'health', 'alimentación'] },
     ],
   },
   'Historia': {
     '1º ESO': [
-      { id: 'gh1-tierra', title: 'La Tierra y su representación', keywords: ['tierra', 'representación', 'mapas', 'coordenadas'] },
-      { id: 'gh1-relieve', title: 'El relieve terrestre', keywords: ['relieve', 'montañas', 'llanuras'] },
-      { id: 'gh1-aguas', title: 'Las aguas', keywords: ['aguas', 'ríos', 'mares', 'océanos'] },
-      { id: 'gh1-clima', title: 'El clima', keywords: ['clima', 'temperatura', 'precipitaciones'] },
-      { id: 'gh1-paisajes', title: 'Los paisajes de la Tierra', keywords: ['paisajes', 'paisaje natural', 'paisaje humanizado'] },
-      { id: 'gh1-continentes', title: 'Atlas de los continentes', keywords: ['continentes', 'atlas'] },
-      { id: 'gh1-espana-fisica', title: 'El estudio físico de España', keywords: ['españa', 'relieve de españa', 'clima de españa'] },
-      { id: 'gh1-prehistoria', title: 'La prehistoria', keywords: ['prehistoria', 'paleolítico', 'neolítico'] },
-      { id: 'gh1-fluviales', title: 'Mesopotamia y Egipto', keywords: ['mesopotamia', 'egipto', 'civilizaciones fluviales'] },
-      { id: 'gh1-grecia', title: 'La civilización griega', keywords: ['grecia', 'griega', 'polis'] },
-      { id: 'gh1-roma', title: 'La civilización romana', keywords: ['roma', 'romana', 'imperio romano'] },
-      { id: 'gh1-antiguedad-espana', title: 'España en la Antigüedad', keywords: ['hispania', 'españa en la antigüedad'] },
+      { id: 'gh1-tierra', title: 'La Tierra y su representación', titleEn: 'Earth and its representation', keywords: ['tierra', 'representación', 'mapas', 'coordenadas'] },
+      { id: 'gh1-relieve', title: 'El relieve terrestre', titleEn: 'Landforms and relief', keywords: ['relieve', 'montañas', 'llanuras'] },
+      { id: 'gh1-aguas', title: 'Las aguas', titleEn: 'Water on Earth', keywords: ['aguas', 'ríos', 'mares', 'océanos'] },
+      { id: 'gh1-clima', title: 'El clima', titleEn: 'Climate', keywords: ['clima', 'temperatura', 'precipitaciones'] },
+      { id: 'gh1-paisajes', title: 'Los paisajes de la Tierra', titleEn: 'Earth landscapes', keywords: ['paisajes', 'paisaje natural', 'paisaje humanizado'] },
+      { id: 'gh1-continentes', title: 'Atlas de los continentes', titleEn: 'Continents atlas', keywords: ['continentes', 'atlas'] },
+      { id: 'gh1-espana-fisica', title: 'El estudio físico de España', titleEn: 'Physical geography of Spain', keywords: ['españa', 'relieve de españa', 'clima de españa'] },
+      { id: 'gh1-prehistoria', title: 'La prehistoria', titleEn: 'Prehistory', keywords: ['prehistoria', 'paleolítico', 'neolítico'] },
+      { id: 'gh1-fluviales', title: 'Mesopotamia y Egipto', titleEn: 'Mesopotamia and Egypt', keywords: ['mesopotamia', 'egipto', 'civilizaciones fluviales'] },
+      { id: 'gh1-grecia', title: 'La civilización griega', titleEn: 'Ancient Greece', keywords: ['grecia', 'griega', 'polis'] },
+      { id: 'gh1-roma', title: 'La civilización romana', titleEn: 'Ancient Rome', keywords: ['roma', 'romana', 'imperio romano'] },
+      { id: 'gh1-antiguedad-espana', title: 'España en la Antigüedad', titleEn: 'Ancient Spain', keywords: ['hispania', 'españa en la antigüedad'] },
     ],
   },
   'Física y Química': {
@@ -401,6 +401,12 @@ function getSubjectMeta(subject) {
 
 function getSubjectUnits(subject, grade) {
   return SUBJECT_UNIT_MAP[subject]?.[grade] || [];
+}
+
+function getUnitDisplayTitle(subject, unit, lang) {
+  if (!unit) return '';
+  if (lang === 'en' && unit.titleEn) return unit.titleEn;
+  return unit.title;
 }
 
 function detectCurriculumUnit(subject, grade, text) {
