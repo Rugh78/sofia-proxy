@@ -364,20 +364,224 @@ const SUBJECT_UNIT_MAP = {
 };
 
 function getCurriculumGuide(grade, subject) {
-  const subjectGuide = MADRID_CURRICULUM.subjects[subject] || {};
+  const subjectKey = resolveSubjectKey(subject);
+  const subjectGuide = MADRID_CURRICULUM.subjects[subjectKey] || {};
   const byGrade = subjectGuide.grades?.[grade];
+  if (getSubjectLanguage(subjectKey) === 'en') {
+    const englishSubjects = {
+      'Biología': {
+        rationale: 'The subject should help the student observe, explain, and connect natural phenomena with health, living things, and the environment.',
+        grades: {
+          '1º ESO': {
+            focus: ['living things', 'the cell', 'life processes', 'ecosystems', 'health and habits'],
+            outcomes: ['describes processes using basic scientific vocabulary', 'classifies examples correctly', 'connects science to everyday life'],
+            misconceptions: ['memorising names without understanding functions', 'confusing levels of organisation', 'mixing up nutrition and feeding'],
+          },
+          '2º ESO': {
+            focus: ['matter and energy in ecosystems', 'food chains and food webs', 'biodiversity', 'human impact and sustainability'],
+            outcomes: ['explains cause-and-effect relationships in natural systems', 'interprets diagrams and food chains', 'suggests simple environmental care actions'],
+            misconceptions: ['treating ecosystems as simple lists of living things', 'confusing habitat and niche', 'seeing human impact only as visible pollution'],
+          },
+          '3º ESO': {
+            focus: ['human body organisation', 'nutrition', 'coordination and response', 'reproduction', 'health'],
+            outcomes: ['explains body processes clearly', 'interprets causes and consequences', 'makes informed health decisions'],
+            misconceptions: ['studying systems separately without seeing coordination', 'repeating definitions without biological meaning', 'not connecting habits with prevention'],
+          },
+          '4º ESO': {
+            focus: ['basic genetics', 'evolution', 'biotechnology', 'ecology and health'],
+            outcomes: ['connects inheritance and variation', 'explains evolutionary change using evidence', 'reflects on ethical and social implications of science'],
+            misconceptions: ['thinking of evolution as linear progress', 'confusing genes with visible traits', 'treating genetics as vocabulary only'],
+          },
+        },
+      },
+      'Historia': {
+        rationale: 'The subject should build historical and geographical thinking, helping the student understand time, place, causality, sources, and context.',
+        grades: {
+          '1º ESO': {
+            focus: ['prehistory', 'early civilisations', 'the classical world', 'timelines and maps'],
+            outcomes: ['places events in chronological order', 'uses basic historical vocabulary', 'explains change and continuity'],
+            misconceptions: ['memorising dates without understanding processes', 'confusing simultaneity with causality', 'ignoring the use of maps and sources'],
+          },
+          '2º ESO': {
+            focus: ['the Middle Ages', 'Al-Andalus', 'Christian kingdoms', 'the early Modern Age'],
+            outcomes: ['connects events with context', 'interprets simple maps and sources', 'compares societies'],
+            misconceptions: ['treating periods as isolated blocks', 'reducing Al-Andalus to a label', 'answering without placing events in time and space'],
+          },
+          '3º ESO': {
+            focus: ['European expansion', 'the Old Regime', 'the Enlightenment', 'liberal revolutions and industrialisation'],
+            outcomes: ['explains political, economic, and social change', 'connects causes and consequences', 'compares historical processes'],
+            misconceptions: ['separating political and economic revolutions', 'memorising events without a clear thread', 'forgetting social actors'],
+          },
+          '4º ESO': {
+            focus: ['the Contemporary Age', 'contemporary Spain', 'political and social change', 'the twentieth century and today’s world'],
+            outcomes: ['analyses causes and consequences', 'argues using evidence', 'connects historical processes'],
+            misconceptions: ['oversimplifying complex conflicts', 'using single-cause explanations', 'not distinguishing fact, interpretation, and opinion'],
+          },
+        },
+      },
+      'Inglés': {
+        rationale: 'Learning should combine comprehension, production, interaction, and meaningful language use in real situations.',
+        grades: {
+          '1º ESO': {
+            focus: ['everyday vocabulary', 'present simple and present continuous', 'basic comprehension', 'guided production'],
+            outcomes: ['understands simple messages', 'responds using model structures', 'gains confidence when communicating'],
+            misconceptions: ['translating word by word', 'using rules without context', 'ignoring pronunciation and comprehension'],
+          },
+          '2º ESO': {
+            focus: ['past simple', 'comparatives', 'guided reading and listening', 'structured writing'],
+            outcomes: ['uses tenses and structures with support', 'corrects common errors', 'improves fluency and understanding'],
+            misconceptions: ['mixing tenses without a clear time reference', 'learning lists without communicative use', 'writing without models'],
+          },
+          '3º ESO': {
+            focus: ['present perfect', 'future forms', 'basic conditionals', 'inferential reading', 'guided speaking'],
+            outcomes: ['chooses the right structure for the communicative purpose', 'understands explicit and inferred information', 'expresses ideas more independently'],
+            misconceptions: ['confusing present perfect with past simple', 'focusing only on isolated grammar', 'avoiding speaking because of fear of mistakes'],
+          },
+          '4º ESO': {
+            focus: ['conditionals', 'reported speech', 'passive voice', 'formal writing', 'interaction and mediation'],
+            outcomes: ['uses more complex structures with greater control', 'adjusts register', 'understands a wider range of texts and audio'],
+            misconceptions: ['transforming structures without understanding their function', 'neglecting communicative context', 'thinking speaking well means never making mistakes'],
+          },
+        },
+      },
+    };
+    const englishGuide = englishSubjects[subjectKey] || {};
+    const englishGrade = englishGuide.grades?.[grade];
+    return {
+      rationale: englishGuide.rationale || 'Turn teaching into clear goals, visible learning evidence, and guided practice.',
+      focus: englishGrade?.focus || ['essential course content', 'applied understanding', 'growing independence'],
+      outcomes: englishGrade?.outcomes || ['explains what they are doing', 'applies what they learned', 'spots and corrects mistakes with support'],
+      misconceptions: englishGrade?.misconceptions || ['answers from memory without real understanding', 'struggles to justify the method', 'needs support to review mistakes'],
+      units: byGrade?.units || SUBJECT_UNIT_MAP[subjectKey]?.[grade] || [],
+    };
+  }
   return {
     rationale: subjectGuide.rationale || 'Aterriza la enseñanza en objetivos claros, evidencia de aprendizaje y práctica guiada.',
     focus: byGrade?.focus || ['contenidos esenciales del curso', 'comprensión aplicada', 'autonomía progresiva'],
     outcomes: byGrade?.outcomes || ['explica lo que hace', 'aplica lo aprendido', 'detecta y corrige errores con ayuda'],
     misconceptions: byGrade?.misconceptions || ['responde de memoria sin comprensión', 'le cuesta justificar el procedimiento', 'necesita apoyo para revisar errores'],
-    units: byGrade?.units || SUBJECT_UNIT_MAP[subject]?.[grade] || [],
+    units: byGrade?.units || SUBJECT_UNIT_MAP[subjectKey]?.[grade] || [],
   };
 }
 
 function buildPedagogyBlock(modeKey, grade, subject) {
   const mode = LEARNING_MODES[modeKey] || LEARNING_MODES.guiada;
   const curriculum = getCurriculumGuide(grade, subject);
+  const language = getSubjectLanguage(subject);
+  const englishMedium = {
+    stageGoals: [
+      'build steady study habits and work well independently and with others',
+      'use information sources critically and support learning with technology',
+      'identify problems, plan solutions, and review results',
+      'develop initiative, confidence, and learning-to-learn habits',
+      'communicate ideas and reasoning clearly',
+    ],
+    methodology: [
+      'work with content, assessment criteria, learning evidence, and teaching methodology',
+      'adapt support to the student’s specific need',
+      'turn learning into planned activities with visible evidence',
+    ],
+    subjects: {
+      'Biología': {
+        rationale: 'The subject should help the student observe, explain, and connect natural phenomena with health, living things, and the environment.',
+        grades: {
+          '1º ESO': {
+            focus: ['living things', 'the cell', 'life processes', 'ecosystems', 'health and habits'],
+            outcomes: ['describes processes using basic scientific vocabulary', 'classifies examples correctly', 'connects science to everyday life'],
+            misconceptions: ['memorising names without understanding functions', 'confusing levels of organisation', 'mixing up nutrition and feeding'],
+          },
+          '2º ESO': {
+            focus: ['matter and energy in ecosystems', 'food chains and food webs', 'biodiversity', 'human impact and sustainability'],
+            outcomes: ['explains cause-and-effect relationships in natural systems', 'interprets diagrams and food chains', 'suggests simple environmental care actions'],
+            misconceptions: ['treating ecosystems as simple lists of living things', 'confusing habitat and niche', 'seeing human impact only as visible pollution'],
+          },
+          '3º ESO': {
+            focus: ['human body organisation', 'nutrition', 'coordination and response', 'reproduction', 'health'],
+            outcomes: ['explains body processes clearly', 'interprets causes and consequences', 'makes informed health decisions'],
+            misconceptions: ['studying systems separately without seeing coordination', 'repeating definitions without biological meaning', 'not connecting habits with prevention'],
+          },
+          '4º ESO': {
+            focus: ['basic genetics', 'evolution', 'biotechnology', 'ecology and health'],
+            outcomes: ['connects inheritance and variation', 'explains evolutionary change using evidence', 'reflects on ethical and social implications of science'],
+            misconceptions: ['thinking of evolution as linear progress', 'confusing genes with visible traits', 'treating genetics as vocabulary only'],
+          },
+        },
+      },
+      'Historia': {
+        rationale: 'The subject should build historical and geographical thinking, helping the student understand time, place, causality, sources, and context.',
+        grades: {
+          '1º ESO': {
+            focus: ['prehistory', 'early civilisations', 'the classical world', 'timelines and maps'],
+            outcomes: ['places events in chronological order', 'uses basic historical vocabulary', 'explains change and continuity'],
+            misconceptions: ['memorising dates without understanding processes', 'confusing simultaneity with causality', 'ignoring the use of maps and sources'],
+          },
+          '2º ESO': {
+            focus: ['the Middle Ages', 'Al-Andalus', 'Christian kingdoms', 'the early Modern Age'],
+            outcomes: ['connects events with context', 'interprets simple maps and sources', 'compares societies'],
+            misconceptions: ['treating periods as isolated blocks', 'reducing Al-Andalus to a label', 'answering without placing events in time and space'],
+          },
+          '3º ESO': {
+            focus: ['European expansion', 'the Old Regime', 'the Enlightenment', 'liberal revolutions and industrialisation'],
+            outcomes: ['explains political, economic, and social change', 'connects causes and consequences', 'compares historical processes'],
+            misconceptions: ['separating political and economic revolutions', 'memorising events without a clear thread', 'forgetting social actors'],
+          },
+          '4º ESO': {
+            focus: ['the Contemporary Age', 'contemporary Spain', 'political and social change', 'the twentieth century and today’s world'],
+            outcomes: ['analyses causes and consequences', 'argues using evidence', 'connects historical processes'],
+            misconceptions: ['oversimplifying complex conflicts', 'using single-cause explanations', 'not distinguishing fact, interpretation, and opinion'],
+          },
+        },
+      },
+      'Inglés': {
+        rationale: 'Learning should combine comprehension, production, interaction, and meaningful language use in real situations.',
+        grades: {
+          '1º ESO': {
+            focus: ['everyday vocabulary', 'present simple and present continuous', 'basic comprehension', 'guided production'],
+            outcomes: ['understands simple messages', 'responds using model structures', 'gains confidence when communicating'],
+            misconceptions: ['translating word by word', 'using rules without context', 'ignoring pronunciation and comprehension'],
+          },
+          '2º ESO': {
+            focus: ['past simple', 'comparatives', 'guided reading and listening', 'structured writing'],
+            outcomes: ['uses tenses and structures with support', 'corrects common errors', 'improves fluency and understanding'],
+            misconceptions: ['mixing tenses without a clear time reference', 'learning lists without communicative use', 'writing without models'],
+          },
+          '3º ESO': {
+            focus: ['present perfect', 'future forms', 'basic conditionals', 'inferential reading', 'guided speaking'],
+            outcomes: ['chooses the right structure for the communicative purpose', 'understands explicit and inferred information', 'expresses ideas more independently'],
+            misconceptions: ['confusing present perfect with past simple', 'focusing only on isolated grammar', 'avoiding speaking because of fear of mistakes'],
+          },
+          '4º ESO': {
+            focus: ['conditionals', 'reported speech', 'passive voice', 'formal writing', 'interaction and mediation'],
+            outcomes: ['uses more complex structures with greater control', 'adjusts register', 'understands a wider range of texts and audio'],
+            misconceptions: ['transforming structures without understanding their function', 'neglecting communicative context', 'thinking speaking well means never making mistakes'],
+          },
+        },
+      },
+    },
+  };
+
+  if (language === 'en') {
+    const subjectGuide = englishMedium.subjects[subject] || {};
+    const byGrade = subjectGuide.grades?.[grade] || {};
+    const modeLabels = {
+      diagnostico: { label: 'Diagnostic', goal: 'identify what the student already knows, where the confusion is, and where to start', flow: 'Begin with 2-3 short checking questions. Do not over-explain at first. After checking, summarise in one sentence what she already knows and in one sentence what needs reinforcement.' },
+      guiada: { label: 'Guided', goal: 'teach step by step with scaffolding and frequent checks for understanding', flow: 'Use short explanations with one idea at a time, then ask the student to complete the next step or justify a choice.' },
+      practica: { label: 'Practice', goal: 'consolidate learning through graded exercises, immediate feedback, and active recall', flow: 'Give a sequence of tasks from easier to harder. After each answer, give brief feedback, correct the exact mistake, and then propose the next challenge.' },
+    };
+    const modeEn = modeLabels[modeKey] || modeLabels.guiada;
+    return `MADRID CURRICULUM BASE:
+- ESO stage goals: ${englishMedium.stageGoals.join('; ')}.
+- Design support using this curriculum structure: ${englishMedium.methodology.join('; ')}.
+- In ${subject}, prioritise: ${(byGrade.focus || curriculum.focus).join(', ')}.
+- Evidence to look for during the conversation: ${(byGrade.outcomes || curriculum.outcomes).join('; ')}.
+- Common misconceptions to watch for: ${(byGrade.misconceptions || curriculum.misconceptions).join('; ')}.
+- Pedagogical purpose of the subject: ${subjectGuide.rationale || curriculum.rationale}
+
+CURRENT LEARNING MODE: ${modeEn.label}
+- Goal of this mode: ${modeEn.goal}
+- How to run the session: ${modeEn.flow}`;
+  }
+
   return `BASE CURRICULAR MADRID:
 - Etapa ESO: ${MADRID_CURRICULUM.stageGoals.join('; ')}.
 - Diseña la ayuda con esta estructura curricular: ${MADRID_CURRICULUM.methodology.join('; ')}.
@@ -391,16 +595,50 @@ MODO DE APRENDIZAJE ACTUAL: ${mode.label}
 - Forma de conducir la sesión: ${mode.flow}`;
 }
 
+function normalizeSubjectName(subject) {
+  return (subject || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/g, '')
+    .trim()
+    .toLowerCase();
+}
+
+function resolveSubjectKey(subject) {
+  if (SUBJECT_LANGUAGE[subject]) return subject;
+  const normalized = normalizeSubjectName(subject);
+  const aliases = {
+    matematicas: 'Matemáticas',
+    biologia: 'Biología',
+    'biologia y geologia': 'Biología',
+    fisica: 'Física y Química',
+    'fisica y quimica': 'Física y Química',
+    historia: 'Historia',
+    'geografia e historia': 'Historia',
+    lengua: 'Lengua',
+    ingles: 'Inglés',
+    english: 'Inglés',
+  };
+  if (aliases[normalized]) return aliases[normalized];
+  if (normalized.includes('biolog')) return 'Biología';
+  if (normalized.includes('hist') || normalized.includes('geograf')) return 'Historia';
+  if (normalized.includes('ingl') || normalized.includes('english')) return 'Inglés';
+  return Object.keys(SUBJECT_LANGUAGE).find(key => normalizeSubjectName(key) === normalized) || subject;
+}
+
 function getSubjectLanguage(subject) {
-  return SUBJECT_LANGUAGE[subject] || 'es';
+  const key = resolveSubjectKey(subject);
+  return SUBJECT_LANGUAGE[key] || 'es';
 }
 
 function getSubjectMeta(subject) {
-  return SUBJECT_META[subject] || SUBJECT_META['Matemáticas'];
+  const key = resolveSubjectKey(subject);
+  return SUBJECT_META[key] || SUBJECT_META['Matemáticas'];
 }
 
 function getSubjectUnits(subject, grade) {
-  return SUBJECT_UNIT_MAP[subject]?.[grade] || [];
+  const key = resolveSubjectKey(subject);
+  return SUBJECT_UNIT_MAP[key]?.[grade] || [];
 }
 
 function getUnitDisplayTitle(subject, unit, lang) {

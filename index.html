@@ -498,6 +498,69 @@ textarea::placeholder { color: #4a4970; }
 .exam-opt:disabled { cursor: default; opacity: 0.55; }
 .exam-opt.chosen   { border-color: #ffd166; background: rgba(255,209,102,0.1); opacity: 1 !important; }
 .exam-opt.chosen .opt-key { background: #ffd166; color: #13121f; }
+
+@media (max-width: 900px) {
+  #progressStrip,
+  #studyPanel,
+  #masteryPanel {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  #header {
+    padding: 10px 10px;
+  }
+  .hname {
+    font-size: 14px;
+  }
+  #subjectBadge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  #footer {
+    padding: 8px 10px calc(12px + env(safe-area-inset-bottom));
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+  }
+  #input-row {
+    gap: 6px;
+  }
+  #attachBtn,
+  #voiceBtn,
+  #sendBtn {
+    width: 48px;
+    height: 48px;
+  }
+  textarea {
+    height: 48px;
+    min-height: 48px;
+    font-size: 16px;
+  }
+  #settingsOverlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  #settingsModal {
+    margin-top: 12px;
+    padding: 20px 16px 16px;
+    border-radius: 18px;
+    max-height: calc(100dvh - 24px);
+  }
+  .welcome-panel {
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+  .sync-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .grade-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>
 </head>
 <body>
@@ -1747,65 +1810,3 @@ if (isIOS && !window.navigator.standalone && !localStorage.getItem('hint_shown')
 </script>
 </body>
 </html>
-@media (max-width: 900px) {
-  #progressStrip,
-  #studyPanel,
-  #masteryPanel {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-
-@media (max-width: 720px) {
-  #header {
-    padding: 10px 10px;
-  }
-  .hname {
-    font-size: 14px;
-  }
-  #subjectBadge {
-    font-size: 11px;
-    padding: 3px 8px;
-  }
-  #footer {
-    padding: 8px 10px calc(12px + env(safe-area-inset-bottom));
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
-  }
-  #input-row {
-    gap: 6px;
-  }
-  #attachBtn,
-  #voiceBtn,
-  #sendBtn {
-    width: 48px;
-    height: 48px;
-  }
-  textarea {
-    height: 48px;
-    min-height: 48px;
-    font-size: 16px;
-  }
-  #settingsOverlay {
-    align-items: flex-start;
-    padding: 12px;
-  }
-  #settingsModal {
-    margin-top: 12px;
-    padding: 20px 16px 16px;
-    border-radius: 18px;
-    max-height: calc(100dvh - 24px);
-  }
-  .welcome-panel {
-    padding: 10px 12px;
-    margin-bottom: 14px;
-  }
-  .sync-row {
-    grid-template-columns: 1fr;
-    display: grid;
-  }
-  .grade-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
