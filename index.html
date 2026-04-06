@@ -782,6 +782,7 @@ let pendingImages = [];
 let learningMode = 'guiada';
 let progressData = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
 let currentSessionAwarded = false;
+let currentSessionId = null;
 
 // Student profile — loaded from localStorage
 let studentName  = '';
@@ -893,13 +894,14 @@ function closeSettings() {
   document.getElementById('settingsOverlay').style.display = 'none';
 }
 
-function saveSettings() {
+async function saveSettings() {
   const nameVal  = document.getElementById('settingName').value.trim();
   const gradeVal = _selectedGrade;
   const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey(nameVal, gradeVal);
   if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
   if (!gradeVal) { shake('settingsModal'); return; }
 
+  const previousSyncKey = studentSyncKey;
   studentName  = nameVal;
   studentGrade = gradeVal;
   studentSyncKey = syncVal;
@@ -907,15 +909,26 @@ function saveSettings() {
   document.querySelector('.copy-btn').textContent = 'Copiar';
   saveLocalStudentProfile();
 
+  let loadedRemote = false;
+  if (studentSyncKey && studentSyncKey !== previousSyncKey) {
+    loadedRemote = await loadRemoteStudentMemory();
+  }
+
   updateStudentUI();
   closeSettings();
 
-  // Personalised welcome
   history = [];
   document.getElementById('chat').innerHTML = '';
   currentSessionAwarded = false;
-  showWelcome();
-  saveRemoteStudentMemory();
+  currentSessionId = null;
+
+  if (loadedRemote) {
+    updateStudentUI();
+    loadLastSession();
+  } else {
+    showWelcome();
+    saveRemoteStudentMemory();
+  }
 }
 
 function shake(id) {
@@ -1555,10 +1568,21 @@ function updateSendBtn() {
 function saveSession() {
   if (history.length < 2) return;
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  const id = Date.now();
+  const id = currentSessionId || Date.now();
   const preview = history.find(m => m.role==='user')?.content;
   const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
-  sessions.unshift({ id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history });
+  const sessionRecord = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history };
+  const existingIndex = sessions.findIndex(s => s.id === id);
+  if (existingIndex >= 0) {
+    sessions[existingIndex] = sessionRecord;
+    if (existingIndex > 0) {
+      const [existing] = sessions.splice(existingIndex, 1);
+      sessions.unshift(existing);
+    }
+  } else {
+    sessions.unshift(sessionRecord);
+  }
+  currentSessionId = id;
   localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
   saveRemoteStudentMemory();
 }
@@ -1572,6 +1596,7 @@ function loadLastSession() {
     history = last.history;
     subject = last.subject || 'Matemáticas';
     currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
+    currentSessionId = last.id;
     // Sync side menu
     document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = document.getElementById(`sb-${subject}`);
@@ -1600,6 +1625,7 @@ function newSession(e) {
   chatEl.innerHTML = '';
   examMode = false;
   currentSessionAwarded = false;
+  currentSessionId = null;
   document.getElementById('examBanner').style.display = 'none';
   document.getElementById('sideExamBtn').classList.remove('exam-on');
   document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
@@ -1644,6 +1670,7 @@ function loadSession(id) {
   history = s.history;
   subject = s.subject;
   currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
+  currentSessionId = s.id;
   updateLocalizedUI();
   chatEl.innerHTML = '';
   history.forEach(m => {
