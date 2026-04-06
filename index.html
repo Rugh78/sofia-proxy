@@ -109,8 +109,95 @@ body {
   color: #ff6b6b; white-space: nowrap; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+.subject-wrap { display: flex; align-items: center; gap: 6px; }
+.lang-badge {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+  padding: 3px 7px; border-radius: 999px; white-space: nowrap;
+  border: 1px solid rgba(6,214,160,0.25);
+  background: rgba(6,214,160,0.12); color: #06d6a0;
+}
 
 .header-right { display: flex; align-items: center; gap: 6px; }
+
+#progressStrip {
+  flex-shrink: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px; padding: 10px 14px 8px;
+  border-bottom: 1px solid #2a2945;
+  background:
+    radial-gradient(circle at top left, rgba(255,107,107,0.16), transparent 36%),
+    radial-gradient(circle at top right, rgba(255,209,102,0.16), transparent 38%),
+    #13121f;
+}
+.progress-card {
+  background: linear-gradient(180deg, rgba(35,34,62,0.98), rgba(24,23,44,0.98));
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;
+  padding: 10px 11px; min-width: 0;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+.progress-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a79a0; }
+.progress-value { font-size: 16px; font-weight: 700; color: #fffffe; margin-top: 3px; }
+.progress-note { font-size: 11px; color: #4a4970; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+#studyPanel {
+  flex-shrink: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px; padding: 0 14px 8px;
+  background:
+    linear-gradient(180deg, rgba(19,18,31,1), rgba(19,18,31,0.94));
+}
+.study-card {
+  background: linear-gradient(180deg, rgba(35,34,62,0.98), rgba(24,23,44,0.98));
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 12px 13px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+.study-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a79a0; }
+.study-main { font-size: 14px; color: #fffffe; margin-top: 6px; line-height: 1.45; }
+.study-sub { font-size: 12px; color: #a7a6c0; margin-top: 5px; }
+.field-help {
+  font-size: 12px; color: #7a79a0; margin-top: -10px; margin-bottom: 16px; line-height: 1.45;
+}
+
+#masteryPanel {
+  flex-shrink: 0; padding: 0 14px 10px;
+  background: #13121f;
+}
+#masteryHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+#masteryTitle {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a79a0;
+}
+#masteryHint {
+  font-size: 11px; color: #4a4970;
+}
+#masteryGrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;
+}
+.mastery-card {
+  background: linear-gradient(180deg, rgba(31,30,55,0.98), rgba(22,21,40,0.98));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px; padding: 11px 12px;
+}
+.mastery-topic {
+  font-size: 13px; color: #fffffe; line-height: 1.35; min-height: 36px;
+}
+.mastery-bar {
+  height: 7px; border-radius: 999px; background: rgba(255,255,255,0.06);
+  overflow: hidden; margin-top: 10px;
+}
+.mastery-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #ff8e53, #ffd166);
+}
+.mastery-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 8px; font-size: 11px; color: #a7a6c0;
+}
+@media (max-width: 700px) {
+  #progressStrip { grid-template-columns: 1fr; }
+  #studyPanel { grid-template-columns: 1fr; }
+  #masteryGrid { grid-template-columns: 1fr; }
+}
 
 /* icon buttons in header */
 .hbtn {
@@ -298,9 +385,25 @@ textarea::placeholder { color: #4a4970; }
   background: #13121f; border: 1px solid #2a2945; border-radius: 22px;
   padding: 28px 24px; width: 100%; max-width: 420px;
   animation: fadeUp 0.22s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
 }
 #settingsModal h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
 #settingsModal .modal-sub { font-size: 13px; color: #7a79a0; margin-bottom: 22px; }
+.welcome-panel {
+  background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(255,209,102,0.08));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px; padding: 12px 14px; margin-bottom: 18px;
+}
+.welcome-panel strong { color: #fffffe; }
+.welcome-panel p { font-size: 13px; line-height: 1.5; color: #b7b6cb; }
+.sync-row { display: flex; gap: 8px; align-items: stretch; }
+.sync-row .field-input { margin-bottom: 0; }
+.copy-btn {
+  border-radius: 12px; border: 1px solid #2a2945; background: #1a1935;
+  color: #fffffe; padding: 0 12px; font-size: 13px; cursor: pointer;
+  white-space: nowrap;
+}
+.copy-btn:active { border-color: #ff6b6b; }
 
 .field-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
@@ -406,6 +509,9 @@ textarea::placeholder { color: #4a4970; }
     <button class="subj-btn" id="sb-Biología" onclick="selectSubject('Biología',this)">
       <span class="subj-icon">🧬</span> Biología
     </button>
+    <button class="subj-btn" id="sb-Física y Química" onclick="selectSubject('Física y Química',this)">
+      <span class="subj-icon">⚗️</span> Física y Química
+    </button>
     <button class="subj-btn" id="sb-Historia" onclick="selectSubject('Historia',this)">
       <span class="subj-icon">🏛️</span> Historia
     </button>
@@ -450,9 +556,20 @@ textarea::placeholder { color: #4a4970; }
     <h2>Bienvenida a Sofía</h2>
     <p class="modal-sub">Cuéntame un poco sobre ti para poder ayudarte mejor.</p>
 
+    <div class="welcome-panel">
+      <p><strong>Un perfil, todos tus dispositivos.</strong><br>Si usas la misma clave en móvil, tablet y ordenador, Sofía recordará el perfil y el progreso del alumno.</p>
+    </div>
+
     <label class="field-label">Tu nombre</label>
     <input id="settingName" class="field-input" type="text" placeholder="Ej: María" maxlength="30"
       onkeydown="if(event.key==='Enter')saveSettings()"/>
+
+    <label class="field-label">Clave de sincronización</label>
+    <div class="sync-row">
+      <input id="settingSyncKey" class="field-input" type="text" placeholder="Ej: sofia-maria-4821" maxlength="40"/>
+      <button class="copy-btn" type="button" onclick="copySyncKey()">Copiar</button>
+    </div>
+    <div class="field-help">Puedes escribir tu propia clave o dejar que Sofía cree una automáticamente.</div>
 
     <label class="field-label">Tu curso</label>
     <div class="grade-grid">
@@ -488,7 +605,7 @@ textarea::placeholder { color: #4a4970; }
     </button>
     <div>
       <div class="hname">Sofía · Tutora IA</div>
-      <div class="hstatus"><span class="dot"></span><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span></div>
+      <div class="hstatus"><span class="dot"></span><div class="subject-wrap"><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span><span id="languageBadge" class="lang-badge">ES</span></div></div>
     </div>
   </div>
   <div class="header-right">
@@ -498,6 +615,45 @@ textarea::placeholder { color: #4a4970; }
 </div>
 
 <!-- ── EXAM BANNER ── -->
+<div id="progressStrip">
+  <div class="progress-card">
+    <div class="progress-label" id="progressLessonsLabel">Today</div>
+    <div class="progress-value" id="progressLessonsValue">0</div>
+    <div class="progress-note" id="progressLessonsNote">Study steps</div>
+  </div>
+  <div class="progress-card">
+    <div class="progress-label" id="progressScoreLabel">Your progress</div>
+    <div class="progress-value" id="progressScoreValue">0</div>
+    <div class="progress-note" id="progressScoreNote">Little by little</div>
+  </div>
+  <div class="progress-card">
+    <div class="progress-label" id="progressStreakLabel">Routine</div>
+    <div class="progress-value" id="progressStreakValue">0</div>
+    <div class="progress-note" id="progressStreakNote">days of practice</div>
+  </div>
+</div>
+
+<div id="studyPanel">
+  <div class="study-card" id="dailyGoalCard">
+    <div class="study-title" id="dailyGoalLabel">Today</div>
+    <div class="study-main" id="dailyGoalMain">Finish 1 guided lesson</div>
+    <div class="study-sub" id="dailyGoalSub">Stay consistent, one step at a time.</div>
+  </div>
+  <div class="study-card" id="recapCard">
+    <div class="study-title" id="recapLabel">Next step</div>
+    <div class="study-main" id="recapMain">No recap yet</div>
+    <div class="study-sub" id="recapSub">Your latest learning win will appear here.</div>
+  </div>
+</div>
+
+<div id="masteryPanel">
+  <div id="masteryHeader">
+    <div id="masteryTitle">Your topics</div>
+    <div id="masteryHint">Where Sofía has already helped most</div>
+  </div>
+  <div id="masteryGrid"></div>
+</div>
+
 <div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
 
 <!-- ── SEARCH BAR ── -->
@@ -512,10 +668,10 @@ textarea::placeholder { color: #4a4970; }
 
 <!-- ── QUICK CHIPS ── -->
 <div id="chips">
-  <button class="chip" onclick="sendChip(this)">Fracciones</button>
-  <button class="chip" onclick="sendChip(this)">Fotosíntesis</button>
-  <button class="chip" onclick="sendChip(this)">Historia de España</button>
-  <button class="chip" onclick="sendChip(this)">📝 Start exam</button>
+  <button class="chip" id="chipDiagnostico" onclick="setLearningMode('diagnostico')">🎯 Diagnóstico</button>
+  <button class="chip" id="chipGuiada" onclick="setLearningMode('guiada')">🧭 Guiada</button>
+  <button class="chip" id="chipPractica" onclick="setLearningMode('practica')">💪 Práctica</button>
+  <button class="chip" id="chipExam" onclick="sendChip(this)">📝 Start exam</button>
 </div>
 
 <!-- ── UPLOAD PREVIEW ── -->
@@ -534,46 +690,77 @@ textarea::placeholder { color: #4a4970; }
   </div>
 </div>
 
+<script src="curriculum.js"></script>
 <script>
 // ── CONFIG ──
 const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
 
 // ── GRADE METADATA ──
-const GRADE_INFO = {
-  '1º ESO':  { age: 12, level: 'básico',      detail: 'Contenidos de iniciación. Usa ejemplos muy cotidianos y concretos. Frases cortas. Vocabulario sencillo.' },
-  '2º ESO':  { age: 13, level: 'básico',      detail: 'Consolida conceptos de 1º ESO. Introduce razonamiento abstracto poco a poco.' },
-  '3º ESO':  { age: 14, level: 'intermedio',  detail: 'Nivel intermedio. Puede manejar más abstracción y relaciones entre conceptos.' },
-  '4º ESO':  { age: 15, level: 'intermedio',  detail: 'Nivel intermedio-alto. Prepara para Bachillerato. Exige más rigor y precisión.' },
-  '1º Bach': { age: 16, level: 'avanzado',    detail: 'Nivel Bachillerato. Rigor académico alto. Puede usar terminología técnica y razonamiento formal.' },
-  '2º Bach': { age: 17, level: 'avanzado',    detail: 'Nivel máximo pre-universitario. Orientado a selectividad (EBAU). Máximo rigor, síntesis y precisión.' },
-};
+
+
 
 function buildSystemNormal(name, grade, subject) {
   const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
   const nombre = name || 'la alumna';
+  const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
+  const language = getSubjectLanguage(subject);
   return `Eres Sofía, una tutora privada experta y empática.
 Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
-Currículo: Comunidad de Madrid, ley LOMLOE.
+Currículo de referencia: Comunidad de Madrid para ESO. Si no está claro el contenido exacto, mantente en contenidos nucleares del curso y no inventes un criterio hiper-específico.
 Asignatura actual: ${subject}.
 NIVEL DE DIFICULTAD: ${g.detail}
-METODOLOGÍA: Nunca des la respuesta directamente — usa el método socrático. Si se equivoca: "¡Buen intento! Vamos a verlo desde otra perspectiva...". Scaffolding. Al inicio de un tema nuevo pregunta qué recuerda de clase.
+${pedagogy}
+METODOLOGÍA DOCENTE:
+- No seas solo un chatbot: actúa como una profesora particular que diagnostica, enseña, comprueba y refuerza.
+- Empieza por identificar objetivo, punto de partida y error principal.
+- Usa andamiaje: pista breve, ejemplo mínimo, pregunta de comprobación y luego práctica.
+- Prioriza comprensión, transferencia y hábito de estudio, no solo acertar una respuesta.
+- Si la alumna pide ayuda con deberes, ayuda a pensar sin hacerle la tarea completa.
+- Cada pocas intervenciones, resume qué ha aprendido y cuál es el siguiente paso.
+IDIOMA:
+- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
+- Si la asignatura es en español, responde completamente en español.
+- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+ESTRUCTURA OBLIGATORIA:
+1. Simple explanation
+2. Real-life example
+3. Ask the student a question
+- Mantén siempre esta estructura.
+- Be friendly and interactive.
 PERSONALIZACIÓN: Llama a la alumna por su nombre (${nombre}) de vez en cuando, de forma natural y cálida.
 ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
-LONGITUD: Sé BREVE — máximo 3-4 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o "no entiendo".`;
+LONGITUD: Sé BREVE en cada turno — normalmente 3-6 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o si detectas un bloqueo real.
+CIERRE DE RESPUESTA: Cuando tenga sentido, termina con una microtarea o una pregunta que obligue a recuperar activamente la idea clave.`;
 }
 
 function buildSystemExam(name, grade, subject) {
   const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
   const nombre = name || 'la alumna';
+  const curriculum = getCurriculumGuide(grade, subject);
+  const language = getSubjectLanguage(subject);
   return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
 Asignatura: ${subject}.
 NIVEL: ${g.detail}
+BASE CURRICULAR MADRID:
+- Evalúa sobre contenidos nucleares del curso, especialmente: ${curriculum.focus.join(', ')}.
+- Observa si demuestra estas evidencias: ${curriculum.outcomes.join('; ')}.
+IDIOMA:
+- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
+- Si la asignatura es en español, responde completamente en español.
+- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+ESTRUCTURA OBLIGATORIA:
+1. Simple explanation
+2. Real-life example
+3. Ask the student a question
+- Incluso al corregir o evaluar, mantén esta estructura.
+- Be friendly and interactive.
 REGLAS:
 1. Haz preguntas tipo examen una por una — espera la respuesta
-2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló
-3. Al final: puntuación y resumen de lo que debe repasar
-4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos
-5. Adapta la dificultad exactamente al nivel de ${grade} (LOMLOE Madrid)
+2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló y di qué criterio o destreza se está entrenando
+3. Al final: puntuación, fortalezas, errores frecuentes y plan breve de repaso
+4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos, aplicación
+5. Adapta la dificultad exactamente al nivel de ${grade} en Madrid
+6. Si detectas una laguna grave, antes de seguir con el examen haz una micro-explicación de rescate y luego retoma
 FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
 - Cuando hagas una pregunta de opción múltiple, SIEMPRE pon cada opción en su PROPIA LÍNEA, con el formato exacto:
   a) texto de la opción
@@ -584,7 +771,7 @@ FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 }
 
-const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
+const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Física y Química':'⚗️', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
 
 // ── STATE ──
 let history = [];
@@ -592,10 +779,14 @@ let subject = 'Matemáticas';
 let loading = false;
 let examMode = false;
 let pendingImages = [];
+let learningMode = 'guiada';
+let progressData = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
+let currentSessionAwarded = false;
 
 // Student profile — loaded from localStorage
 let studentName  = '';
 let studentGrade = '1º ESO';
+let studentSyncKey = '';
 
 // ── SETTINGS MODAL ──
 let _selectedGrade = '';
@@ -606,9 +797,78 @@ function selectGrade(el, grade) {
   _selectedGrade = grade;
 }
 
+function normalizeSyncKey(value) {
+  return (value || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9-_]+/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function generateSyncKey(name, grade) {
+  const base = normalizeSyncKey(`sofia-${name || 'student'}-${grade || 'eso'}`).slice(0, 24) || 'sofia-student';
+  const suffix = Math.floor(1000 + Math.random() * 9000);
+  return `${base}-${suffix}`;
+}
+
+function saveLocalStudentProfile() {
+  localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade, syncKey: studentSyncKey }));
+}
+
+async function copySyncKey() {
+  const input = document.getElementById('settingSyncKey');
+  const value = normalizeSyncKey(input.value) || generateSyncKey(document.getElementById('settingName').value.trim(), _selectedGrade || studentGrade);
+  input.value = value;
+  try {
+    await navigator.clipboard.writeText(value);
+    const btn = document.querySelector('.copy-btn');
+    const original = btn.textContent;
+    btn.textContent = 'Copiada';
+    setTimeout(() => { btn.textContent = original; }, 1200);
+  } catch (e) {}
+}
+
+async function loadRemoteStudentMemory() {
+  if (!studentSyncKey) return false;
+  try {
+    const res = await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`);
+    const data = await res.json();
+    if (!res.ok || !data.student) return false;
+    const profile = JSON.parse(data.student.profileJson || '{}');
+    const progress = JSON.parse(data.student.progressJson || '{}');
+    const sessions = JSON.parse(data.student.sessionsJson || '[]');
+    studentName = profile.name || studentName;
+    studentGrade = profile.grade || studentGrade;
+    progressData = { ...progressData, ...progress };
+    if (sessions.length) localStorage.setItem('sofia_sessions', JSON.stringify(sessions));
+    saveLocalStudentProfile();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function saveRemoteStudentMemory() {
+  if (!studentSyncKey) return;
+  try {
+    const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+    await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        profile: { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
+        progress: progressData,
+        sessions: sessions.slice(0, 20),
+      }),
+    });
+  } catch (e) {}
+}
+
 function openSettings() {
   // Pre-fill
   document.getElementById('settingName').value = studentName;
+  document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey(studentName || 'student', studentGrade);
   _selectedGrade = studentGrade;
   document.querySelectorAll('.grade-tile').forEach(t => {
     t.classList.toggle('selected', t.getAttribute('onclick').includes(`'${studentGrade}'`));
@@ -636,12 +896,16 @@ function closeSettings() {
 function saveSettings() {
   const nameVal  = document.getElementById('settingName').value.trim();
   const gradeVal = _selectedGrade;
+  const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey(nameVal, gradeVal);
   if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
   if (!gradeVal) { shake('settingsModal'); return; }
 
   studentName  = nameVal;
   studentGrade = gradeVal;
-  localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade }));
+  studentSyncKey = syncVal;
+  document.getElementById('settingSyncKey').value = studentSyncKey;
+  document.querySelector('.copy-btn').textContent = 'Copiar';
+  saveLocalStudentProfile();
 
   updateStudentUI();
   closeSettings();
@@ -649,10 +913,9 @@ function saveSettings() {
   // Personalised welcome
   history = [];
   document.getElementById('chat').innerHTML = '';
-  const g = GRADE_INFO[studentGrade];
-  const msg = `¡Hola, **${studentName}**! 👋 Soy Sofía, tu tutora.\n\nVoy a adaptarme a tu nivel de **${studentGrade}** para que todo tenga sentido 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
-  addMsg('ai', msg);
-  history.push({ role: 'assistant', content: msg });
+  currentSessionAwarded = false;
+  showWelcome();
+  saveRemoteStudentMemory();
 }
 
 function shake(id) {
@@ -663,13 +926,201 @@ function shake(id) {
   setTimeout(() => el.style.animation = '', 400);
 }
 
+function getModeLabel(mode, lang) {
+  const labels = {
+    diagnostico: { es: 'Diagnóstico', en: 'Diagnostic' },
+    guiada: { es: 'Guiada', en: 'Guided' },
+    practica: { es: 'Práctica', en: 'Practice' },
+  };
+  return labels[mode]?.[lang] || labels[mode]?.es || 'Guiada';
+}
+
+function updateSubjectUI() {
+  const meta = getSubjectMeta(subject);
+  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${subject}`;
+  document.getElementById('languageBadge').textContent = meta.badge;
+  document.getElementById('languageBadge').style.color = meta.language === 'en' ? '#7cc7ff' : '#06d6a0';
+  document.getElementById('languageBadge').style.borderColor = meta.language === 'en' ? 'rgba(124,199,255,0.25)' : 'rgba(6,214,160,0.25)';
+  document.getElementById('languageBadge').style.background = meta.language === 'en' ? 'rgba(124,199,255,0.12)' : 'rgba(6,214,160,0.12)';
+}
+
+function updateQuickChips() {
+  const meta = getSubjectMeta(subject);
+  document.getElementById('chipDiagnostico').textContent = meta.chips.diagnostico;
+  document.getElementById('chipGuiada').textContent = meta.chips.guiada;
+  document.getElementById('chipPractica').textContent = meta.chips.practica;
+  document.getElementById('chipExam').textContent = meta.chips.exam;
+}
+
+function loadProgressData() {
+  const saved = localStorage.getItem('sofia_progress');
+  if (saved) {
+    try {
+      progressData = { ...progressData, ...JSON.parse(saved) };
+    } catch (e) {}
+  }
+}
+
+function persistProgressData() {
+  localStorage.setItem('sofia_progress', JSON.stringify(progressData));
+  saveRemoteStudentMemory();
+}
+
+function getDailyGoalText() {
+  const lang = getSubjectLanguage(subject);
+  const goalDone = progressData.dailyGoalDone || 0;
+  const goalTarget = progressData.dailyGoalTarget || 1;
+  return {
+    label: lang === 'en' ? `Today` : 'Hoy',
+    main: lang === 'en'
+      ? `${goalDone}/${goalTarget} study session${goalTarget > 1 ? 's' : ''}`
+      : `${goalDone}/${goalTarget} sesiones de estudio`,
+    sub: lang === 'en'
+      ? 'Small steps, steady progress.'
+      : 'Pequeños pasos, avance constante.',
+  };
+}
+
+function getMasterySnapshot() {
+  const units = getSubjectUnits(subject, studentGrade);
+  const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
+  if (!units.length) return null;
+  const ranked = units
+    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
+    .sort((a, b) => b.score - a.score);
+  return ranked[0];
+}
+
+function getTopMasteryUnits(limit = 3) {
+  const units = getSubjectUnits(subject, studentGrade);
+  const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
+  return units
+    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
+function updateStudyPanel() {
+  const lang = getSubjectLanguage(subject);
+  const goal = getDailyGoalText();
+  document.getElementById('dailyGoalLabel').textContent = goal.label;
+  document.getElementById('dailyGoalMain').textContent = goal.main;
+  document.getElementById('dailyGoalSub').textContent = goal.sub;
+
+  document.getElementById('recapLabel').textContent = lang === 'en' ? 'Next step' : 'Siguiente paso';
+  document.getElementById('recapMain').textContent = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
+  const masteryTop = getMasterySnapshot();
+  document.getElementById('recapSub').textContent = masteryTop
+    ? (lang === 'en'
+      ? `Focus topic: ${masteryTop.unit.title}`
+      : `Tema de foco: ${masteryTop.unit.title}`)
+    : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
+}
+
+function updateMasteryPanel() {
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('masteryTitle').textContent = lang === 'en' ? 'Your topics' : 'Tus temas';
+  document.getElementById('masteryHint').textContent = lang === 'en' ? 'Where Sofía has already helped most' : 'Dónde Sofía ya te ha ayudado más';
+
+  const top = getTopMasteryUnits(3);
+  document.getElementById('masteryPanel').style.display = top.some(item => item.score > 0) ? 'block' : 'none';
+  const grid = document.getElementById('masteryGrid');
+  if (!top.length) {
+    grid.innerHTML = `<div class="mastery-card"><div class="mastery-topic">${lang === 'en' ? 'Your topic cards will appear as you practise different units.' : 'Tus tarjetas de temas aparecerán cuando practiques distintos bloques.'}</div><div class="mastery-meta"><span>${lang === 'en' ? 'Start with practice mode' : 'Empieza con modo práctica'}</span><span>0/5</span></div></div>`;
+    return;
+  }
+
+  grid.innerHTML = top.map(({ unit, score }) => `
+    <div class="mastery-card">
+      <div class="mastery-topic">${unit.title}</div>
+      <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.max(8, score * 20)}%"></div></div>
+      <div class="mastery-meta">
+        <span>${score >= 4 ? (lang === 'en' ? 'Confident' : 'Con confianza') : score >= 2 ? (lang === 'en' ? 'In progress' : 'En progreso') : (lang === 'en' ? 'Starting' : 'Empezando')}</span>
+        <span>${score}/5</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateHomePanelsVisibility() {
+  const hasProgress = progressData.lessonsCompleted > 0 || progressData.score > 0 || progressData.streak > 0;
+  const hasRecap = Boolean(progressData.lastRecap);
+  const hasMastery = getTopMasteryUnits(3).some(item => item.score > 0);
+
+  document.getElementById('progressStrip').style.display = hasProgress ? 'grid' : 'none';
+  document.getElementById('recapCard').style.display = hasRecap ? 'block' : 'none';
+  document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
+  document.getElementById('masteryPanel').style.display = hasMastery ? 'block' : 'none';
+}
+
+function updateProgressUI() {
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('progressLessonsLabel').textContent = lang === 'en' ? 'Today' : 'Hoy';
+  document.getElementById('progressLessonsValue').textContent = progressData.lessonsCompleted;
+  document.getElementById('progressLessonsNote').textContent = lang === 'en' ? 'Study steps' : 'Pasos de estudio';
+  document.getElementById('progressScoreLabel').textContent = lang === 'en' ? 'Your progress' : 'Tu avance';
+  document.getElementById('progressScoreValue').textContent = progressData.score;
+  document.getElementById('progressScoreNote').textContent = lang === 'en' ? 'Little by little' : 'Poco a poco';
+  document.getElementById('progressStreakLabel').textContent = lang === 'en' ? 'Routine' : 'Rutina';
+  document.getElementById('progressStreakValue').textContent = progressData.streak;
+  document.getElementById('progressStreakNote').textContent = lang === 'en' ? 'days of practice' : 'días de práctica';
+}
+
+function updateLocalizedUI() {
+  updateSubjectUI();
+  updateQuickChips();
+  updateProgressUI();
+  updateStudyPanel();
+  updateMasteryPanel();
+  updateHomePanelsVisibility();
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('ta').placeholder = lang === 'en' ? 'Ask your question here...' : 'Escribe tu pregunta aquí...';
+  if (recognition) recognition.lang = lang === 'en' ? 'en-GB' : 'es-ES';
+}
+
+function updateStudyProgress(replyText, userText) {
+  const today = new Date().toISOString().slice(0, 10);
+  if (progressData.lastStudyDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    progressData.streak = progressData.lastStudyDate === yesterday ? progressData.streak + 1 : 1;
+    progressData.activeDays = (progressData.activeDays || 0) + 1;
+    progressData.lastStudyDate = today;
+    progressData.dailyGoalDone = 0;
+  }
+
+  progressData.score += examMode ? 15 : (learningMode === 'practica' ? 12 : 8);
+
+  const userTurns = history.filter(m => m.role === 'user').length;
+  if (!currentSessionAwarded && userTurns >= 2) {
+    progressData.lessonsCompleted += 1;
+    progressData.dailyGoalDone = Math.min((progressData.dailyGoalDone || 0) + 1, progressData.dailyGoalTarget || 1);
+    currentSessionAwarded = true;
+  }
+
+  const detectedUnit = detectCurriculumUnit(subject, studentGrade, `${userText || ''} ${replyText || ''}`);
+  if (detectedUnit) {
+    progressData.mastery[subject] ||= {};
+    progressData.mastery[subject][studentGrade] ||= {};
+    const next = Math.min((progressData.mastery[subject][studentGrade][detectedUnit.id] || 0) + 1, 5);
+    progressData.mastery[subject][studentGrade][detectedUnit.id] = next;
+    progressData.lastRecap = getSubjectLanguage(subject) === 'en'
+      ? `You worked on ${detectedUnit.title}.`
+      : `Has trabajado ${detectedUnit.title}.`;
+  } else {
+    progressData.lastRecap = getSubjectLanguage(subject) === 'en'
+      ? 'Nice work. You completed another guided study step.'
+      : 'Buen trabajo. Has completado otro paso de estudio guiado.';
+  }
+
+  persistProgressData();
+  updateLocalizedUI();
+}
+
 function updateStudentUI() {
   // Side menu header
   document.getElementById('sideStudentInfo').textContent =
     studentName ? `${studentName} · ${studentGrade}` : `${studentGrade} · Madrid`;
-  // Header status
-  document.querySelector('.hstatus').innerHTML =
-    `<span class="dot"></span>${studentName ? studentName + ' · ' : ''}${studentGrade}`;
+  updateLocalizedUI();
 }
 
 function loadStudentProfile() {
@@ -679,6 +1130,7 @@ function loadStudentProfile() {
       const p = JSON.parse(saved);
       studentName  = p.name  || '';
       studentGrade = p.grade || '1º ESO';
+      studentSyncKey = p.syncKey || '';
       updateStudentUI();
       return true;
     } catch(e) {}
@@ -687,14 +1139,20 @@ function loadStudentProfile() {
 }
 
 // ── INIT ──
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
+  loadProgressData();
   const hasProfile = loadStudentProfile();
+  if (studentSyncKey) {
+    await loadRemoteStudentMemory();
+    updateStudentUI();
+  }
   if (!hasProfile) {
     openSettings(); // First-time setup — show modal immediately
   } else {
     closeSettings();
     loadLastSession();
   }
+  updateLocalizedUI();
 });
 
 // ── SIDE MENU ──
@@ -716,9 +1174,10 @@ function selectSubject(s, el) {
   subject = s;
   document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[s]||'📚'} ${s}`;
+  updateLocalizedUI();
   closeSideMenuDirect();
-  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ¡Vamos con **${s}**! ¿Qué tema tienes?`;
+  const meta = getSubjectMeta(s);
+  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ${meta.language === 'en' ? `Let’s work on **${s}**! We are in **${getModeLabel(learningMode, 'en')}** mode. ${meta.topicPrompt}` : `¡Vamos con **${s}**! Estoy en modo **${getModeLabel(learningMode, 'es')}**. ${meta.topicPrompt}`}`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
@@ -776,7 +1235,11 @@ function toggleExam() {
   examMode = !examMode;
   const banner = document.getElementById('examBanner');
   const sideBtn = document.getElementById('sideExamBtn');
+  const meta = getSubjectMeta(subject);
   banner.style.display = examMode ? 'block' : 'none';
+  banner.innerHTML = meta.language === 'en'
+    ? '📝 <b>Exam Mode ON</b> — Sofía will ask questions and correct your answers'
+    : '📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas';
   sideBtn.classList.toggle('exam-on', examMode);
   sideBtn.querySelector('.side-icon').textContent = examMode ? '✅' : '📝';
   if (examMode) {
@@ -787,6 +1250,39 @@ function toggleExam() {
     addMsg('ai', msg);
     history.push({ role: 'assistant', content: msg });
   }
+}
+
+function setLearningMode(mode) {
+  if (!LEARNING_MODES[mode]) return;
+  learningMode = mode;
+  examMode = false;
+  document.getElementById('examBanner').style.display = 'none';
+  document.getElementById('sideExamBtn').classList.remove('exam-on');
+  document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
+
+  document.querySelectorAll('#chips .chip').forEach(chip => {
+    chip.style.borderColor = '';
+    chip.style.color = '';
+  });
+
+  updateLocalizedUI();
+  const meta = getSubjectMeta(subject);
+  const labels = {
+    diagnostico: meta.chips.diagnostico,
+    guiada: meta.chips.guiada,
+    practica: meta.chips.practica,
+  };
+  const activeChip = Array.from(document.querySelectorAll('#chips .chip'))
+    .find(chip => chip.textContent.trim() === labels[mode]);
+  if (activeChip) {
+    activeChip.style.borderColor = '#ff6b6b';
+    activeChip.style.color = '#fffffe';
+  }
+
+  const prompts = meta.modePrompts;
+  const msg = prompts[mode];
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
 }
 
 // ── FILE UPLOAD ──
@@ -1023,14 +1519,15 @@ async function sendMsg(txt) {
     const res = await fetch(`${WORKER_URL}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system, messages: history })
+      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'default_user' })
     });
     const d = await res.json();
     if (d.error) { hideTyping(); addMsg('ai', `⚠️ API Error: ${d.error.message || JSON.stringify(d.error)}`); loading=false; updateSendBtn(); return; }
     const replyText = d.content?.[0]?.text || '¡Lo siento! Error inesperado 🙈';
     hideTyping();
-    history.push({ role: 'assistant', content: replyText });
+  history.push({ role: 'assistant', content: replyText });
     addMsg('ai', replyText);
+    updateStudyProgress(replyText, text);
     saveSession();
   } catch(err) {
     hideTyping();
@@ -1041,7 +1538,7 @@ async function sendMsg(txt) {
 }
 
 function sendChip(el) {
-  if (el.textContent === '📝 Start exam' && !examMode) toggleExam();
+  if (el.id === 'chipExam' && !examMode) toggleExam();
   else sendMsg(el.textContent);
 }
 function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
@@ -1063,6 +1560,7 @@ function saveSession() {
   const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
   sessions.unshift({ id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history });
   localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
+  saveRemoteStudentMemory();
 }
 
 function loadLastSession() {
@@ -1073,11 +1571,12 @@ function loadLastSession() {
   if (new Date(last.date).getTime() > hourAgo) {
     history = last.history;
     subject = last.subject || 'Matemáticas';
+    currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
     // Sync side menu
     document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = document.getElementById(`sb-${subject}`);
     if (activeBtn) activeBtn.classList.add('active');
-    document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${subject}`;
+    updateLocalizedUI();
     // Render messages
     history.forEach(m => {
       if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
@@ -1100,6 +1599,7 @@ function newSession(e) {
   history = [];
   chatEl.innerHTML = '';
   examMode = false;
+  currentSessionAwarded = false;
   document.getElementById('examBanner').style.display = 'none';
   document.getElementById('sideExamBtn').classList.remove('exam-on');
   document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
@@ -1107,11 +1607,16 @@ function newSession(e) {
 }
 
 function showWelcome() {
-  const nombre = studentName || 'hola';
-  const greeting = studentName
-    ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.`
-    : `¡Hola! 👋 Soy **Sofía**, tu tutora.`;
-  const msg = `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
+  updateLocalizedUI();
+  const meta = getSubjectMeta(subject);
+  const lang = meta.language;
+  const greeting = lang === 'en'
+    ? (studentName ? `Hi, **${studentName}**! 👋 I’m **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I’m **Sofía**, your tutor.`)
+    : (studentName ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.` : `¡Hola! 👋 Soy **Sofía**, tu tutora.`);
+  const modeLabel = getModeLabel(learningMode, lang);
+  const msg = lang === 'en'
+    ? `${greeting}\n\nI’m here to help you *understand*, practise, and study better like a real teacher.\n\nRight now I’m in **${modeLabel}** mode.\n\n**${meta.welcomePrompt}**`
+    : `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas y a estudiar mejor, con una forma de trabajar más parecida a una profe real.\n\nAhora mismo estoy en modo **${modeLabel}**.\n\n**${meta.welcomePrompt}**`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
@@ -1138,6 +1643,8 @@ function loadSession(id) {
   if (!s) return;
   history = s.history;
   subject = s.subject;
+  currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
+  updateLocalizedUI();
   chatEl.innerHTML = '';
   history.forEach(m => {
     if (m.role === 'assistant') addMsg('ai', typeof m.content==='string'?m.content:'');
