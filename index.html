@@ -33,7 +33,7 @@ body {
 }
 #sideDrawer {
   position: absolute; top: 0; left: 0; bottom: 0; width: min(280px, 82vw);
-  background: #13121f; border-right: 1px solid #2a2945;
+  background: rgba(246, 242, 235, 0.98); border-right: 1px solid rgba(22, 51, 45, 0.08);
   display: flex; flex-direction: column;
   transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1);
   overflow-y: auto;
@@ -43,47 +43,47 @@ body {
 .side-header {
   display: flex; align-items: center; gap: 12px;
   padding: 22px 18px 16px;
-  border-bottom: 1px solid #2a2945;
+  border-bottom: 1px solid rgba(22, 51, 45, 0.08);
 }
 .side-avatar {
   width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, #ff6b6b, #ffd166);
+  background: linear-gradient(135deg, #8ed9c3, #bedef4);
   display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
 }
-.side-title { font-weight: 700; font-size: 15px; }
-.side-sub   { font-size: 11px; color: #7a79a0; margin-top: 2px; }
+.side-title { font-weight: 700; font-size: 15px; color: #143731; }
+.side-sub   { font-size: 11px; color: #6a8178; margin-top: 2px; }
 
 .side-section-label {
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-  color: #4a4970; padding: 16px 18px 6px;
+  color: #6a8178; padding: 16px 18px 6px;
 }
 
 .subj-btn {
   display: flex; align-items: center; gap: 12px;
   padding: 13px 18px; cursor: pointer;
   background: transparent; border: none; width: 100%; text-align: left;
-  color: #a7a6c0; font-size: 14px; font-family: inherit;
+  color: #4b645d; font-size: 14px; font-family: inherit;
   border-left: 3px solid transparent; transition: all 0.18s;
   -webkit-tap-highlight-color: transparent;
 }
-.subj-btn:active { background: rgba(255,255,255,0.03); }
+.subj-btn:active { background: rgba(47, 106, 93, 0.05); }
 .subj-btn.active {
-  color: #fffffe; background: rgba(255,107,107,0.08);
-  border-left-color: #ff6b6b;
+  color: #143731; background: rgba(47,106,93,0.09);
+  border-left-color: #2f6a5d;
 }
 .subj-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
 
-.side-divider { height: 1px; background: #2a2945; margin: 8px 0; }
+.side-divider { height: 1px; background: rgba(22, 51, 45, 0.08); margin: 8px 0; }
 
 .side-action {
   display: flex; align-items: center; gap: 12px;
   padding: 13px 18px; cursor: pointer;
   background: transparent; border: none; width: 100%; text-align: left;
-  color: #7a79a0; font-size: 14px; font-family: inherit; transition: all 0.18s;
+  color: #4b645d; font-size: 14px; font-family: inherit; transition: all 0.18s;
   -webkit-tap-highlight-color: transparent;
 }
-.side-action:active { background: rgba(255,255,255,0.03); }
-.side-action.exam-on { color: #ffd166; }
+.side-action:active { background: rgba(47, 106, 93, 0.05); }
+.side-action.exam-on { color: #2f6a5d; }
 .side-action .side-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
 
 /* ── HEADER ── */
@@ -545,80 +545,203 @@ textarea::placeholder { color: #7b8e87; }
   overflow-y: auto;
 }
 #settingsModal {
-  background: #13121f; border: 1px solid #2a2945; border-radius: 22px;
+  background: rgba(246, 242, 235, 0.98); border: 1px solid rgba(22, 51, 45, 0.08); border-radius: 28px;
   padding: 28px 24px; width: 100%; max-width: 420px;
   animation: fadeUp 0.22s ease;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  box-shadow: 0 20px 60px rgba(49, 56, 51, 0.16);
   max-height: min(760px, calc(100dvh - 24px));
   overflow-y: auto;
 }
-#settingsModal h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-#settingsModal .modal-sub { font-size: 13px; color: #7a79a0; margin-bottom: 22px; }
+#settingsModal h2 { font-size: 32px; line-height: 1.04; letter-spacing: -0.03em; color: #143731; margin-bottom: 6px; }
+#settingsModal .modal-sub { font-size: 14px; color: #5f736c; margin-bottom: 22px; line-height: 1.5; }
 .welcome-panel {
-  background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(255,209,102,0.08));
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px; padding: 12px 14px; margin-bottom: 18px;
+  background: rgba(255,255,255,0.56);
+  border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 20px; padding: 16px 18px; margin-bottom: 20px;
 }
-.welcome-panel strong { color: #fffffe; }
-.welcome-panel p { font-size: 13px; line-height: 1.5; color: #b7b6cb; }
+.welcome-panel strong { color: #143731; }
+.welcome-panel p { font-size: 14px; line-height: 1.55; color: #5f736c; }
 .sync-row { display: flex; gap: 8px; align-items: stretch; }
 .sync-row .field-input { margin-bottom: 0; }
 .copy-btn {
-  border-radius: 12px; border: 1px solid #2a2945; background: #1a1935;
-  color: #fffffe; padding: 0 12px; font-size: 13px; cursor: pointer;
+  border-radius: 14px; border: 1px solid rgba(22, 51, 45, 0.08); background: rgba(255,255,255,0.82);
+  color: #2f6a5d; padding: 0 14px; font-size: 14px; font-weight: 700; cursor: pointer;
   white-space: nowrap;
   min-height: 52px;
 }
-.copy-btn:active { border-color: #ff6b6b; }
+.copy-btn:active { border-color: #2f6a5d; }
 
 .field-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.07em; color: #4a4970; margin-bottom: 6px; display: block;
+  letter-spacing: 0.09em; color: #6a8178; margin-bottom: 6px; display: block;
 }
 .field-input {
-  width: 100%; padding: 12px 14px; border-radius: 12px;
-  background: #1a1935; border: 1px solid #2a2945; color: #fffffe;
+  width: 100%; padding: 14px 16px; border-radius: 16px;
+  background: rgba(255,255,255,0.82); border: 1px solid rgba(22, 51, 45, 0.08); color: #16332d;
   font-size: 15px; font-family: inherit; outline: none;
   transition: border-color 0.2s; margin-bottom: 16px;
 }
-.field-input:focus { border-color: rgba(255,107,107,0.5); }
+.field-input:focus { border-color: rgba(47,106,93,0.32); }
 
 /* Grade selector grid */
 .grade-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
 }
 .grade-tile {
-  padding: 10px 6px; border-radius: 12px; text-align: center;
-  background: #1a1935; border: 1px solid #2a2945; cursor: pointer;
-  font-size: 13px; color: #7a79a0; transition: all 0.18s; line-height: 1.3;
+  padding: 12px 8px; border-radius: 18px; text-align: center;
+  background: rgba(255,255,255,0.72); border: 1px solid rgba(22, 51, 45, 0.08); cursor: pointer;
+  font-size: 13px; color: #5f736c; transition: all 0.18s; line-height: 1.3;
   -webkit-tap-highlight-color: transparent;
 }
-.grade-tile .grade-num { font-size: 17px; font-weight: 700; display: block; }
-.grade-tile:active { border-color: #ff6b6b; }
+.grade-tile .grade-num { font-size: 19px; font-weight: 700; display: block; }
+.grade-tile:active { border-color: #2f6a5d; }
 .grade-tile.selected {
-  border-color: #ff6b6b; background: rgba(255,107,107,0.1); color: #fffffe;
+  border-color: rgba(47,106,93,0.26); background: rgba(47,106,93,0.10); color: #143731;
 }
-.grade-tile.selected .grade-num { color: #ff6b6b; }
+.grade-tile.selected .grade-num { color: #2f6a5d; }
 
 .modal-actions {
   display: flex; gap: 10px;
   position: sticky; bottom: 0;
   padding-top: 14px; padding-bottom: max(10px, env(safe-area-inset-bottom));
   margin-top: 6px;
-  background: linear-gradient(180deg, rgba(19,18,31,0), rgba(19,18,31,0.96) 24%, rgba(19,18,31,1));
+  background: linear-gradient(180deg, rgba(246,242,235,0), rgba(246,242,235,0.94) 24%, rgba(246,242,235,1));
 }
 .btn-save {
-  flex: 1; padding: 14px; border-radius: 12px;
-  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  flex: 1; padding: 14px; border-radius: 16px;
+  background: linear-gradient(135deg, #376f62, #4d8a78);
   border: none; color: white; font-size: 15px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   min-height: 54px;
 }
 .btn-cancel {
-  padding: 13px 18px; border-radius: 12px;
-  background: transparent; border: 1px solid #2a2945;
-  color: #7a79a0; font-size: 15px; cursor: pointer;
+  padding: 13px 18px; border-radius: 16px;
+  background: rgba(255,255,255,0.68); border: 1px solid rgba(22,51,45,0.08);
+  color: #4b645d; font-size: 15px; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+body.dark {
+  background:
+    radial-gradient(circle at top left, rgba(66, 110, 97, 0.28), transparent 28%),
+    radial-gradient(circle at top right, rgba(72, 108, 138, 0.26), transparent 32%),
+    linear-gradient(180deg, #11131a, #151926 52%, #171824);
+  color: #edf3f0;
+}
+
+body.dark #header,
+body.dark #footer,
+body.dark #settingsModal,
+body.dark #sideDrawer,
+body.dark #historyDrawer,
+body.dark #searchBar {
+  background: rgba(18, 22, 32, 0.94);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+
+body.dark #menuBtn,
+body.dark #subjectBadge,
+body.dark .lang-badge,
+body.dark .hero-btn.secondary,
+body.dark .subject-card,
+body.dark .progress-card,
+body.dark .study-card,
+body.dark .mastery-card,
+body.dark .preview-item,
+body.dark .copy-btn,
+body.dark .field-input,
+body.dark .grade-tile,
+body.dark .btn-cancel,
+body.dark #attachBtn,
+body.dark #voiceBtn,
+body.dark textarea,
+body.dark .welcome-panel {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .side-title,
+body.dark .hname,
+body.dark .section-title,
+body.dark #masteryTitle,
+body.dark #settingsModal h2,
+body.dark .hero-title,
+body.dark .subject-card-title,
+body.dark .progress-value,
+body.dark .study-main,
+body.dark .mastery-topic,
+body.dark .bubble,
+body.dark .welcome-panel strong {
+  color: #edf3f0;
+}
+
+body.dark .side-sub,
+body.dark .side-action,
+body.dark .subj-btn,
+body.dark .hstatus,
+body.dark .progress-note,
+body.dark .study-sub,
+body.dark .section-copy,
+body.dark #masteryHint,
+body.dark .modal-sub,
+body.dark .welcome-panel p,
+body.dark .field-label,
+body.dark .field-help,
+body.dark textarea::placeholder,
+body.dark .hero-copy,
+body.dark .subject-card-sub,
+body.dark .mastery-meta {
+  color: #a8b5b0;
+}
+
+body.dark .subj-btn.active,
+body.dark .side-action:active,
+body.dark .subject-card.active {
+  background: rgba(109, 190, 164, 0.12);
+  border-color: rgba(109, 190, 164, 0.22);
+  color: #edf3f0;
+}
+
+body.dark .hero-btn.primary,
+body.dark .btn-save,
+body.dark #sendBtn {
+  background: linear-gradient(135deg, #4f8b7c, #67a391);
+}
+
+body.dark .modal-actions {
+  background: linear-gradient(180deg, rgba(18,22,32,0), rgba(18,22,32,0.94) 24%, rgba(18,22,32,1));
+}
+
+body.dark #searchInput,
+body.dark .session-item,
+body.dark .exam-opt,
+body.dark .chip {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .hbtn,
+body.dark #closeHistory {
+  color: #a8b5b0;
+}
+
+body.dark .msg.ai .bubble {
+  background: #28475d;
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .msg.user .bubble {
+  background: #24463b;
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark #examBanner {
+  background: rgba(80, 114, 154, 0.35);
+  color: #d5e7f8;
 }
 
 @keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
@@ -761,6 +884,9 @@ textarea::placeholder { color: #7b8e87; }
     <div class="side-divider"></div>
     <div class="side-section-label">Acciones</div>
 
+    <button class="side-action" onclick="goHome()">
+      <span class="side-icon">🏠</span> Inicio
+    </button>
     <button class="side-action" id="sideExamBtn" onclick="toggleExamFromMenu()">
       <span class="side-icon">📝</span> Modo Examen
     </button>
@@ -782,6 +908,9 @@ textarea::placeholder { color: #7b8e87; }
     <button class="side-action" onclick="openSettings(); closeSideMenuDirect()">
       <span class="side-icon">👤</span> Perfil del alumno
     </button>
+    <button class="side-action" id="sideThemeBtn" onclick="toggleTheme()">
+      <span class="side-icon">🌙</span> Modo oscuro
+    </button>
   </div>
 </div>
 
@@ -790,7 +919,7 @@ textarea::placeholder { color: #7b8e87; }
   <div id="settingsModal">
     <div style="font-size:36px;margin-bottom:10px;">🎓</div>
     <h2>Bienvenida a Sofía</h2>
-    <p class="modal-sub">Cuéntame un poco sobre ti para poder ayudarte mejor.</p>
+    <p class="modal-sub">Un espacio bonito, claro y tranquilo para estudiar mejor contigo.</p>
 
     <div class="welcome-panel">
       <p><strong>Un perfil, todos tus dispositivos.</strong><br>Si usas la misma clave en móvil, tablet y ordenador, Sofía recordará el perfil y el progreso del alumno.</p>
@@ -845,6 +974,7 @@ textarea::placeholder { color: #7b8e87; }
     </div>
   </div>
   <div class="header-right">
+    <button class="hbtn" id="themeToggleBtn" onclick="toggleTheme()" title="Tema">🌙</button>
     <button class="hbtn" onclick="toggleSearch()" title="Buscar">🔍</button>
     <button class="hbtn" onclick="showHistory()" title="Historial">🕘</button>
   </div>
@@ -1083,6 +1213,8 @@ let loading = false;
 let examMode = false;
 let pendingImages = [];
 let learningMode = 'guiada';
+let currentView = 'home';
+let themeMode = localStorage.getItem('sofia_theme') || 'light';
 let progressData = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
 let currentSessionAwarded = false;
 let currentSessionId = null;
@@ -1229,9 +1361,9 @@ async function saveSettings() {
     updateStudentUI();
     loadLastSession();
   } else {
-    showWelcome();
     saveRemoteStudentMemory();
   }
+  showHomeView();
 }
 
 function shake(id) {
@@ -1251,7 +1383,52 @@ function getModeLabel(mode, lang) {
   return labels[mode]?.[lang] || labels[mode]?.es || 'Guiada';
 }
 
+function updateThemeButtons() {
+  const dark = themeMode === 'dark';
+  const headerBtn = document.getElementById('themeToggleBtn');
+  const sideBtn = document.getElementById('sideThemeBtn');
+  if (headerBtn) {
+    headerBtn.textContent = dark ? '☀️' : '🌙';
+    headerBtn.title = dark ? 'Modo claro' : 'Modo oscuro';
+  }
+  if (sideBtn) {
+    sideBtn.innerHTML = `<span class="side-icon">${dark ? '☀️' : '🌙'}</span>${dark ? 'Modo claro' : 'Modo oscuro'}`;
+  }
+}
+
+function applyTheme() {
+  document.body.classList.toggle('dark', themeMode === 'dark');
+  updateThemeButtons();
+}
+
+function toggleTheme() {
+  themeMode = themeMode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('sofia_theme', themeMode);
+  applyTheme();
+}
+
+function showHomeView() {
+  currentView = 'home';
+  updateLocalizedUI();
+}
+
+function showConversationView() {
+  currentView = 'conversation';
+  if (history.length === 0) showWelcome();
+  updateLocalizedUI();
+}
+
+function goHome() {
+  searchActive = false;
+  doSearch('');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchCount').textContent = '';
+  closeSideMenuDirect();
+  showHomeView();
+}
+
 function focusComposer() {
+  showConversationView();
   document.getElementById('ta').focus();
 }
 
@@ -1409,19 +1586,19 @@ function updateHomePanelsVisibility() {
   const hasProgress = progressData.lessonsCompleted > 1 || progressData.streak > 1;
   const hasRecap = Boolean(progressData.lastRecap);
   const hasMastery = progressData.lessonsCompleted > 2 && getTopMasteryUnits(3).some(item => item.score > 1);
-  const hasActiveLesson = history.some(item => item.role === 'user');
+  const inConversation = currentView === 'conversation';
 
-  document.getElementById('homeView').style.display = hasActiveLesson ? 'none' : 'flex';
-  document.getElementById('lessonView').style.background = hasActiveLesson ? 'transparent' : 'rgba(246,242,235,0.35)';
-  document.getElementById('chat').style.display = hasActiveLesson ? 'flex' : 'none';
-  document.getElementById('searchBar').style.display = hasActiveLesson && searchActive ? 'flex' : 'none';
-  document.getElementById('examBanner').style.display = hasActiveLesson && examMode ? 'block' : 'none';
-  document.getElementById('progressStrip').style.display = hasProgress && !hasActiveLesson ? 'grid' : 'none';
-  document.getElementById('recapCard').style.display = hasRecap && hasProgress && !hasActiveLesson ? 'block' : 'none';
-  document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !hasActiveLesson ? 'grid' : 'none';
+  document.getElementById('homeView').style.display = inConversation ? 'none' : 'flex';
+  document.getElementById('lessonView').style.display = inConversation ? 'flex' : 'none';
+  document.getElementById('chat').style.display = inConversation ? 'flex' : 'none';
+  document.getElementById('searchBar').style.display = inConversation && searchActive ? 'flex' : 'none';
+  document.getElementById('examBanner').style.display = inConversation && examMode ? 'block' : 'none';
+  document.getElementById('progressStrip').style.display = hasProgress && !inConversation ? 'grid' : 'none';
+  document.getElementById('recapCard').style.display = hasRecap && hasProgress && !inConversation ? 'block' : 'none';
+  document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !inConversation ? 'grid' : 'none';
   document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
-  document.getElementById('masteryPanel').style.display = hasMastery && !hasActiveLesson ? 'block' : 'none';
-  document.getElementById('chips').style.display = hasActiveLesson ? 'flex' : 'none';
+  document.getElementById('masteryPanel').style.display = hasMastery && !inConversation ? 'block' : 'none';
+  document.getElementById('chips').style.display = inConversation ? 'flex' : 'none';
 }
 
 function updateProgressUI() {
@@ -1512,6 +1689,7 @@ function loadStudentProfile() {
 
 // ── INIT ──
 window.addEventListener('load', async () => {
+  applyTheme();
   loadProgressData();
   const hasProfile = loadStudentProfile();
   if (studentSyncKey) {
@@ -1547,6 +1725,7 @@ function selectSubject(s, el) {
   document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
   const activeBtn = el || document.getElementById(`sb-${s}`);
   if (activeBtn) activeBtn.classList.add('active');
+  currentView = 'conversation';
   updateLocalizedUI();
   closeSideMenuDirect();
   const meta = getSubjectMeta(s);
@@ -1571,8 +1750,8 @@ function deleteConversation() {
   if (!confirm('¿Borrar toda la conversación?')) return;
   history = [];
   document.getElementById('chat').innerHTML = '';
-  document.getElementById('chips').style.display = 'flex';
   closeSideMenuDirect();
+  currentView = 'conversation';
   showWelcome();
 }
 
@@ -1580,10 +1759,12 @@ function deleteConversation() {
 let searchActive = false;
 function toggleSearch() {
   searchActive = !searchActive;
+  if (searchActive) currentView = 'conversation';
   const bar = document.getElementById('searchBar');
-  bar.style.display = searchActive ? 'flex' : 'none';
+  bar.style.display = searchActive && currentView === 'conversation' ? 'flex' : 'none';
   if (searchActive) document.getElementById('searchInput').focus();
   else { doSearch(''); document.getElementById('searchInput').value=''; document.getElementById('searchCount').textContent=''; }
+  updateLocalizedUI();
 }
 
 function doSearch(query) {
@@ -1607,6 +1788,7 @@ function doSearch(query) {
 // ── EXAM MODE ──
 function toggleExam() {
   examMode = !examMode;
+  currentView = 'conversation';
   const banner = document.getElementById('examBanner');
   const sideBtn = document.getElementById('sideExamBtn');
   const meta = getSubjectMeta(subject);
@@ -1950,7 +2132,14 @@ function saveSession() {
 
 function loadLastSession() {
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  if (sessions.length === 0) { showWelcome(); return; }
+  chatEl.innerHTML = '';
+  if (sessions.length === 0) {
+    history = [];
+    currentSessionAwarded = false;
+    currentSessionId = null;
+    showHomeView();
+    return;
+  }
   const last = sessions[0];
   const hourAgo = Date.now() - 60*60*1000;
   if (new Date(last.date).getTime() > hourAgo) {
@@ -1975,8 +2164,12 @@ function loadLastSession() {
     banner.className = 'date-divider';
     banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Empezar nueva</a>`;
     chatEl.insertBefore(banner, chatEl.firstChild);
+    showHomeView();
   } else {
-    showWelcome();
+    history = [];
+    currentSessionAwarded = false;
+    currentSessionId = null;
+    showHomeView();
   }
 }
 
@@ -1990,7 +2183,7 @@ function newSession(e) {
   document.getElementById('examBanner').style.display = 'none';
   document.getElementById('sideExamBtn').classList.remove('exam-on');
   document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
-  showWelcome();
+  showConversationView();
 }
 
 function showWelcome() {
