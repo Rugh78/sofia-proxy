@@ -2005,14 +2005,20 @@ function addMsg(role, text, imgSrc) {
 
   // NEW: Render math with KaTeX
   if (role === 'ai' && window.renderMathInElement) {
-    renderMathInElement(bub, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '\\[', right: '\\]', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\(', right: '\\)', display: false}
-      ]
-    });
+    try {
+      renderMathInElement(bub, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false, // Evita que un error de sintaxis en la IA rompa el chat
+        errorColor: '#ff6b6b' // Muestra el texto original en rojo si la fórmula es inválida
+      });
+    } catch (mathErr) {
+      console.warn("No se pudo renderizar la fórmula matemática:", mathErr);
+    }
   }
 
   if (imgSrc) {
