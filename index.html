@@ -297,8 +297,10 @@ body {
 .study-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a8178; }
 .study-main { font-size: 27px; letter-spacing: -0.03em; color: #16332d; margin-top: 10px; line-height: 1.15; }
 .study-sub { font-size: 14px; color: #61766f; margin-top: 8px; line-height: 1.5; }
+
+/* FIX: Adjusted margin to prevent overlapping text */
 .field-help {
-  font-size: 12px; color: #7a79a0; margin-top: -10px; margin-bottom: 16px; line-height: 1.45;
+  font-size: 12px; color: #6a8178; margin-top: 8px; margin-bottom: 16px; line-height: 1.45;
 }
 
 #masteryPanel {
@@ -407,21 +409,6 @@ body {
 }
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-/* ── CHIPS ── */
-#chips {
-  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 10px;
-  max-width: 980px;
-  width: 100%;
-  margin: 0 auto;
-}
-.chip {
-  font-size: 13px; padding: 10px 15px; border-radius: 999px;
-  background: rgba(255,255,255,0.74); border: 1px solid rgba(22, 51, 45, 0.08);
-  color: #5f736c; cursor: pointer; transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.chip:active { border-color: #2f6a5d; color: #2f6a5d; }
 
 /* ── UPLOAD PREVIEW ── */
 #uploadPreview {
@@ -851,21 +838,16 @@ body.dark #examBanner {
 
 /* 1. Hide the chips below the chat window */
 #chips {
-  display: none;
+  display: none !important;
 }
 
 /* 2. Add an 'active' style for the new side-menu mode buttons */
 .side-action.active {
   color: #143731;
   background: rgba(47,106,93,0.09);
-  /* You can add a border if you like, similar to subject buttons */
-  /* border-left: 3px solid #2f6a5d; */
 }
 
 /* --- DARK MODE FIXES --- */
-body.dark {
-  /* ... existing dark mode styles ... */
-}
 
 /* 3. Fix hero card colors in dark mode */
 body.dark #heroCard {
@@ -995,10 +977,10 @@ body.dark .side-action.active {
 
     <label class="field-label">Clave de sincronización</label>
     <div class="sync-row">
-      <input id="settingSyncKey" class="field-input" type="text" placeholder="Ej: sofia-maria-4821" maxlength="40"/>
+      <input id="settingSyncKey" class="field-input" type="text" placeholder="Ej: 54821" maxlength="10"/>
       <button class="copy-btn" type="button" onclick="copySyncKey()">Copiar</button>
     </div>
-    <div class="field-help">Puedes escribir tu propia clave o dejar que Sofía cree una automáticamente.</div>
+    <div class="field-help">Usa esta clave en otros dispositivos para sincronizar tu progreso.</div>
 
     <label class="field-label">Tu curso</label>
     <div class="grade-grid">
@@ -1147,12 +1129,7 @@ body.dark .side-action.active {
 
   <div id="chat"></div>
 
-  <div id="chips">
-    <button class="chip" id="chipDiagnostico" onclick="setLearningMode('diagnostico')">🎯 Diagnóstico</button>
-    <button class="chip" id="chipGuiada" onclick="setLearningMode('guiada')">🧭 Guiada</button>
-    <button class="chip" id="chipPractica" onclick="setLearningMode('practica')">💪 Práctica</button>
-    <button class="chip" id="chipExam" onclick="sendChip(this)">📝 Start exam</button>
-  </div>
+  <!-- DELETED: Chips section removed to clean up the UI -->
 
   <div id="uploadPreview"></div>
 
@@ -1298,18 +1275,13 @@ function selectGrade(el, grade) {
 }
 
 function normalizeSyncKey(value) {
-  return (value || '')
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9-_]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-|-$/g, '');
+  // Allow only numbers for the sync key
+  return (value || '').replace(/[^0-9]/g, '');
 }
 
-function generateSyncKey(name, grade) {
-  const base = normalizeSyncKey(`sofia-${name || 'student'}-${grade || 'eso'}`).slice(0, 24) || 'sofia-student';
-  const suffix = Math.floor(1000 + Math.random() * 9000);
-  return `${base}-${suffix}`;
+// FIX: Generate a simple 5-digit sync key
+function generateSyncKey() {
+  return Math.floor(10000 + Math.random() * 90000).toString();
 }
 
 function saveLocalStudentProfile() {
@@ -1318,7 +1290,7 @@ function saveLocalStudentProfile() {
 
 async function copySyncKey() {
   const input = document.getElementById('settingSyncKey');
-  const value = normalizeSyncKey(input.value) || generateSyncKey(document.getElementById('settingName').value.trim(), _selectedGrade || studentGrade);
+  const value = normalizeSyncKey(input.value) || generateSyncKey();
   input.value = value;
   try {
     await navigator.clipboard.writeText(value);
@@ -1368,7 +1340,7 @@ async function saveRemoteStudentMemory() {
 function openSettings() {
   // Pre-fill
   document.getElementById('settingName').value = studentName;
-  document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey(studentName || 'student', studentGrade);
+  document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey();
   _selectedGrade = studentGrade;
   document.querySelectorAll('.grade-tile').forEach(t => {
     t.classList.toggle('selected', t.getAttribute('onclick').includes(`'${studentGrade}'`));
@@ -1396,7 +1368,7 @@ function closeSettings() {
 async function saveSettings() {
   const nameVal  = document.getElementById('settingName').value.trim();
   const gradeVal = _selectedGrade;
-  const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey(nameVal, gradeVal);
+  const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey();
   if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
   if (!gradeVal) { shake('settingsModal'); return; }
 
@@ -1544,14 +1516,6 @@ function updateSubjectUI() {
   updateHomeHero();
 }
 
-function updateQuickChips() {
-  const meta = getSubjectMeta(subject);
-  document.getElementById('chipDiagnostico').textContent = meta.chips.diagnostico;
-  document.getElementById('chipGuiada').textContent = meta.chips.guiada;
-  document.getElementById('chipPractica').textContent = meta.chips.practica;
-  document.getElementById('chipExam').textContent = meta.chips.exam;
-}
-
 function loadProgressData() {
   const saved = localStorage.getItem('sofia_progress');
   if (saved) {
@@ -1662,7 +1626,7 @@ function updateHomePanelsVisibility() {
   document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !inConversation ? 'grid' : 'none';
   document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
   document.getElementById('masteryPanel').style.display = hasMastery && !inConversation ? 'block' : 'none';
-  document.getElementById('chips').style.display = inConversation ? 'flex' : 'none';
+  // FIX: Removed the line that was overriding the CSS to hide the chips.
 }
 
 function updateProgressUI() {
@@ -1680,7 +1644,6 @@ function updateProgressUI() {
 
 function updateLocalizedUI() {
   updateSubjectUI();
-  updateQuickChips();
   updateProgressUI();
   updateStudyPanel();
   updateMasteryPanel();
@@ -2107,7 +2070,6 @@ async function sendMsg(txt) {
   if (!text && pendingImages.length === 0) return;
 
   taEl.value = ''; resizeTA(taEl);
-  document.getElementById('chips').style.display = 'none';
   btnEl.disabled = true;
 
   let userContent;
@@ -2157,10 +2119,6 @@ async function sendMsg(txt) {
   updateSendBtn();
 }
 
-function sendChip(el) {
-  if (el.id === 'chipExam' && !examMode) toggleExam();
-  else sendMsg(el.textContent);
-}
 function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
 function resizeTA(el) {
   el.style.height='44px';
