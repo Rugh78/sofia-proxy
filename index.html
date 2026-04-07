@@ -9,6 +9,10 @@
 <meta name="apple-mobile-web-app-title" content="Sofía IA">
 <meta name="theme-color" content="#0f0e17">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230f0e17'/%3E%3Ccircle cx='90' cy='90' r='70' fill='url(%23g)'/%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='40%25'%3E%3Cstop offset='0' stop-color='%23ff6b6b'/%3E%3Cstop offset='1' stop-color='%23ffd166'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ctext x='90' y='115' font-size='80' text-anchor='middle'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+<!-- NEW: Added KaTeX for beautiful math rendering -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0KOVEMmg9rtabNEKFZfjHZjjH1db4ABODg2YmCnS0HVRAPiBCrFun" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGhcGljeGlorY" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -298,7 +302,6 @@ body {
 .study-main { font-size: 27px; letter-spacing: -0.03em; color: #16332d; margin-top: 10px; line-height: 1.15; }
 .study-sub { font-size: 14px; color: #61766f; margin-top: 8px; line-height: 1.5; }
 
-/* FIX: Adjusted margin to prevent overlapping text */
 .field-help {
   font-size: 12px; color: #6a8178; margin-top: 8px; margin-bottom: 16px; line-height: 1.45;
 }
@@ -449,10 +452,11 @@ body {
 }
 #attachBtn:active { border-color: #2f6a5d; }
 
+/* FIX: Textarea style adjustments for better placeholder display */
 textarea {
-  flex: 1; height: 44px; min-height: 44px; max-height: 120px;
+  flex: 1; height: 46px; min-height: 46px; max-height: 120px;
   background: rgba(255,255,255,0.8); border: 1px solid rgba(22,51,45,0.08); border-radius: 18px;
-  padding: 12px 16px; color: #16332d; font-family: inherit; font-size: 16px;
+  padding: 13px 16px; color: #16332d; font-family: inherit; font-size: 16px;
   resize: none; outline: none; line-height: 1.4; transition: border-color 0.2s;
 }
 textarea:focus { border-color: rgba(47,106,93,0.32); }
@@ -702,8 +706,7 @@ body.dark .modal-actions {
 
 body.dark #searchInput,
 body.dark .session-item,
-body.dark .exam-opt,
-body.dark .chip {
+body.dark .exam-opt {
   background: rgba(27, 31, 43, 0.92);
   border-color: rgba(214, 231, 225, 0.08);
   color: #edf3f0;
@@ -836,12 +839,7 @@ body.dark #examBanner {
 
 /* --- FIXES --- */
 
-/* 1. Hide the chips below the chat window */
-#chips {
-  display: none !important;
-}
-
-/* 2. Add an 'active' style for the new side-menu mode buttons */
+/* Add an 'active' style for the new side-menu mode buttons */
 .side-action.active {
   color: #143731;
   background: rgba(47,106,93,0.09);
@@ -849,7 +847,7 @@ body.dark #examBanner {
 
 /* --- DARK MODE FIXES --- */
 
-/* 3. Fix hero card colors in dark mode */
+/* Fix hero card colors in dark mode */
 body.dark #heroCard {
   background: rgba(27, 31, 43, 0.92); /* Match other dark cards */
   border-color: rgba(214, 231, 225, 0.08);
@@ -869,13 +867,13 @@ body.dark .hero-btn.primary {
   color: #143731; /* Dark text on the light button for contrast */
 }
 
-/* 4. Fix chat bubble accent text color in dark mode */
+/* Fix chat bubble accent text color in dark mode */
 body.dark .bubble b,
 body.dark .bubble em {
   color: #ffd166; /* High-contrast yellow/gold */
 }
 
-/* 5. Fix active style for new side-menu buttons in dark mode */
+/* Fix active style for new side-menu buttons in dark mode */
 body.dark .side-action.active {
   color: #d6f5ec;
   background: rgba(109, 190, 164, 0.12);
@@ -1129,15 +1127,13 @@ body.dark .side-action.active {
 
   <div id="chat"></div>
 
-  <!-- DELETED: Chips section removed to clean up the UI -->
-
   <div id="uploadPreview"></div>
 
   <div id="footer">
     <div id="input-row">
       <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Adjuntar foto o documento">📎</button>
       <input type="file" id="fileInput" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(event)"/>
-      <textarea id="ta" placeholder="Escribe tu pregunta aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
+      <textarea id="ta" placeholder="Escribe aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
       <button id="voiceBtn" onclick="toggleVoice()" title="Entrada de voz">🎤</button>
       <button id="sendBtn" onclick="sendMsg()" disabled>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -1161,14 +1157,8 @@ function buildSystemNormal(name, grade, subject) {
   const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
   const language = getSubjectLanguage(subject);
   const languageRule = language === 'en'
-    ? `LANGUAGE MODE: ENGLISH ONLY.
-- Every part of the reply must be in English.
-- Do not switch to Spanish for headings, examples, topic names, recap text, or questions.
-- If any curriculum notes or source labels are in Spanish, translate them naturally before replying.
-- Keep the tone natural for a bilingual-school teacher.`
-    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
-- Toda la respuesta debe estar en español.
-- No cambies al inglés en títulos, ejemplos, temas o preguntas.`;
+    ? `LANGUAGE MODE: ENGLISH ONLY. For mathematical formulas, always use LaTeX syntax. For inline math, wrap the expression in \\( ... \\). For display equations, wrap them in \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE. Para fórmulas matemáticas, usa siempre la sintaxis de LaTeX. Para matemáticas en línea, envuelve la expresión en \\( ... \\). Para bloques de ecuaciones, envuélvelas en \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).`;
   return `Eres Sofía, una tutora privada experta y empática.
 Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
 Currículo de referencia: Comunidad de Madrid para ESO. Si no está claro el contenido exacto, mantente en contenidos nucleares del curso y no inventes un criterio hiper-específico.
@@ -1205,12 +1195,8 @@ function buildSystemExam(name, grade, subject) {
   const curriculum = getCurriculumGuide(grade, subject);
   const language = getSubjectLanguage(subject);
   const languageRule = language === 'en'
-    ? `LANGUAGE MODE: ENGLISH ONLY.
-- Every correction, question, option, and topic reference must stay in English.
-- Translate any Spanish source notes internally before answering.
-- Never show Spanish headings or topic names to the student.`
-    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
-- Toda la corrección y las preguntas deben permanecer en español.`;
+    ? `LANGUAGE MODE: ENGLISH ONLY. For mathematical formulas, always use LaTeX syntax. For inline math, wrap the expression in \\( ... \\). For display equations, wrap them in \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE. Para fórmulas matemáticas, usa siempre la sintaxis de LaTeX. Para matemáticas en línea, envuelve la expresión en \\( ... \\). Para bloques de ecuaciones, envuélvelas en \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).`;
   return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
 Asignatura: ${subject}.
 NIVEL: ${g.detail}
@@ -1275,11 +1261,9 @@ function selectGrade(el, grade) {
 }
 
 function normalizeSyncKey(value) {
-  // Allow only numbers for the sync key
   return (value || '').replace(/[^0-9]/g, '');
 }
 
-// FIX: Generate a simple 5-digit sync key
 function generateSyncKey() {
   return Math.floor(10000 + Math.random() * 90000).toString();
 }
@@ -1338,7 +1322,6 @@ async function saveRemoteStudentMemory() {
 }
 
 function openSettings() {
-  // Pre-fill
   document.getElementById('settingName').value = studentName;
   document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey();
   _selectedGrade = studentGrade;
@@ -1347,7 +1330,6 @@ function openSettings() {
   });
   const ov = document.getElementById('settingsOverlay');
   ov.style.display = 'flex';
-  // Show cancel button if profile already set
   const actions = ov.querySelector('.modal-actions');
   if (studentName) {
     if (!actions.querySelector('.btn-cancel')) {
@@ -1405,7 +1387,7 @@ async function saveSettings() {
 function shake(id) {
   const el = document.getElementById(id);
   el.style.animation = 'none';
-  el.offsetHeight; // reflow
+  el.offsetHeight;
   el.style.animation = 'shake 0.35s ease';
   setTimeout(() => el.style.animation = '', 400);
 }
@@ -1626,7 +1608,6 @@ function updateHomePanelsVisibility() {
   document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !inConversation ? 'grid' : 'none';
   document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
   document.getElementById('masteryPanel').style.display = hasMastery && !inConversation ? 'block' : 'none';
-  // FIX: Removed the line that was overriding the CSS to hide the chips.
 }
 
 function updateProgressUI() {
@@ -1649,7 +1630,7 @@ function updateLocalizedUI() {
   updateMasteryPanel();
   updateHomePanelsVisibility();
   const lang = getSubjectLanguage(subject);
-  document.getElementById('ta').placeholder = lang === 'en' ? 'Ask your question here...' : 'Escribe tu pregunta aquí...';
+  document.getElementById('ta').placeholder = lang === 'en' ? 'Ask a question...' : 'Escribe aquí...';
   if (recognition) recognition.lang = lang === 'en' ? 'en-GB' : 'es-ES';
 }
 
@@ -1693,7 +1674,6 @@ function updateStudyProgress(replyText, userText) {
 }
 
 function updateStudentUI() {
-  // Side menu header
   document.getElementById('sideStudentInfo').textContent =
     studentName ? `${studentName} · ${studentGrade}` : `${studentGrade} · Madrid`;
   updateLocalizedUI();
@@ -1724,7 +1704,7 @@ window.addEventListener('load', async () => {
     updateStudentUI();
   }
   if (!hasProfile) {
-    openSettings(); // First-time setup — show modal immediately
+    openSettings();
   } else {
     closeSettings();
     loadLastSession();
@@ -1825,16 +1805,14 @@ function toggleExam() {
     ? '📝 <b>Exam Mode ON</b> — Sofía will ask questions and correct your answers'
     : '📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas';
   
-  // Update side menu active states
   sideBtn?.classList.toggle('exam-on', examMode);
   sideBtn?.classList.toggle('active', examMode);
 
   if (examMode) {
-    // Deactivate other modes
     document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => {
       if (btn.id !== 'sm-exam') btn.classList.remove('active');
     });
-    learningMode = 'guiada'; // Reset to a default
+    learningMode = 'guiada';
     history = [];
     document.getElementById('chat').innerHTML = '';
     const nombre = studentName || '';
@@ -1848,13 +1826,11 @@ function setLearningMode(mode) {
   if (!LEARNING_MODES[mode]) return;
   learningMode = mode;
   
-  // Deactivate exam mode if a learning mode is chosen
   if (examMode) {
     examMode = false;
     document.getElementById('examBanner').style.display = 'none';
   }
 
-  // Update side menu active states
   document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => btn.classList.remove('active', 'exam-on'));
   document.getElementById(`sm-${mode}`)?.classList.add('active');
   
@@ -1941,8 +1917,7 @@ let isListening = false;
     isListening = false;
     voiceBtn.classList.remove('listening');
     voiceBtn.textContent = '🎤';
-    document.getElementById('ta').placeholder = 'Escribe tu pregunta aquí...';
-    // Auto-send if something was captured
+    document.getElementById('ta').placeholder = 'Escribe aquí...';
     const ta = document.getElementById('ta');
     if (ta.value.trim()) sendMsg();
   };
@@ -1951,7 +1926,7 @@ let isListening = false;
     isListening = false;
     voiceBtn.classList.remove('listening');
     voiceBtn.textContent = '🎤';
-    document.getElementById('ta').placeholder = 'Escribe tu pregunta aquí...';
+    document.getElementById('ta').placeholder = 'Escribe aquí...';
     if (e.error !== 'no-speech' && e.error !== 'aborted') {
       addMsg('ai', `⚠️ Error de micrófono: ${e.error}`);
     }
@@ -1982,12 +1957,8 @@ function fmt(t) {
     .replace(/\n/g, '<br>');
 }
 
-// Detect multiple-choice options in exam mode.
-// Matches patterns like:  a) text   A) text   a. text   A. text
-// Returns [{key, text}, ...] or null if not a multi-choice message.
 function parseOptions(text) {
   if (!examMode) return null;
-  // Must have at least 2 options that look like a) / b)
   const re = /^([a-eA-E])[).]\s+(.+)/;
   const lines = text.split('\n');
   const opts = [];
@@ -2014,7 +1985,6 @@ function addMsg(role, text, imgSrc) {
   const bub = document.createElement('div');
   bub.className = 'bubble';
 
-  // Try to render as option buttons (only for AI messages in exam mode)
   const parsed = role === 'ai' ? parseOptions(text) : null;
 
   if (parsed) {
@@ -2033,6 +2003,18 @@ function addMsg(role, text, imgSrc) {
     bub.innerHTML = fmt(text);
   }
 
+  // NEW: Render math with KaTeX
+  if (role === 'ai' && window.renderMathInElement) {
+    renderMathInElement(bub, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });
+  }
+
   if (imgSrc) {
     const img = document.createElement('img');
     img.src = imgSrc;
@@ -2045,13 +2027,11 @@ function addMsg(role, text, imgSrc) {
 }
 
 function pickOption(btn, grid, key, optText) {
-  // Disable all buttons in this group
   grid.querySelectorAll('.exam-opt').forEach(b => {
     b.disabled = true;
     b.classList.remove('chosen');
   });
   btn.classList.add('chosen');
-  // Send answer as "key) optText"
   sendMsg(`${key}) ${optText}`);
 }
 
@@ -2121,7 +2101,7 @@ async function sendMsg(txt) {
 
 function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
 function resizeTA(el) {
-  el.style.height='44px';
+  el.style.height='auto';
   el.style.height=Math.min(el.scrollHeight,120)+'px';
   updateSendBtn();
 }
@@ -2169,12 +2149,10 @@ function loadLastSession() {
     subject = last.subject || 'Matemáticas';
     currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
     currentSessionId = last.id;
-    // Sync side menu
     document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = document.getElementById(`sb-${subject}`);
     if (activeBtn) activeBtn.classList.add('active');
     updateLocalizedUI();
-    // Render messages
     history.forEach(m => {
       if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
       else if (m.role === 'user') {
