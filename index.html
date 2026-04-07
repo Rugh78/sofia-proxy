@@ -846,6 +846,58 @@ body.dark #examBanner {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* --- FIXES --- */
+
+/* 1. Hide the chips below the chat window */
+#chips {
+  display: none;
+}
+
+/* 2. Add an 'active' style for the new side-menu mode buttons */
+.side-action.active {
+  color: #143731;
+  background: rgba(47,106,93,0.09);
+  /* You can add a border if you like, similar to subject buttons */
+  /* border-left: 3px solid #2f6a5d; */
+}
+
+/* --- DARK MODE FIXES --- */
+body.dark {
+  /* ... existing dark mode styles ... */
+}
+
+/* 3. Fix hero card colors in dark mode */
+body.dark #heroCard {
+  background: rgba(27, 31, 43, 0.92); /* Match other dark cards */
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark .hero-kicker,
+body.dark .hero-copy {
+  color: #a8b5b0; /* Lighter text for subtitles */
+}
+body.dark .hero-title {
+  color: #edf3f0; /* Brightest text for the main title */
+}
+body.dark .hero-title .accent {
+  color: #8ed9c3; /* A pleasant, high-contrast accent color */
+}
+body.dark .hero-btn.primary {
+  background: #8ed9c3;
+  color: #143731; /* Dark text on the light button for contrast */
+}
+
+/* 4. Fix chat bubble accent text color in dark mode */
+body.dark .bubble b,
+body.dark .bubble em {
+  color: #ffd166; /* High-contrast yellow/gold */
+}
+
+/* 5. Fix active style for new side-menu buttons in dark mode */
+body.dark .side-action.active {
+  color: #d6f5ec;
+  background: rgba(109, 190, 164, 0.12);
+}
 </style>
 </head>
 <body>
@@ -882,13 +934,25 @@ body.dark #examBanner {
     </button>
 
     <div class="side-divider"></div>
+    <div class="side-section-label">Modo de estudio</div>
+    <button class="side-action" id="sm-diagnostico" onclick="setLearningMode('diagnostico')">
+      <span class="side-icon">🎯</span> Diagnóstico
+    </button>
+    <button class="side-action" id="sm-guiada" onclick="setLearningMode('guiada')">
+      <span class="side-icon">🧭</span> Guiada
+    </button>
+    <button class="side-action" id="sm-practica" onclick="setLearningMode('practica')">
+      <span class="side-icon">💪</span> Práctica
+    </button>
+    <button class="side-action" id="sm-exam" onclick="toggleExamFromMenu()">
+      <span class="side-icon">📝</span> Modo Examen
+    </button>
+
+    <div class="side-divider"></div>
     <div class="side-section-label">Acciones</div>
 
     <button class="side-action" onclick="goHome()">
       <span class="side-icon">🏠</span> Inicio
-    </button>
-    <button class="side-action" id="sideExamBtn" onclick="toggleExamFromMenu()">
-      <span class="side-icon">📝</span> Modo Examen
     </button>
     <button class="side-action" onclick="showHistory(); closeSideMenuDirect()">
       <span class="side-icon">🕘</span> Sesiones anteriores
@@ -1703,6 +1767,7 @@ window.addEventListener('load', async () => {
     loadLastSession();
   }
   updateLocalizedUI();
+  document.getElementById('sm-guiada')?.classList.add('active');
 });
 
 // ── SIDE MENU ──
@@ -1790,15 +1855,23 @@ function toggleExam() {
   examMode = !examMode;
   currentView = 'conversation';
   const banner = document.getElementById('examBanner');
-  const sideBtn = document.getElementById('sideExamBtn');
+  const sideBtn = document.getElementById('sm-exam');
   const meta = getSubjectMeta(subject);
   banner.style.display = examMode ? 'block' : 'none';
   banner.innerHTML = meta.language === 'en'
     ? '📝 <b>Exam Mode ON</b> — Sofía will ask questions and correct your answers'
     : '📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas';
-  sideBtn.classList.toggle('exam-on', examMode);
-  sideBtn.querySelector('.side-icon').textContent = examMode ? '✅' : '📝';
+  
+  // Update side menu active states
+  sideBtn?.classList.toggle('exam-on', examMode);
+  sideBtn?.classList.toggle('active', examMode);
+
   if (examMode) {
+    // Deactivate other modes
+    document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => {
+      if (btn.id !== 'sm-exam') btn.classList.remove('active');
+    });
+    learningMode = 'guiada'; // Reset to a default
     history = [];
     document.getElementById('chat').innerHTML = '';
     const nombre = studentName || '';
@@ -1811,30 +1884,21 @@ function toggleExam() {
 function setLearningMode(mode) {
   if (!LEARNING_MODES[mode]) return;
   learningMode = mode;
-  examMode = false;
-  document.getElementById('examBanner').style.display = 'none';
-  document.getElementById('sideExamBtn').classList.remove('exam-on');
-  document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
-
-  document.querySelectorAll('#chips .chip').forEach(chip => {
-    chip.style.borderColor = '';
-    chip.style.color = '';
-  });
-
-  updateLocalizedUI();
-  const meta = getSubjectMeta(subject);
-  const labels = {
-    diagnostico: meta.chips.diagnostico,
-    guiada: meta.chips.guiada,
-    practica: meta.chips.practica,
-  };
-  const activeChip = Array.from(document.querySelectorAll('#chips .chip'))
-    .find(chip => chip.textContent.trim() === labels[mode]);
-  if (activeChip) {
-    activeChip.style.borderColor = '#ff6b6b';
-    activeChip.style.color = '#fffffe';
+  
+  // Deactivate exam mode if a learning mode is chosen
+  if (examMode) {
+    examMode = false;
+    document.getElementById('examBanner').style.display = 'none';
   }
 
+  // Update side menu active states
+  document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => btn.classList.remove('active', 'exam-on'));
+  document.getElementById(`sm-${mode}`)?.classList.add('active');
+  
+  closeSideMenuDirect();
+  updateLocalizedUI();
+
+  const meta = getSubjectMeta(subject);
   const prompts = meta.modePrompts;
   const msg = prompts[mode];
   addMsg('ai', msg);
@@ -2181,8 +2245,7 @@ function newSession(e) {
   currentSessionAwarded = false;
   currentSessionId = null;
   document.getElementById('examBanner').style.display = 'none';
-  document.getElementById('sideExamBtn').classList.remove('exam-on');
-  document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
+  document.getElementById('sm-exam')?.classList.remove('exam-on', 'active');
   showConversationView();
 }
 
