@@ -1951,43 +1951,47 @@ const taEl   = document.getElementById('ta');
 const btnEl  = document.getElementById('sendBtn');
 
 function fmt(t) {
-  // Si KaTeX no ha cargado, usamos el formato clásico de texto
-  if (!window.katex) {
-    return t
-      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/\n/g, '<br>');
-  }
-
+  if (!t) return '';
+  let temp = t;
   let mathBlocks = [];
   
-  // 1. Extraer bloques de matemáticas grandes: \[ ... \] o $$ ... $$
-  let temp = t.replace(/(?:\$\$|\\\[)([\s\S]+?)(?:\$\$|\\\])/g, (m, math) => {
-    mathBlocks.push({ math, display: true, raw: m });
+  // 1. Extraer bloques de ecuaciones: $$...$$ o \[...\]
+  // Esta regla ahora es súper flexible y atrapa cualquier cantidad de barras invertidas
+  temp = temp.replace(/(?:\$\$|\\+\[)([\s\S]+?)(?:\$\$|\\+\])/g, (m, math) => {
+    mathBlocks.push({ math: math.trim(), display: true, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
   
-  // 2. Extraer matemáticas en la misma línea: \( ... \)
-  temp = temp.replace(/\\\(([\s\S]+?)\\\)/g, (m, math) => {
-    mathBlocks.push({ math, display: false, raw: m });
+  // 2. Extraer matemáticas en línea: \(...\)
+  temp = temp.replace(/\\+\(([\s\S]+?)\\+\)/g, (m, math) => {
+    mathBlocks.push({ math: math.trim(), display: false, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
 
-  // 3. Aplicar formato de Markdown al texto normal (negritas, cursivas, saltos de línea)
+  // 3. Aplicar formato Markdown (negritas, cursivas, saltos de línea)
   temp = temp
     .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br>');
 
-  // 4. Restaurar las matemáticas ya renderizadas limpiamente
-  return temp.replace(/__MATH_(\d+)__/g, (m, i) => {
+  // 4. Restaurar las matemáticas ya dibujadas por KaTeX
+  temp = temp.replace(/__MATH_(\d+)__/g, (m, i) => {
     let b = mathBlocks[parseInt(i)];
-    try {
-      return katex.renderToString(b.math, { displayMode: b.display, throwOnError: false });
-    } catch(e) {
-      return b.raw; // Si algo falla, deja el texto puro
+    if (typeof katex !== 'undefined') {
+      try {
+        return katex.renderToString(b.math, { 
+          displayMode: b.display, 
+          throwOnError: false 
+        });
+      } catch(e) {
+        console.error("Error de KaTeX:", e);
+        return b.raw;
+      }
     }
+    return b.raw; // Si KaTeX no ha cargado, devuelve el texto normal
   });
+  
+  return temp;
 }
 
 function parseOptions(text) {
@@ -2020,7 +2024,6 @@ function addMsg(role, text, imgSrc) {
 
   const parsed = role === 'ai' ? parseOptions(text) : null;
 
-  // Como "fmt()" ya renderiza el KaTeX, funciona en cualquier parte de la burbuja y los botones
   if (parsed) {
     bub.innerHTML = parsed.preamble ? fmt(parsed.preamble) : '';
     const grid = document.createElement('div');
