@@ -17,8 +17,12 @@ html, body { height: 100%; }
 body {
   display: flex; flex-direction: column;
   height: 100vh; height: 100dvh;
-  background: #0f0e17; color: #fffffe;
-  font-family: system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(164, 212, 196, 0.35), transparent 28%),
+    radial-gradient(circle at top right, rgba(190, 222, 244, 0.42), transparent 32%),
+    linear-gradient(180deg, #f6f2eb, #f2ede5 48%, #efe8de);
+  color: #16332d;
+  font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
   overflow: hidden; position: fixed; width: 100%; top: 0; left: 0;
 }
 
@@ -29,7 +33,7 @@ body {
 }
 #sideDrawer {
   position: absolute; top: 0; left: 0; bottom: 0; width: min(280px, 82vw);
-  background: #13121f; border-right: 1px solid #2a2945;
+  background: rgba(246, 242, 235, 0.98); border-right: 1px solid rgba(22, 51, 45, 0.08);
   display: flex; flex-direction: column;
   transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1);
   overflow-y: auto;
@@ -39,103 +43,342 @@ body {
 .side-header {
   display: flex; align-items: center; gap: 12px;
   padding: 22px 18px 16px;
-  border-bottom: 1px solid #2a2945;
+  border-bottom: 1px solid rgba(22, 51, 45, 0.08);
 }
 .side-avatar {
   width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, #ff6b6b, #ffd166);
+  background: linear-gradient(135deg, #8ed9c3, #bedef4);
   display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
 }
-.side-title { font-weight: 700; font-size: 15px; }
-.side-sub   { font-size: 11px; color: #7a79a0; margin-top: 2px; }
+.side-title { font-weight: 700; font-size: 15px; color: #143731; }
+.side-sub   { font-size: 11px; color: #6a8178; margin-top: 2px; }
 
 .side-section-label {
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-  color: #4a4970; padding: 16px 18px 6px;
+  color: #6a8178; padding: 16px 18px 6px;
 }
 
 .subj-btn {
   display: flex; align-items: center; gap: 12px;
   padding: 13px 18px; cursor: pointer;
   background: transparent; border: none; width: 100%; text-align: left;
-  color: #a7a6c0; font-size: 14px; font-family: inherit;
+  color: #4b645d; font-size: 14px; font-family: inherit;
   border-left: 3px solid transparent; transition: all 0.18s;
   -webkit-tap-highlight-color: transparent;
 }
-.subj-btn:active { background: rgba(255,255,255,0.03); }
+.subj-btn:active { background: rgba(47, 106, 93, 0.05); }
 .subj-btn.active {
-  color: #fffffe; background: rgba(255,107,107,0.08);
-  border-left-color: #ff6b6b;
+  color: #143731; background: rgba(47,106,93,0.09);
+  border-left-color: #2f6a5d;
 }
 .subj-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
 
-.side-divider { height: 1px; background: #2a2945; margin: 8px 0; }
+.side-divider { height: 1px; background: rgba(22, 51, 45, 0.08); margin: 8px 0; }
 
 .side-action {
   display: flex; align-items: center; gap: 12px;
   padding: 13px 18px; cursor: pointer;
   background: transparent; border: none; width: 100%; text-align: left;
-  color: #7a79a0; font-size: 14px; font-family: inherit; transition: all 0.18s;
+  color: #4b645d; font-size: 14px; font-family: inherit; transition: all 0.18s;
   -webkit-tap-highlight-color: transparent;
 }
-.side-action:active { background: rgba(255,255,255,0.03); }
-.side-action.exam-on { color: #ffd166; }
+.side-action:active { background: rgba(47, 106, 93, 0.05); }
+.side-action.exam-on { color: #2f6a5d; }
 .side-action .side-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
 
 /* ── HEADER ── */
 #header {
   flex-shrink: 0; display: flex; align-items: center;
   justify-content: space-between; padding: 10px 14px;
-  border-bottom: 1px solid #2a2945; background: #13121f; gap: 8px;
+  border-bottom: 1px solid rgba(22, 51, 45, 0.08);
+  background: rgba(246, 242, 235, 0.92); gap: 8px;
+  backdrop-filter: blur(14px);
 }
 .hlogo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 #menuBtn {
   width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-  background: #1a1935; border: 1px solid #2a2945;
+  background: rgba(255,255,255,0.66); border: 1px solid rgba(22, 51, 45, 0.1);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
   cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color 0.2s;
 }
-#menuBtn:active { border-color: #ff6b6b; }
-#menuBtn span { display: block; width: 16px; height: 2px; background: #7a79a0; border-radius: 2px; }
+#menuBtn:active { border-color: #2f6a5d; }
+#menuBtn span { display: block; width: 16px; height: 2px; background: #45655d; border-radius: 2px; }
 
 .hname { font-weight: 700; font-size: 15px; }
-.hstatus { font-size: 11px; color: #7a79a0; display: flex; align-items: center; gap: 4px; }
-.dot { width: 6px; height: 6px; background: #06d6a0; border-radius: 50%; animation: pulse 2s infinite; }
+.hstatus { font-size: 11px; color: #6b7f77; display: flex; align-items: center; gap: 4px; }
+.dot { width: 6px; height: 6px; background: #2f8f72; border-radius: 50%; animation: pulse 2s infinite; }
 
 /* active subject badge in header */
 #subjectBadge {
-  font-size: 12px; padding: 3px 10px; border-radius: 20px;
-  background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.3);
-  color: #ff6b6b; white-space: nowrap; cursor: pointer;
+  font-size: 12px; padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.66); border: 1px solid rgba(22, 51, 45, 0.08);
+  color: #2f6a5d; white-space: nowrap; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+.subject-wrap { display: flex; align-items: center; gap: 6px; }
+.lang-badge {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+  padding: 5px 8px; border-radius: 999px; white-space: nowrap;
+  border: 1px solid rgba(47, 106, 93, 0.16);
+  background: rgba(255,255,255,0.66); color: #2f6a5d;
 }
 
 .header-right { display: flex; align-items: center; gap: 6px; }
 
+#homeView {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 18px 12px;
+  overflow-y: auto;
+}
+
+#heroCard {
+  background: rgba(255,255,255,0.48);
+  border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 34px;
+  padding: 28px 24px;
+  box-shadow: 0 18px 40px rgba(54, 62, 56, 0.08);
+}
+
+.hero-kicker {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6a8178;
+}
+
+.hero-title {
+  margin-top: 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: #143731;
+  max-width: 12ch;
+}
+
+.hero-title .accent {
+  color: #2f6a5d;
+}
+
+.hero-copy {
+  margin-top: 14px;
+  max-width: 48ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #4b645d;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.hero-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 13px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hero-btn.primary {
+  background: #376f62;
+  color: #f6f2eb;
+  box-shadow: 0 10px 24px rgba(55, 111, 98, 0.18);
+}
+
+.hero-btn.secondary {
+  background: rgba(255,255,255,0.72);
+  color: #2f6a5d;
+  border: 1px solid rgba(22, 51, 45, 0.08);
+}
+
+#subjectHub {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #143731;
+}
+
+.section-copy {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #61766f;
+}
+
+#subjectCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.subject-card {
+  text-align: left;
+  border: 1px solid rgba(22, 51, 45, 0.06);
+  background: rgba(255,255,255,0.62);
+  border-radius: 24px;
+  padding: 18px 16px;
+  cursor: pointer;
+  color: #143731;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.subject-card:active,
+.subject-card.active {
+  transform: translateY(-1px);
+  border-color: rgba(47, 106, 93, 0.26);
+  box-shadow: 0 12px 24px rgba(57, 88, 79, 0.09);
+}
+
+.subject-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(47, 106, 93, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.subject-card-title {
+  font-size: 22px;
+  line-height: 1.06;
+}
+
+.subject-card-sub {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #5f736c;
+}
+
+#progressStrip {
+  flex-shrink: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+.progress-card {
+  background: rgba(255,255,255,0.66);
+  border: 1px solid rgba(22, 51, 45, 0.06); border-radius: 24px;
+  padding: 16px 18px; min-width: 0;
+  box-shadow: 0 12px 28px rgba(54,62,56,0.06);
+}
+.progress-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a8178; }
+.progress-value { font-size: 28px; font-weight: 700; color: #16332d; margin-top: 8px; }
+.progress-note { font-size: 13px; color: #61766f; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+#studyPanel {
+  flex-shrink: 0; display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 12px;
+}
+.study-card {
+  background: rgba(255,255,255,0.66);
+  border: 1px solid rgba(22, 51, 45, 0.06); border-radius: 28px; padding: 22px 20px;
+  box-shadow: 0 12px 28px rgba(54,62,56,0.06);
+}
+.study-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a8178; }
+.study-main { font-size: 27px; letter-spacing: -0.03em; color: #16332d; margin-top: 10px; line-height: 1.15; }
+.study-sub { font-size: 14px; color: #61766f; margin-top: 8px; line-height: 1.5; }
+
+/* FIX: Adjusted margin to prevent overlapping text */
+.field-help {
+  font-size: 12px; color: #6a8178; margin-top: 8px; margin-bottom: 16px; line-height: 1.45;
+}
+
+#masteryPanel {
+  flex-shrink: 0;
+}
+#masteryHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+#masteryTitle {
+  font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; color: #143731;
+}
+#masteryHint {
+  font-size: 13px; color: #61766f;
+}
+#masteryGrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+}
+.mastery-card {
+  background: rgba(255,255,255,0.62);
+  border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 24px; padding: 18px 16px;
+}
+.mastery-topic {
+  font-size: 18px; color: #16332d; line-height: 1.22; min-height: 46px;
+}
+.mastery-bar {
+  height: 8px; border-radius: 999px; background: rgba(47, 106, 93, 0.09);
+  overflow: hidden; margin-top: 16px;
+}
+.mastery-fill {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #8ed9c3, #376f62);
+}
+.mastery-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px; font-size: 12px; color: #61766f;
+}
+@media (max-width: 700px) {
+  #progressStrip { grid-template-columns: 1fr; }
+  #studyPanel { grid-template-columns: 1fr; }
+  #masteryGrid { grid-template-columns: 1fr; }
+}
+
 /* icon buttons in header */
 .hbtn {
   background: transparent; border: none; cursor: pointer;
-  color: #7a79a0; font-size: 17px; padding: 4px 5px;
+  color: #5f736c; font-size: 17px; padding: 4px 5px;
   -webkit-tap-highlight-color: transparent; transition: color 0.2s;
 }
-.hbtn:active { color: #fffffe; }
+.hbtn:active { color: #143731; }
 
 /* ── EXAM BANNER ── */
 #examBanner {
   display: none; flex-shrink: 0;
-  background: rgba(255,209,102,0.08); border-bottom: 1px solid rgba(255,209,102,0.2);
-  padding: 8px 14px; font-size: 13px; color: #ffd166; text-align: center;
+  background: rgba(169, 206, 255, 0.42); border-bottom: 1px solid rgba(47,106,93,0.08);
+  padding: 10px 16px; font-size: 13px; color: #2b5b50; text-align: center;
 }
 
 /* ── CHAT ── */
+#lessonView {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: transparent;
+}
 #chat {
-  flex: 1; overflow-y: auto; padding: 14px;
+  flex: 1; overflow-y: auto; padding: 18px 18px 10px;
   display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
 }
 #chat::-webkit-scrollbar { width: 3px; }
 #chat::-webkit-scrollbar-thumb { background: #2a2945; border-radius: 3px; }
 
-.msg { display: flex; gap: 8px; max-width: 88%; }
+.msg { display: flex; gap: 10px; max-width: min(88%, 760px); }
 .msg.user { align-self: flex-end; flex-direction: row-reverse; }
 .msg.ai   { align-self: flex-start; }
 
@@ -143,17 +386,18 @@ body {
   width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px;
 }
-.msg.ai   .msg-av { background: linear-gradient(135deg, #ff6b6b, #ffd166); }
-.msg.user .msg-av { background: #1e1e35; border: 1px solid #2a2945; }
+.msg.ai   .msg-av { background: linear-gradient(135deg, #8ed9c3, #bedef4); }
+.msg.user .msg-av { background: rgba(255,255,255,0.84); border: 1px solid rgba(22,51,45,0.08); }
 
 .bubble {
-  padding: 11px 15px; font-size: 16px; line-height: 1.7; border-radius: 16px;
+  padding: 16px 18px; font-size: 16px; line-height: 1.7; border-radius: 28px;
   animation: fadeUp 0.25s ease;
+  box-shadow: 0 12px 28px rgba(54,62,56,0.06);
 }
-.msg.ai   .bubble { background: #1a1935; border: 1px solid #2a2945; border-bottom-left-radius: 3px; }
-.msg.user .bubble { background: #252440; border: 1px solid rgba(255,107,107,0.25); border-bottom-right-radius: 3px; }
-.bubble b  { color: #ffd166; }
-.bubble em { color: #06d6a0; }
+.msg.ai   .bubble { background: #bfe2fb; border: 1px solid rgba(22, 51, 45, 0.06); border-bottom-left-radius: 8px; color: #173b35; }
+.msg.user .bubble { background: #c6efdf; border: 1px solid rgba(22, 51, 45, 0.06); border-bottom-right-radius: 8px; color: #173b35; }
+.bubble b  { color: #24584d; }
+.bubble em { color: #2f6a5d; }
 .bubble img { max-width: 100%; border-radius: 8px; margin-top: 6px; display: block; }
 
 .date-divider { text-align: center; font-size: 11px; color: #4a4970; margin: 4px 0; flex-shrink: 0; }
@@ -166,28 +410,18 @@ body {
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-/* ── CHIPS ── */
-#chips {
-  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 8px;
-}
-.chip {
-  font-size: 13px; padding: 8px 14px; border-radius: 20px;
-  background: #1a1935; border: 1px solid #2a2945;
-  color: #7a79a0; cursor: pointer; transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.chip:active { border-color: #ffd166; color: #ffd166; }
-
 /* ── UPLOAD PREVIEW ── */
 #uploadPreview {
   display: none; flex-shrink: 0;
-  padding: 8px 14px; background: #13121f;
-  border-top: 1px solid #2a2945; flex-wrap: wrap; gap: 8px;
+  padding: 8px 18px; flex-wrap: wrap; gap: 8px;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
 }
 .preview-item {
   position: relative; display: inline-flex; align-items: center; gap: 6px;
-  background: #1a1935; border: 1px solid #2a2945; border-radius: 10px;
-  padding: 6px 10px; font-size: 12px; color: #a7a6c0; max-width: 200px;
+  background: rgba(255,255,255,0.78); border: 1px solid rgba(22,51,45,0.08); border-radius: 14px;
+  padding: 6px 10px; font-size: 12px; color: #5f736c; max-width: 200px;
 }
 .preview-item img { width: 36px; height: 36px; object-fit: cover; border-radius: 6px; }
 .preview-item .remove {
@@ -199,33 +433,35 @@ body {
 
 /* ── FOOTER / INPUT ── */
 #footer {
-  flex-shrink: 0; padding: 8px 14px 12px;
+  flex-shrink: 0; padding: 10px 18px 14px;
   padding-bottom: max(12px, env(safe-area-inset-bottom));
-  border-top: 1px solid #2a2945; background: #13121f;
+  background: rgba(246, 242, 235, 0.92);
+  border-top: 1px solid rgba(22, 51, 45, 0.08);
+  backdrop-filter: blur(14px);
 }
-#input-row { display: flex; gap: 8px; align-items: flex-end; }
+#input-row { display: flex; gap: 10px; align-items: flex-end; max-width: 980px; margin: 0 auto; }
 
 #attachBtn {
   width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-  background: #1a1935; border: 1px solid #2a2945;
+  background: rgba(255,255,255,0.8); border: 1px solid rgba(22,51,45,0.08);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   font-size: 20px; -webkit-tap-highlight-color: transparent; transition: all 0.2s;
 }
-#attachBtn:active { border-color: #ffd166; }
+#attachBtn:active { border-color: #2f6a5d; }
 
 textarea {
   flex: 1; height: 44px; min-height: 44px; max-height: 120px;
-  background: #1a1935; border: 1px solid #2a2945; border-radius: 12px;
-  padding: 12px 14px; color: #fffffe; font-family: inherit; font-size: 16px;
+  background: rgba(255,255,255,0.8); border: 1px solid rgba(22,51,45,0.08); border-radius: 18px;
+  padding: 12px 16px; color: #16332d; font-family: inherit; font-size: 16px;
   resize: none; outline: none; line-height: 1.4; transition: border-color 0.2s;
 }
-textarea:focus { border-color: rgba(255,107,107,0.4); }
-textarea::placeholder { color: #4a4970; }
+textarea:focus { border-color: rgba(47,106,93,0.32); }
+textarea::placeholder { color: #7b8e87; }
 
 /* ── VOICE BUTTON ── */
 #voiceBtn {
   width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-  background: #1a1935; border: 1px solid #2a2945;
+  background: rgba(255,255,255,0.8); border: 1px solid rgba(22,51,45,0.08);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   font-size: 20px; -webkit-tap-highlight-color: transparent; transition: all 0.2s;
   position: relative; overflow: hidden;
@@ -244,9 +480,9 @@ textarea::placeholder { color: #4a4970; }
 
 #sendBtn {
   width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  background: linear-gradient(135deg, #376f62, #4d8a78);
   border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px rgba(255,107,107,0.3);
+  box-shadow: 0 8px 18px rgba(55,111,98,0.24);
   -webkit-tap-highlight-color: transparent; transition: all 0.2s;
 }
 #sendBtn:disabled { background: #2a2945; box-shadow: none; cursor: default; }
@@ -293,56 +529,206 @@ textarea::placeholder { color: #4a4970; }
   display: none; position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
   align-items: center; justify-content: center; padding: 20px;
+  overflow-y: auto;
 }
 #settingsModal {
-  background: #13121f; border: 1px solid #2a2945; border-radius: 22px;
+  background: rgba(246, 242, 235, 0.98); border: 1px solid rgba(22, 51, 45, 0.08); border-radius: 28px;
   padding: 28px 24px; width: 100%; max-width: 420px;
   animation: fadeUp 0.22s ease;
+  box-shadow: 0 20px 60px rgba(49, 56, 51, 0.16);
+  max-height: min(760px, calc(100dvh - 24px));
+  overflow-y: auto;
 }
-#settingsModal h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-#settingsModal .modal-sub { font-size: 13px; color: #7a79a0; margin-bottom: 22px; }
+#settingsModal h2 { font-size: 32px; line-height: 1.04; letter-spacing: -0.03em; color: #143731; margin-bottom: 6px; }
+#settingsModal .modal-sub { font-size: 14px; color: #5f736c; margin-bottom: 22px; line-height: 1.5; }
+.welcome-panel {
+  background: rgba(255,255,255,0.56);
+  border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 20px; padding: 16px 18px; margin-bottom: 20px;
+}
+.welcome-panel strong { color: #143731; }
+.welcome-panel p { font-size: 14px; line-height: 1.55; color: #5f736c; }
+.sync-row { display: flex; gap: 8px; align-items: stretch; }
+.sync-row .field-input { margin-bottom: 0; }
+.copy-btn {
+  border-radius: 14px; border: 1px solid rgba(22, 51, 45, 0.08); background: rgba(255,255,255,0.82);
+  color: #2f6a5d; padding: 0 14px; font-size: 14px; font-weight: 700; cursor: pointer;
+  white-space: nowrap;
+  min-height: 52px;
+}
+.copy-btn:active { border-color: #2f6a5d; }
 
 .field-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.07em; color: #4a4970; margin-bottom: 6px; display: block;
+  letter-spacing: 0.09em; color: #6a8178; margin-bottom: 6px; display: block;
 }
 .field-input {
-  width: 100%; padding: 12px 14px; border-radius: 12px;
-  background: #1a1935; border: 1px solid #2a2945; color: #fffffe;
+  width: 100%; padding: 14px 16px; border-radius: 16px;
+  background: rgba(255,255,255,0.82); border: 1px solid rgba(22, 51, 45, 0.08); color: #16332d;
   font-size: 15px; font-family: inherit; outline: none;
   transition: border-color 0.2s; margin-bottom: 16px;
 }
-.field-input:focus { border-color: rgba(255,107,107,0.5); }
+.field-input:focus { border-color: rgba(47,106,93,0.32); }
 
 /* Grade selector grid */
 .grade-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
 }
 .grade-tile {
-  padding: 10px 6px; border-radius: 12px; text-align: center;
-  background: #1a1935; border: 1px solid #2a2945; cursor: pointer;
-  font-size: 13px; color: #7a79a0; transition: all 0.18s; line-height: 1.3;
+  padding: 12px 8px; border-radius: 18px; text-align: center;
+  background: rgba(255,255,255,0.72); border: 1px solid rgba(22, 51, 45, 0.08); cursor: pointer;
+  font-size: 13px; color: #5f736c; transition: all 0.18s; line-height: 1.3;
   -webkit-tap-highlight-color: transparent;
 }
-.grade-tile .grade-num { font-size: 17px; font-weight: 700; display: block; }
-.grade-tile:active { border-color: #ff6b6b; }
+.grade-tile .grade-num { font-size: 19px; font-weight: 700; display: block; }
+.grade-tile:active { border-color: #2f6a5d; }
 .grade-tile.selected {
-  border-color: #ff6b6b; background: rgba(255,107,107,0.1); color: #fffffe;
+  border-color: rgba(47,106,93,0.26); background: rgba(47,106,93,0.10); color: #143731;
 }
-.grade-tile.selected .grade-num { color: #ff6b6b; }
+.grade-tile.selected .grade-num { color: #2f6a5d; }
 
-.modal-actions { display: flex; gap: 10px; }
+.modal-actions {
+  display: flex; gap: 10px;
+  position: sticky; bottom: 0;
+  padding-top: 14px; padding-bottom: max(10px, env(safe-area-inset-bottom));
+  margin-top: 6px;
+  background: linear-gradient(180deg, rgba(246,242,235,0), rgba(246,242,235,0.94) 24%, rgba(246,242,235,1));
+}
 .btn-save {
-  flex: 1; padding: 13px; border-radius: 12px;
-  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  flex: 1; padding: 14px; border-radius: 16px;
+  background: linear-gradient(135deg, #376f62, #4d8a78);
   border: none; color: white; font-size: 15px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
+  min-height: 54px;
 }
 .btn-cancel {
-  padding: 13px 18px; border-radius: 12px;
-  background: transparent; border: 1px solid #2a2945;
-  color: #7a79a0; font-size: 15px; cursor: pointer;
+  padding: 13px 18px; border-radius: 16px;
+  background: rgba(255,255,255,0.68); border: 1px solid rgba(22,51,45,0.08);
+  color: #4b645d; font-size: 15px; cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+body.dark {
+  background:
+    radial-gradient(circle at top left, rgba(66, 110, 97, 0.28), transparent 28%),
+    radial-gradient(circle at top right, rgba(72, 108, 138, 0.26), transparent 32%),
+    linear-gradient(180deg, #11131a, #151926 52%, #171824);
+  color: #edf3f0;
+}
+
+body.dark #header,
+body.dark #footer,
+body.dark #settingsModal,
+body.dark #sideDrawer,
+body.dark #historyDrawer,
+body.dark #searchBar {
+  background: rgba(18, 22, 32, 0.94);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+
+body.dark #menuBtn,
+body.dark #subjectBadge,
+body.dark .lang-badge,
+body.dark .hero-btn.secondary,
+body.dark .subject-card,
+body.dark .progress-card,
+body.dark .study-card,
+body.dark .mastery-card,
+body.dark .preview-item,
+body.dark .copy-btn,
+body.dark .field-input,
+body.dark .grade-tile,
+body.dark .btn-cancel,
+body.dark #attachBtn,
+body.dark #voiceBtn,
+body.dark textarea,
+body.dark .welcome-panel {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .side-title,
+body.dark .hname,
+body.dark .section-title,
+body.dark #masteryTitle,
+body.dark #settingsModal h2,
+body.dark .hero-title,
+body.dark .subject-card-title,
+body.dark .progress-value,
+body.dark .study-main,
+body.dark .mastery-topic,
+body.dark .bubble,
+body.dark .welcome-panel strong {
+  color: #edf3f0;
+}
+
+body.dark .side-sub,
+body.dark .side-action,
+body.dark .subj-btn,
+body.dark .hstatus,
+body.dark .progress-note,
+body.dark .study-sub,
+body.dark .section-copy,
+body.dark #masteryHint,
+body.dark .modal-sub,
+body.dark .welcome-panel p,
+body.dark .field-label,
+body.dark .field-help,
+body.dark textarea::placeholder,
+body.dark .hero-copy,
+body.dark .subject-card-sub,
+body.dark .mastery-meta {
+  color: #a8b5b0;
+}
+
+body.dark .subj-btn.active,
+body.dark .side-action:active,
+body.dark .subject-card.active {
+  background: rgba(109, 190, 164, 0.12);
+  border-color: rgba(109, 190, 164, 0.22);
+  color: #edf3f0;
+}
+
+body.dark .hero-btn.primary,
+body.dark .btn-save,
+body.dark #sendBtn {
+  background: linear-gradient(135deg, #4f8b7c, #67a391);
+}
+
+body.dark .modal-actions {
+  background: linear-gradient(180deg, rgba(18,22,32,0), rgba(18,22,32,0.94) 24%, rgba(18,22,32,1));
+}
+
+body.dark #searchInput,
+body.dark .session-item,
+body.dark .exam-opt,
+body.dark .chip {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .hbtn,
+body.dark #closeHistory {
+  color: #a8b5b0;
+}
+
+body.dark .msg.ai .bubble {
+  background: #28475d;
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark .msg.user .bubble {
+  background: #24463b;
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
+}
+
+body.dark #examBanner {
+  background: rgba(80, 114, 154, 0.35);
+  color: #d5e7f8;
 }
 
 @keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
@@ -384,6 +770,116 @@ textarea::placeholder { color: #4a4970; }
 .exam-opt:disabled { cursor: default; opacity: 0.55; }
 .exam-opt.chosen   { border-color: #ffd166; background: rgba(255,209,102,0.1); opacity: 1 !important; }
 .exam-opt.chosen .opt-key { background: #ffd166; color: #13121f; }
+
+@media (max-width: 900px) {
+  #progressStrip,
+  #studyPanel,
+  #masteryPanel {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  #header {
+    padding: 10px 10px;
+  }
+  .hname {
+    font-size: 14px;
+  }
+  #subjectBadge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  #footer {
+    padding: 8px 10px calc(12px + env(safe-area-inset-bottom));
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+  }
+  #input-row {
+    gap: 6px;
+  }
+  #attachBtn,
+  #voiceBtn,
+  #sendBtn {
+    width: 48px;
+    height: 48px;
+  }
+  textarea {
+    height: 48px;
+    min-height: 48px;
+    font-size: 16px;
+  }
+  #settingsOverlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  #settingsModal {
+    margin-top: 12px;
+    padding: 20px 16px 16px;
+    border-radius: 18px;
+    max-height: calc(100dvh - 24px);
+  }
+  .welcome-panel {
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+  .sync-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .grade-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- FIXES --- */
+
+/* 1. Hide the chips below the chat window */
+#chips {
+  display: none !important;
+}
+
+/* 2. Add an 'active' style for the new side-menu mode buttons */
+.side-action.active {
+  color: #143731;
+  background: rgba(47,106,93,0.09);
+}
+
+/* --- DARK MODE FIXES --- */
+
+/* 3. Fix hero card colors in dark mode */
+body.dark #heroCard {
+  background: rgba(27, 31, 43, 0.92); /* Match other dark cards */
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark .hero-kicker,
+body.dark .hero-copy {
+  color: #a8b5b0; /* Lighter text for subtitles */
+}
+body.dark .hero-title {
+  color: #edf3f0; /* Brightest text for the main title */
+}
+body.dark .hero-title .accent {
+  color: #8ed9c3; /* A pleasant, high-contrast accent color */
+}
+body.dark .hero-btn.primary {
+  background: #8ed9c3;
+  color: #143731; /* Dark text on the light button for contrast */
+}
+
+/* 4. Fix chat bubble accent text color in dark mode */
+body.dark .bubble b,
+body.dark .bubble em {
+  color: #ffd166; /* High-contrast yellow/gold */
+}
+
+/* 5. Fix active style for new side-menu buttons in dark mode */
+body.dark .side-action.active {
+  color: #d6f5ec;
+  background: rgba(109, 190, 164, 0.12);
+}
 </style>
 </head>
 <body>
@@ -406,6 +902,9 @@ textarea::placeholder { color: #4a4970; }
     <button class="subj-btn" id="sb-Biología" onclick="selectSubject('Biología',this)">
       <span class="subj-icon">🧬</span> Biología
     </button>
+    <button class="subj-btn" id="sb-Física y Química" onclick="selectSubject('Física y Química',this)">
+      <span class="subj-icon">⚗️</span> Física y Química
+    </button>
     <button class="subj-btn" id="sb-Historia" onclick="selectSubject('Historia',this)">
       <span class="subj-icon">🏛️</span> Historia
     </button>
@@ -417,10 +916,25 @@ textarea::placeholder { color: #4a4970; }
     </button>
 
     <div class="side-divider"></div>
+    <div class="side-section-label">Modo de estudio</div>
+    <button class="side-action" id="sm-diagnostico" onclick="setLearningMode('diagnostico')">
+      <span class="side-icon">🎯</span> Diagnóstico
+    </button>
+    <button class="side-action" id="sm-guiada" onclick="setLearningMode('guiada')">
+      <span class="side-icon">🧭</span> Guiada
+    </button>
+    <button class="side-action" id="sm-practica" onclick="setLearningMode('practica')">
+      <span class="side-icon">💪</span> Práctica
+    </button>
+    <button class="side-action" id="sm-exam" onclick="toggleExamFromMenu()">
+      <span class="side-icon">📝</span> Modo Examen
+    </button>
+
+    <div class="side-divider"></div>
     <div class="side-section-label">Acciones</div>
 
-    <button class="side-action" id="sideExamBtn" onclick="toggleExamFromMenu()">
-      <span class="side-icon">📝</span> Modo Examen
+    <button class="side-action" onclick="goHome()">
+      <span class="side-icon">🏠</span> Inicio
     </button>
     <button class="side-action" onclick="showHistory(); closeSideMenuDirect()">
       <span class="side-icon">🕘</span> Sesiones anteriores
@@ -440,6 +954,9 @@ textarea::placeholder { color: #4a4970; }
     <button class="side-action" onclick="openSettings(); closeSideMenuDirect()">
       <span class="side-icon">👤</span> Perfil del alumno
     </button>
+    <button class="side-action" id="sideThemeBtn" onclick="toggleTheme()">
+      <span class="side-icon">🌙</span> Modo oscuro
+    </button>
   </div>
 </div>
 
@@ -448,11 +965,22 @@ textarea::placeholder { color: #4a4970; }
   <div id="settingsModal">
     <div style="font-size:36px;margin-bottom:10px;">🎓</div>
     <h2>Bienvenida a Sofía</h2>
-    <p class="modal-sub">Cuéntame un poco sobre ti para poder ayudarte mejor.</p>
+    <p class="modal-sub">Un espacio bonito, claro y tranquilo para estudiar mejor contigo.</p>
+
+    <div class="welcome-panel">
+      <p><strong>Un perfil, todos tus dispositivos.</strong><br>Si usas la misma clave en móvil, tablet y ordenador, Sofía recordará el perfil y el progreso del alumno.</p>
+    </div>
 
     <label class="field-label">Tu nombre</label>
     <input id="settingName" class="field-input" type="text" placeholder="Ej: María" maxlength="30"
       onkeydown="if(event.key==='Enter')saveSettings()"/>
+
+    <label class="field-label">Clave de sincronización</label>
+    <div class="sync-row">
+      <input id="settingSyncKey" class="field-input" type="text" placeholder="Ej: 54821" maxlength="10"/>
+      <button class="copy-btn" type="button" onclick="copySyncKey()">Copiar</button>
+    </div>
+    <div class="field-help">Usa esta clave en otros dispositivos para sincronizar tu progreso.</div>
 
     <label class="field-label">Tu curso</label>
     <div class="grade-grid">
@@ -488,92 +1016,225 @@ textarea::placeholder { color: #4a4970; }
     </button>
     <div>
       <div class="hname">Sofía · Tutora IA</div>
-      <div class="hstatus"><span class="dot"></span><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span></div>
+      <div class="hstatus"><span class="dot"></span><div class="subject-wrap"><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span><span id="languageBadge" class="lang-badge">ES</span></div></div>
     </div>
   </div>
   <div class="header-right">
+    <button class="hbtn" id="themeToggleBtn" onclick="toggleTheme()" title="Tema">🌙</button>
     <button class="hbtn" onclick="toggleSearch()" title="Buscar">🔍</button>
     <button class="hbtn" onclick="showHistory()" title="Historial">🕘</button>
   </div>
 </div>
 
-<!-- ── EXAM BANNER ── -->
-<div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
+<div id="homeView">
+  <div id="heroCard">
+    <div class="hero-kicker" id="heroKicker">Today with Sofía</div>
+    <div class="hero-title" id="heroTitle">Ready for a calm study session?</div>
+    <div class="hero-copy" id="heroCopy">We will keep things simple, clear, and steady so studying feels lighter.</div>
+    <div class="hero-actions">
+      <button class="hero-btn primary" id="heroPrimaryBtn" onclick="focusComposer()">Continue learning</button>
+      <button class="hero-btn secondary" id="heroSecondaryBtn" onclick="openSideMenu()">Choose subject</button>
+    </div>
+  </div>
 
-<!-- ── SEARCH BAR ── -->
-<div id="searchBar">
-  <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"/>
-  <span id="searchCount" style="font-size:12px;color:#7a79a0;white-space:nowrap;"></span>
-  <button onclick="toggleSearch()" style="background:transparent;border:none;color:#7a79a0;font-size:18px;cursor:pointer;">✕</button>
-</div>
+  <div id="progressStrip">
+    <div class="progress-card">
+      <div class="progress-label" id="progressLessonsLabel">Today</div>
+      <div class="progress-value" id="progressLessonsValue">0</div>
+      <div class="progress-note" id="progressLessonsNote">Study steps</div>
+    </div>
+    <div class="progress-card">
+      <div class="progress-label" id="progressScoreLabel">Your progress</div>
+      <div class="progress-value" id="progressScoreValue">0</div>
+      <div class="progress-note" id="progressScoreNote">Little by little</div>
+    </div>
+    <div class="progress-card">
+      <div class="progress-label" id="progressStreakLabel">Routine</div>
+      <div class="progress-value" id="progressStreakValue">0</div>
+      <div class="progress-note" id="progressStreakNote">days of practice</div>
+    </div>
+  </div>
 
-<!-- ── CHAT ── -->
-<div id="chat"></div>
+  <div id="studyPanel">
+    <div class="study-card" id="dailyGoalCard">
+      <div class="study-title" id="dailyGoalLabel">Today</div>
+      <div class="study-main" id="dailyGoalMain">Finish 1 guided lesson</div>
+      <div class="study-sub" id="dailyGoalSub">Stay consistent, one step at a time.</div>
+    </div>
+    <div class="study-card" id="recapCard">
+      <div class="study-title" id="recapLabel">Next step</div>
+      <div class="study-main" id="recapMain">No recap yet</div>
+      <div class="study-sub" id="recapSub">Your latest learning win will appear here.</div>
+    </div>
+  </div>
 
-<!-- ── QUICK CHIPS ── -->
-<div id="chips">
-  <button class="chip" onclick="sendChip(this)">Fracciones</button>
-  <button class="chip" onclick="sendChip(this)">Fotosíntesis</button>
-  <button class="chip" onclick="sendChip(this)">Historia de España</button>
-  <button class="chip" onclick="sendChip(this)">📝 Start exam</button>
-</div>
+  <div id="subjectHub">
+    <div class="section-head">
+      <div>
+        <div class="section-title" id="subjectHubTitle">Subjects</div>
+        <div class="section-copy" id="subjectHubCopy">Choose where Sofía should help next.</div>
+      </div>
+    </div>
+    <div id="subjectCardGrid">
+      <button class="subject-card active" id="home-Matemáticas" onclick="selectSubject('Matemáticas'); focusComposer();">
+        <div class="subject-card-icon">🔢</div>
+        <div class="subject-card-title">Matemáticas</div>
+        <div class="subject-card-sub">Álgebra, problemas y razonamiento.</div>
+      </button>
+      <button class="subject-card" id="home-Biología" onclick="selectSubject('Biología'); focusComposer();">
+        <div class="subject-card-icon">🧬</div>
+        <div class="subject-card-title">Biología</div>
+        <div class="subject-card-sub">Cells, ecosystems, health, and life science.</div>
+      </button>
+      <button class="subject-card" id="home-Física y Química" onclick="selectSubject('Física y Química'); focusComposer();">
+        <div class="subject-card-icon">⚗️</div>
+        <div class="subject-card-title">Física y Química</div>
+        <div class="subject-card-sub">Materia, energía y experimentos.</div>
+      </button>
+      <button class="subject-card" id="home-Historia" onclick="selectSubject('Historia'); focusComposer();">
+        <div class="subject-card-icon">🏛️</div>
+        <div class="subject-card-title">Social Sciences</div>
+        <div class="subject-card-sub">Geography, history, maps, and civilisations.</div>
+      </button>
+      <button class="subject-card" id="home-Lengua" onclick="selectSubject('Lengua'); focusComposer();">
+        <div class="subject-card-icon">📖</div>
+        <div class="subject-card-title">Lengua</div>
+        <div class="subject-card-sub">Lectura, escritura y comprensión.</div>
+      </button>
+      <button class="subject-card" id="home-Inglés" onclick="selectSubject('Inglés'); focusComposer();">
+        <div class="subject-card-icon">🇬🇧</div>
+        <div class="subject-card-title">English</div>
+        <div class="subject-card-sub">Grammar, reading, speaking, and writing.</div>
+      </button>
+    </div>
+  </div>
 
-<!-- ── UPLOAD PREVIEW ── -->
-<div id="uploadPreview"></div>
-
-<!-- ── INPUT ── -->
-<div id="footer">
-  <div id="input-row">
-    <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Adjuntar foto o documento">📎</button>
-    <input type="file" id="fileInput" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(event)"/>
-    <textarea id="ta" placeholder="Escribe tu pregunta aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
-    <button id="voiceBtn" onclick="toggleVoice()" title="Entrada de voz">🎤</button>
-    <button id="sendBtn" onclick="sendMsg()" disabled>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
+  <div id="masteryPanel">
+    <div id="masteryHeader">
+      <div id="masteryTitle">Your topics</div>
+      <div id="masteryHint">Where Sofía has already helped most</div>
+    </div>
+    <div id="masteryGrid"></div>
   </div>
 </div>
 
+<div id="lessonView">
+  <div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
+
+  <div id="searchBar">
+    <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"/>
+    <span id="searchCount" style="font-size:12px;color:#7a79a0;white-space:nowrap;"></span>
+    <button onclick="toggleSearch()" style="background:transparent;border:none;color:#7a79a0;font-size:18px;cursor:pointer;">✕</button>
+  </div>
+
+  <div id="chat"></div>
+
+  <!-- DELETED: Chips section removed to clean up the UI -->
+
+  <div id="uploadPreview"></div>
+
+  <div id="footer">
+    <div id="input-row">
+      <button id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Adjuntar foto o documento">📎</button>
+      <input type="file" id="fileInput" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(event)"/>
+      <textarea id="ta" placeholder="Escribe tu pregunta aquí..." onkeydown="onKey(event)" oninput="resizeTA(this)"></textarea>
+      <button id="voiceBtn" onclick="toggleVoice()" title="Entrada de voz">🎤</button>
+      <button id="sendBtn" onclick="sendMsg()" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="curriculum.js"></script>
 <script>
 // ── CONFIG ──
 const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
 
 // ── GRADE METADATA ──
-const GRADE_INFO = {
-  '1º ESO':  { age: 12, level: 'básico',      detail: 'Contenidos de iniciación. Usa ejemplos muy cotidianos y concretos. Frases cortas. Vocabulario sencillo.' },
-  '2º ESO':  { age: 13, level: 'básico',      detail: 'Consolida conceptos de 1º ESO. Introduce razonamiento abstracto poco a poco.' },
-  '3º ESO':  { age: 14, level: 'intermedio',  detail: 'Nivel intermedio. Puede manejar más abstracción y relaciones entre conceptos.' },
-  '4º ESO':  { age: 15, level: 'intermedio',  detail: 'Nivel intermedio-alto. Prepara para Bachillerato. Exige más rigor y precisión.' },
-  '1º Bach': { age: 16, level: 'avanzado',    detail: 'Nivel Bachillerato. Rigor académico alto. Puede usar terminología técnica y razonamiento formal.' },
-  '2º Bach': { age: 17, level: 'avanzado',    detail: 'Nivel máximo pre-universitario. Orientado a selectividad (EBAU). Máximo rigor, síntesis y precisión.' },
-};
+
+
 
 function buildSystemNormal(name, grade, subject) {
   const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
   const nombre = name || 'la alumna';
+  const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
+  const language = getSubjectLanguage(subject);
+  const languageRule = language === 'en'
+    ? `LANGUAGE MODE: ENGLISH ONLY.
+- Every part of the reply must be in English.
+- Do not switch to Spanish for headings, examples, topic names, recap text, or questions.
+- If any curriculum notes or source labels are in Spanish, translate them naturally before replying.
+- Keep the tone natural for a bilingual-school teacher.`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
+- Toda la respuesta debe estar en español.
+- No cambies al inglés en títulos, ejemplos, temas o preguntas.`;
   return `Eres Sofía, una tutora privada experta y empática.
 Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
-Currículo: Comunidad de Madrid, ley LOMLOE.
+Currículo de referencia: Comunidad de Madrid para ESO. Si no está claro el contenido exacto, mantente en contenidos nucleares del curso y no inventes un criterio hiper-específico.
 Asignatura actual: ${subject}.
 NIVEL DE DIFICULTAD: ${g.detail}
-METODOLOGÍA: Nunca des la respuesta directamente — usa el método socrático. Si se equivoca: "¡Buen intento! Vamos a verlo desde otra perspectiva...". Scaffolding. Al inicio de un tema nuevo pregunta qué recuerda de clase.
+${pedagogy}
+METODOLOGÍA DOCENTE:
+- No seas solo un chatbot: actúa como una profesora particular que diagnostica, enseña, comprueba y refuerza.
+- Empieza por identificar objetivo, punto de partida y error principal.
+- Usa andamiaje: pista breve, ejemplo mínimo, pregunta de comprobación y luego práctica.
+- Prioriza comprensión, transferencia y hábito de estudio, no solo acertar una respuesta.
+- Si la alumna pide ayuda con deberes, ayuda a pensar sin hacerle la tarea completa.
+- Cada pocas intervenciones, resume qué ha aprendido y cuál es el siguiente paso.
+IDIOMA:
+- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
+- Si la asignatura es en español, responde completamente en español.
+- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+${languageRule}
+ESTRUCTURA OBLIGATORIA:
+1. Simple explanation
+2. Real-life example
+3. Ask the student a question
+- Mantén siempre esta estructura.
+- Be friendly and interactive.
 PERSONALIZACIÓN: Llama a la alumna por su nombre (${nombre}) de vez en cuando, de forma natural y cálida.
 ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
-LONGITUD: Sé BREVE — máximo 3-4 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o "no entiendo".`;
+LONGITUD: Sé BREVE en cada turno — normalmente 3-6 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o si detectas un bloqueo real.
+CIERRE DE RESPUESTA: Cuando tenga sentido, termina con una microtarea o una pregunta que obligue a recuperar activamente la idea clave.`;
 }
 
 function buildSystemExam(name, grade, subject) {
   const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
   const nombre = name || 'la alumna';
+  const curriculum = getCurriculumGuide(grade, subject);
+  const language = getSubjectLanguage(subject);
+  const languageRule = language === 'en'
+    ? `LANGUAGE MODE: ENGLISH ONLY.
+- Every correction, question, option, and topic reference must stay in English.
+- Translate any Spanish source notes internally before answering.
+- Never show Spanish headings or topic names to the student.`
+    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE.
+- Toda la corrección y las preguntas deben permanecer en español.`;
   return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
 Asignatura: ${subject}.
 NIVEL: ${g.detail}
+BASE CURRICULAR MADRID:
+- Evalúa sobre contenidos nucleares del curso, especialmente: ${curriculum.focus.join(', ')}.
+- Observa si demuestra estas evidencias: ${curriculum.outcomes.join('; ')}.
+IDIOMA:
+- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
+- Si la asignatura es en español, responde completamente en español.
+- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
+${languageRule}
+ESTRUCTURA OBLIGATORIA:
+1. Simple explanation
+2. Real-life example
+3. Ask the student a question
+- Incluso al corregir o evaluar, mantén esta estructura.
+- Be friendly and interactive.
 REGLAS:
 1. Haz preguntas tipo examen una por una — espera la respuesta
-2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló
-3. Al final: puntuación y resumen de lo que debe repasar
-4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos
-5. Adapta la dificultad exactamente al nivel de ${grade} (LOMLOE Madrid)
+2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló y di qué criterio o destreza se está entrenando
+3. Al final: puntuación, fortalezas, errores frecuentes y plan breve de repaso
+4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos, aplicación
+5. Adapta la dificultad exactamente al nivel de ${grade} en Madrid
+6. Si detectas una laguna grave, antes de seguir con el examen haz una micro-explicación de rescate y luego retoma
 FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
 - Cuando hagas una pregunta de opción múltiple, SIEMPRE pon cada opción en su PROPIA LÍNEA, con el formato exacto:
   a) texto de la opción
@@ -584,7 +1245,7 @@ FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 }
 
-const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
+const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Física y Química':'⚗️', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
 
 // ── STATE ──
 let history = [];
@@ -592,10 +1253,17 @@ let subject = 'Matemáticas';
 let loading = false;
 let examMode = false;
 let pendingImages = [];
+let learningMode = 'guiada';
+let currentView = 'home';
+let themeMode = localStorage.getItem('sofia_theme') || 'light';
+let progressData = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
+let currentSessionAwarded = false;
+let currentSessionId = null;
 
 // Student profile — loaded from localStorage
 let studentName  = '';
 let studentGrade = '1º ESO';
+let studentSyncKey = '';
 
 // ── SETTINGS MODAL ──
 let _selectedGrade = '';
@@ -606,9 +1274,73 @@ function selectGrade(el, grade) {
   _selectedGrade = grade;
 }
 
+function normalizeSyncKey(value) {
+  // Allow only numbers for the sync key
+  return (value || '').replace(/[^0-9]/g, '');
+}
+
+// FIX: Generate a simple 5-digit sync key
+function generateSyncKey() {
+  return Math.floor(10000 + Math.random() * 90000).toString();
+}
+
+function saveLocalStudentProfile() {
+  localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade, syncKey: studentSyncKey }));
+}
+
+async function copySyncKey() {
+  const input = document.getElementById('settingSyncKey');
+  const value = normalizeSyncKey(input.value) || generateSyncKey();
+  input.value = value;
+  try {
+    await navigator.clipboard.writeText(value);
+    const btn = document.querySelector('.copy-btn');
+    const original = btn.textContent;
+    btn.textContent = 'Copiada';
+    setTimeout(() => { btn.textContent = original; }, 1200);
+  } catch (e) {}
+}
+
+async function loadRemoteStudentMemory() {
+  if (!studentSyncKey) return false;
+  try {
+    const res = await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`);
+    const data = await res.json();
+    if (!res.ok || !data.student) return false;
+    const profile = JSON.parse(data.student.profileJson || '{}');
+    const progress = JSON.parse(data.student.progressJson || '{}');
+    const sessions = JSON.parse(data.student.sessionsJson || '[]');
+    studentName = profile.name || studentName;
+    studentGrade = profile.grade || studentGrade;
+    progressData = { ...progressData, ...progress };
+    if (sessions.length) localStorage.setItem('sofia_sessions', JSON.stringify(sessions));
+    saveLocalStudentProfile();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function saveRemoteStudentMemory() {
+  if (!studentSyncKey) return;
+  try {
+    const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+    await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        profile: { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
+        progress: progressData,
+        sessions: sessions.slice(0, 20),
+      }),
+    });
+  } catch (e) {}
+}
+
 function openSettings() {
   // Pre-fill
   document.getElementById('settingName').value = studentName;
+  document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey();
   _selectedGrade = studentGrade;
   document.querySelectorAll('.grade-tile').forEach(t => {
     t.classList.toggle('selected', t.getAttribute('onclick').includes(`'${studentGrade}'`));
@@ -633,26 +1365,41 @@ function closeSettings() {
   document.getElementById('settingsOverlay').style.display = 'none';
 }
 
-function saveSettings() {
+async function saveSettings() {
   const nameVal  = document.getElementById('settingName').value.trim();
   const gradeVal = _selectedGrade;
+  const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey();
   if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
   if (!gradeVal) { shake('settingsModal'); return; }
 
+  const previousSyncKey = studentSyncKey;
   studentName  = nameVal;
   studentGrade = gradeVal;
-  localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade }));
+  studentSyncKey = syncVal;
+  document.getElementById('settingSyncKey').value = studentSyncKey;
+  document.querySelector('.copy-btn').textContent = 'Copiar';
+  saveLocalStudentProfile();
+
+  let loadedRemote = false;
+  if (studentSyncKey && studentSyncKey !== previousSyncKey) {
+    loadedRemote = await loadRemoteStudentMemory();
+  }
 
   updateStudentUI();
   closeSettings();
 
-  // Personalised welcome
   history = [];
   document.getElementById('chat').innerHTML = '';
-  const g = GRADE_INFO[studentGrade];
-  const msg = `¡Hola, **${studentName}**! 👋 Soy Sofía, tu tutora.\n\nVoy a adaptarme a tu nivel de **${studentGrade}** para que todo tenga sentido 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
-  addMsg('ai', msg);
-  history.push({ role: 'assistant', content: msg });
+  currentSessionAwarded = false;
+  currentSessionId = null;
+
+  if (loadedRemote) {
+    updateStudentUI();
+    loadLastSession();
+  } else {
+    saveRemoteStudentMemory();
+  }
+  showHomeView();
 }
 
 function shake(id) {
@@ -663,13 +1410,293 @@ function shake(id) {
   setTimeout(() => el.style.animation = '', 400);
 }
 
+function getModeLabel(mode, lang) {
+  const labels = {
+    diagnostico: { es: 'Diagnóstico', en: 'Diagnostic' },
+    guiada: { es: 'Guiada', en: 'Guided' },
+    practica: { es: 'Práctica', en: 'Practice' },
+  };
+  return labels[mode]?.[lang] || labels[mode]?.es || 'Guiada';
+}
+
+function updateThemeButtons() {
+  const dark = themeMode === 'dark';
+  const headerBtn = document.getElementById('themeToggleBtn');
+  const sideBtn = document.getElementById('sideThemeBtn');
+  if (headerBtn) {
+    headerBtn.textContent = dark ? '☀️' : '🌙';
+    headerBtn.title = dark ? 'Modo claro' : 'Modo oscuro';
+  }
+  if (sideBtn) {
+    sideBtn.innerHTML = `<span class="side-icon">${dark ? '☀️' : '🌙'}</span>${dark ? 'Modo claro' : 'Modo oscuro'}`;
+  }
+}
+
+function applyTheme() {
+  document.body.classList.toggle('dark', themeMode === 'dark');
+  updateThemeButtons();
+}
+
+function toggleTheme() {
+  themeMode = themeMode === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('sofia_theme', themeMode);
+  applyTheme();
+}
+
+function showHomeView() {
+  currentView = 'home';
+  updateLocalizedUI();
+}
+
+function showConversationView() {
+  currentView = 'conversation';
+  if (history.length === 0) showWelcome();
+  updateLocalizedUI();
+}
+
+function goHome() {
+  searchActive = false;
+  doSearch('');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchCount').textContent = '';
+  closeSideMenuDirect();
+  showHomeView();
+}
+
+function focusComposer() {
+  showConversationView();
+  document.getElementById('ta').focus();
+}
+
+function updateHomeHero() {
+  const meta = getSubjectMeta(subject);
+  const lang = meta.language;
+  const subjectLabel = subject === 'Historia' && lang === 'en' ? 'Social Sciences' : subject;
+  const name = studentName || (lang === 'en' ? 'there' : 'ahí');
+  const topic = getMasterySnapshot()?.unit;
+  const topicTitle = topic ? getDisplayUnitTitle(topic, lang) : '';
+  const modeLabel = getModeLabel(learningMode, lang);
+
+  document.getElementById('heroKicker').textContent = lang === 'en' ? `${subjectLabel} with Sofía` : `${subjectLabel} con Sofía`;
+  document.getElementById('heroTitle').innerHTML = lang === 'en'
+    ? `Hi, ${name}. <span class="accent">Ready for today?</span>`
+    : `Hola, ${name}. <span class="accent">¿Lista para hoy?</span>`;
+  document.getElementById('heroCopy').textContent = topicTitle
+    ? (lang === 'en'
+      ? `Your next steady step is ${topicTitle}. We’ll keep it clear, kind, and one idea at a time.`
+      : `Tu siguiente paso tranquilo es ${topicTitle}. Iremos con claridad, calma y una idea cada vez.`)
+    : (lang === 'en'
+      ? `We’ll study ${subjectLabel} in a clear, calm way so today feels lighter and easier to continue.`
+      : `Vamos a estudiar ${subjectLabel} con claridad y calma, para que hoy se sienta más fácil continuar.`);
+  document.getElementById('heroPrimaryBtn').textContent = lang === 'en'
+    ? `Continue in ${modeLabel}`
+    : `Seguir en ${modeLabel}`;
+  document.getElementById('heroSecondaryBtn').textContent = lang === 'en' ? 'Choose subject' : 'Elegir asignatura';
+  document.getElementById('subjectHubTitle').textContent = lang === 'en' ? 'Subject space' : 'Espacio de asignaturas';
+  document.getElementById('subjectHubCopy').textContent = lang === 'en'
+    ? 'Choose where Sofía should help next.'
+    : 'Elige dónde quieres que Sofía te ayude ahora.';
+}
+
+function updateHomeSubjectCards() {
+  document.querySelectorAll('.subject-card').forEach(card => card.classList.remove('active'));
+  const activeCard = document.getElementById(`home-${subject}`);
+  if (activeCard) activeCard.classList.add('active');
+}
+
+function updateSubjectUI() {
+  const meta = getSubjectMeta(subject);
+  const label = subject === 'Historia' && meta.language === 'en' ? 'Social Sciences' : subject;
+  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${label}`;
+  document.getElementById('languageBadge').textContent = meta.badge;
+  document.getElementById('languageBadge').style.color = meta.language === 'en' ? '#356b7d' : '#2f6a5d';
+  document.getElementById('languageBadge').style.borderColor = meta.language === 'en' ? 'rgba(53,107,125,0.16)' : 'rgba(47,106,93,0.16)';
+  document.getElementById('languageBadge').style.background = 'rgba(255,255,255,0.66)';
+  updateHomeSubjectCards();
+  updateHomeHero();
+}
+
+function loadProgressData() {
+  const saved = localStorage.getItem('sofia_progress');
+  if (saved) {
+    try {
+      progressData = { ...progressData, ...JSON.parse(saved) };
+    } catch (e) {}
+  }
+}
+
+function persistProgressData() {
+  localStorage.setItem('sofia_progress', JSON.stringify(progressData));
+  saveRemoteStudentMemory();
+}
+
+function getDailyGoalText() {
+  const lang = getSubjectLanguage(subject);
+  const goalDone = progressData.dailyGoalDone || 0;
+  const goalTarget = progressData.dailyGoalTarget || 1;
+  return {
+    label: lang === 'en' ? `Today` : 'Hoy',
+    main: lang === 'en'
+      ? `${goalDone}/${goalTarget} study session${goalTarget > 1 ? 's' : ''}`
+      : `${goalDone}/${goalTarget} sesiones de estudio`,
+    sub: lang === 'en'
+      ? 'Small steps, steady progress.'
+      : 'Pequeños pasos, avance constante.',
+  };
+}
+
+function getMasterySnapshot() {
+  const units = getSubjectUnits(subject, studentGrade);
+  const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
+  if (!units.length) return null;
+  const ranked = units
+    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
+    .sort((a, b) => b.score - a.score);
+  return ranked[0];
+}
+
+function getTopMasteryUnits(limit = 3) {
+  const units = getSubjectUnits(subject, studentGrade);
+  const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
+  return units
+    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
+function getDisplayUnitTitle(unit, lang = getSubjectLanguage(subject)) {
+  return getUnitDisplayTitle(subject, unit, lang);
+}
+
+function updateStudyPanel() {
+  const lang = getSubjectLanguage(subject);
+  const goal = getDailyGoalText();
+  document.getElementById('dailyGoalLabel').textContent = goal.label;
+  document.getElementById('dailyGoalMain').textContent = goal.main;
+  document.getElementById('dailyGoalSub').textContent = goal.sub;
+
+  document.getElementById('recapLabel').textContent = lang === 'en' ? 'Next step' : 'Siguiente paso';
+  document.getElementById('recapMain').textContent = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
+  const masteryTop = getMasterySnapshot();
+  document.getElementById('recapSub').textContent = masteryTop
+    ? (lang === 'en'
+      ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}`
+      : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
+    : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
+}
+
+function updateMasteryPanel() {
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('masteryTitle').textContent = lang === 'en' ? 'Your topics' : 'Tus temas';
+  document.getElementById('masteryHint').textContent = lang === 'en' ? 'Where Sofía has already helped most' : 'Dónde Sofía ya te ha ayudado más';
+
+  const top = getTopMasteryUnits(3);
+  document.getElementById('masteryPanel').style.display = top.some(item => item.score > 0) ? 'block' : 'none';
+  const grid = document.getElementById('masteryGrid');
+  if (!top.length) {
+    grid.innerHTML = `<div class="mastery-card"><div class="mastery-topic">${lang === 'en' ? 'Your topic cards will appear as you practise different units.' : 'Tus tarjetas de temas aparecerán cuando practiques distintos bloques.'}</div><div class="mastery-meta"><span>${lang === 'en' ? 'Start with practice mode' : 'Empieza con modo práctica'}</span><span>0/5</span></div></div>`;
+    return;
+  }
+
+  grid.innerHTML = top.map(({ unit, score }) => `
+    <div class="mastery-card">
+      <div class="mastery-topic">${getDisplayUnitTitle(unit, lang)}</div>
+      <div class="mastery-bar"><div class="mastery-fill" style="width:${Math.max(8, score * 20)}%"></div></div>
+      <div class="mastery-meta">
+        <span>${score >= 4 ? (lang === 'en' ? 'Confident' : 'Con confianza') : score >= 2 ? (lang === 'en' ? 'In progress' : 'En progreso') : (lang === 'en' ? 'Starting' : 'Empezando')}</span>
+        <span>${score}/5</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateHomePanelsVisibility() {
+  const hasProgress = progressData.lessonsCompleted > 1 || progressData.streak > 1;
+  const hasRecap = Boolean(progressData.lastRecap);
+  const hasMastery = progressData.lessonsCompleted > 2 && getTopMasteryUnits(3).some(item => item.score > 1);
+  const inConversation = currentView === 'conversation';
+
+  document.getElementById('homeView').style.display = inConversation ? 'none' : 'flex';
+  document.getElementById('lessonView').style.display = inConversation ? 'flex' : 'none';
+  document.getElementById('chat').style.display = inConversation ? 'flex' : 'none';
+  document.getElementById('searchBar').style.display = inConversation && searchActive ? 'flex' : 'none';
+  document.getElementById('examBanner').style.display = inConversation && examMode ? 'block' : 'none';
+  document.getElementById('progressStrip').style.display = hasProgress && !inConversation ? 'grid' : 'none';
+  document.getElementById('recapCard').style.display = hasRecap && hasProgress && !inConversation ? 'block' : 'none';
+  document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !inConversation ? 'grid' : 'none';
+  document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
+  document.getElementById('masteryPanel').style.display = hasMastery && !inConversation ? 'block' : 'none';
+  // FIX: Removed the line that was overriding the CSS to hide the chips.
+}
+
+function updateProgressUI() {
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('progressLessonsLabel').textContent = lang === 'en' ? 'Today' : 'Hoy';
+  document.getElementById('progressLessonsValue').textContent = progressData.lessonsCompleted;
+  document.getElementById('progressLessonsNote').textContent = lang === 'en' ? 'Study steps' : 'Pasos de estudio';
+  document.getElementById('progressScoreLabel').textContent = lang === 'en' ? 'Your progress' : 'Tu avance';
+  document.getElementById('progressScoreValue').textContent = progressData.score;
+  document.getElementById('progressScoreNote').textContent = lang === 'en' ? 'Little by little' : 'Poco a poco';
+  document.getElementById('progressStreakLabel').textContent = lang === 'en' ? 'Routine' : 'Rutina';
+  document.getElementById('progressStreakValue').textContent = progressData.streak;
+  document.getElementById('progressStreakNote').textContent = lang === 'en' ? 'days of practice' : 'días de práctica';
+}
+
+function updateLocalizedUI() {
+  updateSubjectUI();
+  updateProgressUI();
+  updateStudyPanel();
+  updateMasteryPanel();
+  updateHomePanelsVisibility();
+  const lang = getSubjectLanguage(subject);
+  document.getElementById('ta').placeholder = lang === 'en' ? 'Ask your question here...' : 'Escribe tu pregunta aquí...';
+  if (recognition) recognition.lang = lang === 'en' ? 'en-GB' : 'es-ES';
+}
+
+function updateStudyProgress(replyText, userText) {
+  const today = new Date().toISOString().slice(0, 10);
+  if (progressData.lastStudyDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    progressData.streak = progressData.lastStudyDate === yesterday ? progressData.streak + 1 : 1;
+    progressData.activeDays = (progressData.activeDays || 0) + 1;
+    progressData.lastStudyDate = today;
+    progressData.dailyGoalDone = 0;
+  }
+
+  progressData.score += examMode ? 15 : (learningMode === 'practica' ? 12 : 8);
+
+  const userTurns = history.filter(m => m.role === 'user').length;
+  if (!currentSessionAwarded && userTurns >= 2) {
+    progressData.lessonsCompleted += 1;
+    progressData.dailyGoalDone = Math.min((progressData.dailyGoalDone || 0) + 1, progressData.dailyGoalTarget || 1);
+    currentSessionAwarded = true;
+  }
+
+  const detectedUnit = detectCurriculumUnit(subject, studentGrade, `${userText || ''} ${replyText || ''}`);
+  if (detectedUnit) {
+    progressData.mastery[subject] ||= {};
+    progressData.mastery[subject][studentGrade] ||= {};
+    const next = Math.min((progressData.mastery[subject][studentGrade][detectedUnit.id] || 0) + 1, 5);
+    progressData.mastery[subject][studentGrade][detectedUnit.id] = next;
+    const topicTitle = getUnitDisplayTitle(subject, detectedUnit, getSubjectLanguage(subject));
+    progressData.lastRecap = getSubjectLanguage(subject) === 'en'
+      ? `You worked on ${topicTitle}.`
+      : `Has trabajado ${topicTitle}.`;
+  } else {
+    progressData.lastRecap = getSubjectLanguage(subject) === 'en'
+      ? 'Nice work. You completed another guided study step.'
+      : 'Buen trabajo. Has completado otro paso de estudio guiado.';
+  }
+
+  persistProgressData();
+  updateLocalizedUI();
+}
+
 function updateStudentUI() {
   // Side menu header
   document.getElementById('sideStudentInfo').textContent =
     studentName ? `${studentName} · ${studentGrade}` : `${studentGrade} · Madrid`;
-  // Header status
-  document.querySelector('.hstatus').innerHTML =
-    `<span class="dot"></span>${studentName ? studentName + ' · ' : ''}${studentGrade}`;
+  updateLocalizedUI();
 }
 
 function loadStudentProfile() {
@@ -679,6 +1706,7 @@ function loadStudentProfile() {
       const p = JSON.parse(saved);
       studentName  = p.name  || '';
       studentGrade = p.grade || '1º ESO';
+      studentSyncKey = p.syncKey || '';
       updateStudentUI();
       return true;
     } catch(e) {}
@@ -687,14 +1715,22 @@ function loadStudentProfile() {
 }
 
 // ── INIT ──
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
+  applyTheme();
+  loadProgressData();
   const hasProfile = loadStudentProfile();
+  if (studentSyncKey) {
+    await loadRemoteStudentMemory();
+    updateStudentUI();
+  }
   if (!hasProfile) {
     openSettings(); // First-time setup — show modal immediately
   } else {
     closeSettings();
     loadLastSession();
   }
+  updateLocalizedUI();
+  document.getElementById('sm-guiada')?.classList.add('active');
 });
 
 // ── SIDE MENU ──
@@ -715,10 +1751,14 @@ function closeSideMenu(e) {
 function selectSubject(s, el) {
   subject = s;
   document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[s]||'📚'} ${s}`;
+  const activeBtn = el || document.getElementById(`sb-${s}`);
+  if (activeBtn) activeBtn.classList.add('active');
+  currentView = 'conversation';
+  updateLocalizedUI();
   closeSideMenuDirect();
-  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ¡Vamos con **${s}**! ¿Qué tema tienes?`;
+  const meta = getSubjectMeta(s);
+  const subjectLabel = s === 'Historia' && meta.language === 'en' ? 'Social Sciences' : s;
+  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ${meta.language === 'en' ? `Let’s work on **${subjectLabel}**! We are in **${getModeLabel(learningMode, 'en')}** mode. ${meta.topicPrompt}` : `¡Vamos con **${subjectLabel}**! Estoy en modo **${getModeLabel(learningMode, 'es')}**. ${meta.topicPrompt}`}`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
@@ -738,8 +1778,8 @@ function deleteConversation() {
   if (!confirm('¿Borrar toda la conversación?')) return;
   history = [];
   document.getElementById('chat').innerHTML = '';
-  document.getElementById('chips').style.display = 'flex';
   closeSideMenuDirect();
+  currentView = 'conversation';
   showWelcome();
 }
 
@@ -747,10 +1787,12 @@ function deleteConversation() {
 let searchActive = false;
 function toggleSearch() {
   searchActive = !searchActive;
+  if (searchActive) currentView = 'conversation';
   const bar = document.getElementById('searchBar');
-  bar.style.display = searchActive ? 'flex' : 'none';
+  bar.style.display = searchActive && currentView === 'conversation' ? 'flex' : 'none';
   if (searchActive) document.getElementById('searchInput').focus();
   else { doSearch(''); document.getElementById('searchInput').value=''; document.getElementById('searchCount').textContent=''; }
+  updateLocalizedUI();
 }
 
 function doSearch(query) {
@@ -774,12 +1816,25 @@ function doSearch(query) {
 // ── EXAM MODE ──
 function toggleExam() {
   examMode = !examMode;
+  currentView = 'conversation';
   const banner = document.getElementById('examBanner');
-  const sideBtn = document.getElementById('sideExamBtn');
+  const sideBtn = document.getElementById('sm-exam');
+  const meta = getSubjectMeta(subject);
   banner.style.display = examMode ? 'block' : 'none';
-  sideBtn.classList.toggle('exam-on', examMode);
-  sideBtn.querySelector('.side-icon').textContent = examMode ? '✅' : '📝';
+  banner.innerHTML = meta.language === 'en'
+    ? '📝 <b>Exam Mode ON</b> — Sofía will ask questions and correct your answers'
+    : '📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas';
+  
+  // Update side menu active states
+  sideBtn?.classList.toggle('exam-on', examMode);
+  sideBtn?.classList.toggle('active', examMode);
+
   if (examMode) {
+    // Deactivate other modes
+    document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => {
+      if (btn.id !== 'sm-exam') btn.classList.remove('active');
+    });
+    learningMode = 'guiada'; // Reset to a default
     history = [];
     document.getElementById('chat').innerHTML = '';
     const nombre = studentName || '';
@@ -787,6 +1842,30 @@ function toggleExam() {
     addMsg('ai', msg);
     history.push({ role: 'assistant', content: msg });
   }
+}
+
+function setLearningMode(mode) {
+  if (!LEARNING_MODES[mode]) return;
+  learningMode = mode;
+  
+  // Deactivate exam mode if a learning mode is chosen
+  if (examMode) {
+    examMode = false;
+    document.getElementById('examBanner').style.display = 'none';
+  }
+
+  // Update side menu active states
+  document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => btn.classList.remove('active', 'exam-on'));
+  document.getElementById(`sm-${mode}`)?.classList.add('active');
+  
+  closeSideMenuDirect();
+  updateLocalizedUI();
+
+  const meta = getSubjectMeta(subject);
+  const prompts = meta.modePrompts;
+  const msg = prompts[mode];
+  addMsg('ai', msg);
+  history.push({ role: 'assistant', content: msg });
 }
 
 // ── FILE UPLOAD ──
@@ -991,7 +2070,6 @@ async function sendMsg(txt) {
   if (!text && pendingImages.length === 0) return;
 
   taEl.value = ''; resizeTA(taEl);
-  document.getElementById('chips').style.display = 'none';
   btnEl.disabled = true;
 
   let userContent;
@@ -1023,14 +2101,15 @@ async function sendMsg(txt) {
     const res = await fetch(`${WORKER_URL}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system, messages: history })
+      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'default_user' })
     });
     const d = await res.json();
     if (d.error) { hideTyping(); addMsg('ai', `⚠️ API Error: ${d.error.message || JSON.stringify(d.error)}`); loading=false; updateSendBtn(); return; }
     const replyText = d.content?.[0]?.text || '¡Lo siento! Error inesperado 🙈';
     hideTyping();
-    history.push({ role: 'assistant', content: replyText });
+  history.push({ role: 'assistant', content: replyText });
     addMsg('ai', replyText);
+    updateStudyProgress(replyText, text);
     saveSession();
   } catch(err) {
     hideTyping();
@@ -1040,10 +2119,6 @@ async function sendMsg(txt) {
   updateSendBtn();
 }
 
-function sendChip(el) {
-  if (el.textContent === '📝 Start exam' && !examMode) toggleExam();
-  else sendMsg(el.textContent);
-}
 function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
 function resizeTA(el) {
   el.style.height='44px';
@@ -1058,26 +2133,47 @@ function updateSendBtn() {
 function saveSession() {
   if (history.length < 2) return;
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  const id = Date.now();
+  const id = currentSessionId || Date.now();
   const preview = history.find(m => m.role==='user')?.content;
   const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
-  sessions.unshift({ id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history });
+  const sessionRecord = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history };
+  const existingIndex = sessions.findIndex(s => s.id === id);
+  if (existingIndex >= 0) {
+    sessions[existingIndex] = sessionRecord;
+    if (existingIndex > 0) {
+      const [existing] = sessions.splice(existingIndex, 1);
+      sessions.unshift(existing);
+    }
+  } else {
+    sessions.unshift(sessionRecord);
+  }
+  currentSessionId = id;
   localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
+  saveRemoteStudentMemory();
 }
 
 function loadLastSession() {
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  if (sessions.length === 0) { showWelcome(); return; }
+  chatEl.innerHTML = '';
+  if (sessions.length === 0) {
+    history = [];
+    currentSessionAwarded = false;
+    currentSessionId = null;
+    showHomeView();
+    return;
+  }
   const last = sessions[0];
   const hourAgo = Date.now() - 60*60*1000;
   if (new Date(last.date).getTime() > hourAgo) {
     history = last.history;
     subject = last.subject || 'Matemáticas';
+    currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
+    currentSessionId = last.id;
     // Sync side menu
     document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = document.getElementById(`sb-${subject}`);
     if (activeBtn) activeBtn.classList.add('active');
-    document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${subject}`;
+    updateLocalizedUI();
     // Render messages
     history.forEach(m => {
       if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
@@ -1090,8 +2186,12 @@ function loadLastSession() {
     banner.className = 'date-divider';
     banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Empezar nueva</a>`;
     chatEl.insertBefore(banner, chatEl.firstChild);
+    showHomeView();
   } else {
-    showWelcome();
+    history = [];
+    currentSessionAwarded = false;
+    currentSessionId = null;
+    showHomeView();
   }
 }
 
@@ -1100,18 +2200,24 @@ function newSession(e) {
   history = [];
   chatEl.innerHTML = '';
   examMode = false;
+  currentSessionAwarded = false;
+  currentSessionId = null;
   document.getElementById('examBanner').style.display = 'none';
-  document.getElementById('sideExamBtn').classList.remove('exam-on');
-  document.getElementById('sideExamBtn').querySelector('.side-icon').textContent = '📝';
-  showWelcome();
+  document.getElementById('sm-exam')?.classList.remove('exam-on', 'active');
+  showConversationView();
 }
 
 function showWelcome() {
-  const nombre = studentName || 'hola';
-  const greeting = studentName
-    ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.`
-    : `¡Hola! 👋 Soy **Sofía**, tu tutora.`;
-  const msg = `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas 🌟\n\n**¿Por qué asignatura empezamos hoy?**`;
+  updateLocalizedUI();
+  const meta = getSubjectMeta(subject);
+  const lang = meta.language;
+  const greeting = lang === 'en'
+    ? (studentName ? `Hi, **${studentName}**! 👋 I’m **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I’m **Sofía**, your tutor.`)
+    : (studentName ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.` : `¡Hola! 👋 Soy **Sofía**, tu tutora.`);
+  const modeLabel = getModeLabel(learningMode, lang);
+  const msg = lang === 'en'
+    ? `${greeting}\n\nI’m here to help you *understand*, practise, and study better like a real teacher.\n\nRight now I’m in **${modeLabel}** mode.\n\n**${meta.welcomePrompt}**`
+    : `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas y a estudiar mejor, con una forma de trabajar más parecida a una profe real.\n\nAhora mismo estoy en modo **${modeLabel}**.\n\n**${meta.welcomePrompt}**`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
@@ -1138,6 +2244,9 @@ function loadSession(id) {
   if (!s) return;
   history = s.history;
   subject = s.subject;
+  currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
+  currentSessionId = s.id;
+  updateLocalizedUI();
   chatEl.innerHTML = '';
   history.forEach(m => {
     if (m.role === 'assistant') addMsg('ai', typeof m.content==='string'?m.content:'');
