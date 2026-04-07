@@ -1955,40 +1955,27 @@ function fmt(t) {
   let temp = t;
   let mathBlocks = [];
   
-  // 1. Extraer bloques de ecuaciones: $$...$$ o \[...\]
-  // Esta regla ahora es súper flexible y atrapa cualquier cantidad de barras invertidas
-  temp = temp.replace(/(?:\$\$|\\+\[)([\s\S]+?)(?:\$\$|\\+\])/g, (m, math) => {
-    mathBlocks.push({ math: math.trim(), display: true, raw: m });
+  // 1. Escondemos las matemáticas grandes para protegerlas
+  temp = temp.replace(/(?:\$\$|\\+\[)([\s\S]+?)(?:\$\$|\\+\])/g, (m) => {
+    mathBlocks.push(m);
     return `__MATH_${mathBlocks.length - 1}__`;
   });
   
-  // 2. Extraer matemáticas en línea: \(...\)
-  temp = temp.replace(/\\+\(([\s\S]+?)\\+\)/g, (m, math) => {
-    mathBlocks.push({ math: math.trim(), display: false, raw: m });
+  // 2. Escondemos las matemáticas pequeñas (fracciones en línea)
+  temp = temp.replace(/\\+\(([\s\S]+?)\\+\)/g, (m) => {
+    mathBlocks.push(m);
     return `__MATH_${mathBlocks.length - 1}__`;
   });
 
-  // 3. Aplicar formato Markdown (negritas, cursivas, saltos de línea)
+  // 3. Aplicamos negritas, cursivas y saltos de línea al texto normal
   temp = temp
     .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br>');
 
-  // 4. Restaurar las matemáticas ya dibujadas por KaTeX
+  // 4. Devolvemos las matemáticas intactas a su sitio original
   temp = temp.replace(/__MATH_(\d+)__/g, (m, i) => {
-    let b = mathBlocks[parseInt(i)];
-    if (typeof katex !== 'undefined') {
-      try {
-        return katex.renderToString(b.math, { 
-          displayMode: b.display, 
-          throwOnError: false 
-        });
-      } catch(e) {
-        console.error("Error de KaTeX:", e);
-        return b.raw;
-      }
-    }
-    return b.raw; // Si KaTeX no ha cargado, devuelve el texto normal
+    return mathBlocks[parseInt(i)];
   });
   
   return temp;
@@ -2049,6 +2036,24 @@ function addMsg(role, text, imgSrc) {
   wrap.appendChild(bub);
   chatEl.appendChild(wrap);
   chatEl.scrollTop = chatEl.scrollHeight;
+
+  // 5. Ahora sí, le decimos a KaTeX que dibuje las matemáticas de forma segura
+  if (window.renderMathInElement) {
+    try {
+      renderMathInElement(bub, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\\\[', right: '\\\\]', display: true},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\\\(', right: '\\\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    } catch (e) {
+      console.warn("Error de KaTeX silenciado:", e);
+    }
+  }
 }
 
 function pickOption(btn, grid, key, optText) {
