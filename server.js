@@ -1,15 +1,40 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+// Importamos toda la inteligencia de curriculum.js
+import { 
+  buildPedagogyBlock, 
+  getSubjectMeta, 
+  getSubjectLanguage, 
+  detectCurriculumUnit,
+  resolveSubjectKey 
+} from './curriculum.js';
 
 const app = new Hono();
-app.use('/*', cors());
 
+// 🔒 1. Configuración de CORS (Permite que tu web hable con el servidor)
+app.use('/*', async (c, next) => {
+  const allowed = c.env.ALLOWED_ORIGINS?.split(',') || [];
+  const origin = c.req.header('Origin');
+  
+  // Si el origen está permitido, lo usamos, si no, usamos el primero de la lista (o ninguno)
+  const corsOrigin = allowed.includes(origin) ? origin : (allowed[0] || '*');
+  
+  const corsMiddleware = cors({
+    origin: corsOrigin,
+    allowMethods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 86400,
+  });
+  return corsMiddleware(c, next);
+});
+
+// 🛠️ 2. Helpers para Firebase/Firestore
 function firestoreBase(env) {
   return `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 }
 
 function hasFirestore(env) {
-  return Boolean(env.FIREBASE_PROJECT_ID && env.FIREBASE_API_KEY);
+  return !!(env.FIREBASE_PROJECT_ID && env.FIREBASE_API_KEY);
 }
 
 function encodeFields(data) {
@@ -25,117 +50,159 @@ function decodeField(field) {
   if (!field) return null;
   if ('stringValue' in field) return field.stringValue;
   if ('integerValue' in field) return Number(field.integerValue);
-  if ('timestampValue' in field) return field.timestampValue;
   return null;
 }
 
-async function fetchStudentMemory(env, studentKey) {
-  const res = await fetch(`${firestoreBase(env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${env.FIREBASE_API_KEY}`);
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(await res.text());
-  const data = await res.json();
-  const fields = data.fields || {};
-  return Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, decodeField(v)]));
-}
-
-async function saveStudentMemory(env, studentKey, payload) {
-  const res = await fetch(`${firestoreBase(env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${env.FIREBASE_API_KEY}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fields: encodeFields(payload) }),
-  });
-  if (!res.ok) throw new Error(await res.text());
-}
-
+// 📥 3. Rutas de Perfil del Alumno (Cargar y Guardar)
 app.get('/student/:studentKey', async (c) => {
-  if (!hasFirestore(c.env)) {
-    return c.json({ error: { message: 'Firestore not configured' } }, 503);
-  }
+  if (!hasFirestore(c.env)) return c.json({ student: null });
   try {
     const studentKey = c.req.param('studentKey');
-    const data = await fetchStudentMemory(c.env, studentKey);
-    return c.json({ student: data });
+    const res = await fetch(`${firestoreBase(c.env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${c.env.FIREBASE_API_KEY}`);
+    if (!res.ok) return c.json({ student: null });
+    const data = await res.json();
+    const fields = data.fields || {};
+    const student = Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, decodeField(v)]));
+    return c.json({ student });
   } catch (err) {
-    return c.json({ error: { message: err.message } }, 500);
+    return c.json({ student: null });
   }
 });
 
 app.post('/student/:studentKey', async (c) => {
-  if (!hasFirestore(c.env)) {
-    return c.json({ error: { message: 'Firestore not configured' } }, 503);
-  }
+  const studentKey = c.req.param('studentKey');
   try {
-    const studentKey = c.req.param('studentKey');
     const body = await c.req.json();
-    await saveStudentMemory(c.env, studentKey, {
-      profileJson: JSON.stringify(body.profile || {}),
-      progressJson: JSON.stringify(body.progress || {}),
-      sessionsJson: JSON.stringify(body.sessions || []),
-      updatedAt: new Date().toISOString(),
-    });
+    if (hasFirestore(c.env)) {
+      await fetch(`${firestoreBase(c.env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${c.env.FIREBASE_API_KEY}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: encodeFields({
+          profileJson: JSON.stringify(body.profile || {}),
+          progressJson: JSON.stringify(body.progress || {}),
+          sessionsJson: JSON.stringify(body.sessions || []),
+          updatedAt: new Date().toISOString(),
+        })}),
+      });
+    }
     return c.json({ ok: true });
+  } catch (err) {
+    console.error("Error guardando perfil:", err.message);
+    return c.json({ ok: true }); // Respondemos OK para no bloquear la interfaz
+  }
+});
+
+// 💬 4. Ruta Principal de Mensajes (La Inteligencia de Sofía)
+app.post('/message', async (c) => {
+  try {
+    const body = await c.req.json();
+    const { 
+      messages, 
+      userId = 'default_user', 
+      subject = 'Matemáticas', 
+      grade = '1º ESO', 
+      learningMode = 'guiada',
+      studentName = 'la alumna',
+      system: frontendSystemPrompt // Recibimos el system prompt del frontend
+    } = body;
+
+    // A. Detectamos si el alumno está hablando de un tema específico para el progreso
+    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+    const detectedUnit = detectCurriculumUnit(subject, grade, lastUserMsg);
+
+    // B. Usamos el prompt del frontend si existe, si no, usamos el del backend por defecto
+    let finalSystemPrompt = frontendSystemPrompt;
+    
+    if (!finalSystemPrompt) {
+      const pedagogyData = buildPedagogyBlock(learningMode, grade, subject);
+      const instructionLang = getSubjectLanguage(subject, grade);
+      
+      finalSystemPrompt = `
+Role: You are Sofía, an expert Private Tutor for a student in Madrid, Spain.
+Student Profile: ${studentName}, currently in ${grade}.
+Context: You are fully familiar with the LOMCE/LOMLOE curriculum of the Comunidad de Madrid and the Bilingual Program.
+
+PEDAGOGICAL RULES:
+1. Socratic Method: NEVER give the final answer immediately. Ask leading questions to help ${studentName} find the solution themselves.
+2. Bilingual Support: The instruction language for ${subject} is ${instructionLang.toUpperCase()}. 
+   - If instruction is English: Use specific English terminology from the Madrid Bilingual Section. At the end of your message, provide a "Glossary" (Spanish translation) for the 3 most important technical terms used.
+   - If instruction is Spanish: Respond entirely in Spanish.
+3. Curriculum Alignment: 
+   ${pedagogyData}
+4. Tone: Be encouraging, patient, and treat the student as "tú" (informal Spanish).
+5. Study Skills: Suggest a specific technique (Pomodoro, Mind Mapping, Active Recall) when appropriate for ${subject}.
+
+CONSTRAINTS:
+- Be brief (3-6 lines per message).
+- Only one question at a time.
+- If this is the start of the conversation, introduce yourself briefly in Spanish and ask if they are in "Sección" or "Programa" to adapt your English level.
+    `;
+    }
+
+    // C. Llamada a Groq
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${c.env.GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [{ role: 'system', content: finalSystemPrompt }, ...messages],
+        max_tokens: 500,
+        temperature: 0.7
+      }),
+    });
+
+    if (!groqRes.ok) {
+      const errorData = await groqRes.text();
+      return c.json({ error: { message: "Error de Groq: " + errorData } }, 500);
+    }
+
+    const data = await groqRes.json();
+    const aiText = data.choices?.[0]?.message?.content ?? '¡Lo siento! Error inesperado.';
+
+    // E. Guardar historial en Firestore (fire-and-forget)
+    if (hasFirestore(c.env)) {
+      const fsBase = firestoreBase(c.env);
+      const saveMsg = async (role, content) => {
+        await fetch(`${fsBase}/sofia_messages/${userId}/history?key=${c.env.FIREBASE_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: {
+            role: { stringValue: role },
+            content: { stringValue: typeof content === 'string' ? content : JSON.stringify(content) },
+            timestamp: { timestampValue: new Date().toISOString() },
+          }}),
+        });
+      };
+      c.executionCtx.waitUntil(Promise.all([
+        saveMsg('user', lastUserMsg),
+        saveMsg('assistant', aiText),
+      ]));
+    }
+
+    // F. Enviamos respuesta y la unidad detectada al frontend
+    return c.json({ 
+      content: [{ type: 'text', text: aiText }],
+      detectedUnit: detectedUnit ? detectedUnit.id : null 
+    });
+
   } catch (err) {
     return c.json({ error: { message: err.message } }, 500);
   }
 });
 
-app.post('/message', async (c) => {
-  const { messages, system, userId = 'default_user' } = await c.req.json();
-
-  // ── 1. Call Groq ──
-  const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${c.env.GROQ_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'system', content: system }, ...messages],
-      max_tokens: 500,
-    }),
-  });
-
-  if (!groqRes.ok) {
-    const err = await groqRes.text();
-    return c.json({ error: { message: err } }, 500);
+// ℹ️ 5. Ruta para obtener metadatos de la asignatura (Idioma, Badge, etc.)
+app.post('/subject-info', async (c) => {
+  try {
+    const { subject, grade } = await c.req.json();
+    return c.json(getSubjectMeta(subject, grade));
+  } catch (err) {
+    return c.json({ error: { message: err.message } }, 500);
   }
-
-  const data = await groqRes.json();
-  const aiText = data.choices?.[0]?.message?.content ?? '¡Lo siento! Error inesperado.';
-
-  // ── 2. Save to Firestore (fire-and-forget) ──
-  if (hasFirestore(c.env)) {
-    const fsBase = firestoreBase(c.env);
-    const saveMsg = async (role, content) => {
-      await fetch(
-        `${fsBase}/sofia_messages/${userId}/history?key=${c.env.FIREBASE_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              role:      { stringValue: role },
-              content:   { stringValue: typeof content === 'string' ? content : JSON.stringify(content) },
-              timestamp: { timestampValue: new Date().toISOString() },
-            },
-          }),
-        }
-      );
-    };
-    const lastUser = messages[messages.length - 1];
-    c.executionCtx.waitUntil(
-      Promise.all([
-        saveMsg(lastUser.role, lastUser.content),
-        saveMsg('assistant', aiText),
-      ])
-    );
-  }
-
-  // ── 3. Return response ──
-  return c.json({ content: [{ type: 'text', text: aiText }] });
 });
 
-app.get('/', (c) => c.text('Sofía Worker OK'));
+app.get('/', (c) => c.text('Sofía Worker OK - Brain Connected'));
 
 export default app;
