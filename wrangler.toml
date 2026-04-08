@@ -1,4 +1,9 @@
 name = "sofia-tutor"
 main = "server.js"
 compatibility_date = "2026-04-04"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# ✅ Updated to your actual Cloudflare Pages URL
+ALLOWED_ORIGINS = "https://sofia-tutora.pages.dev,http://localhost:5173,http://localhost:8787"
+
