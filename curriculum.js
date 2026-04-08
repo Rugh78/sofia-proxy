@@ -653,3 +653,17 @@ function detectCurriculumUnit(subject, grade, text) {
   const units = getSubjectUnits(subject, grade);
   return units.find(unit => unit.keywords.some(keyword => norm.includes(keyword.toLowerCase()))) || null;
 }
+
+// ── EXPORTS FOR SERVER.JS ──────────────────────────────────────
+export {
+  buildPedagogyBlock,
+  getCurriculumGuide,
+  resolveSubjectKey,
+  getSubjectLanguage,
+  getSubjectMeta,
+  getSubjectUnits,
+  detectCurriculumUnit,
+  GRADE_INFO,
+  LEARNING_MODES,
+  SUBJECT_META
+};
