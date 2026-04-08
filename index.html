@@ -1144,7 +1144,9 @@ body.dark .side-action.active {
 <script src="curriculum.js"></script>
 <script>
 // ── CONFIG ──
-const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
+const WORKER_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8787' 
+  : 'https://sofia-tutor.roi-abre.workers.dev';
 
 // ── GRADE METADATA ──
 
@@ -2107,7 +2109,15 @@ async function sendMsg(txt) {
     const res = await fetch(`${WORKER_URL}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'default_user' })
+      body: JSON.stringify({ 
+        system, 
+        messages: history, 
+        userId: studentSyncKey || 'default_user',
+        subject,
+        grade: studentGrade,
+        learningMode,
+        studentName
+      })
     });
     const d = await res.json();
     if (d.error) { hideTyping(); addMsg('ai', `⚠️ API Error: ${d.error.message || JSON.stringify(d.error)}`); loading=false; updateSendBtn(); return; }
