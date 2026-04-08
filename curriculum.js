@@ -65,23 +65,55 @@ const MADRID_CURRICULUM = {
       }
     },
     'Biología': {
-    rationale: 'Observe, explain, and relate natural phenomena to health, living things, and the environment.',
-    grades: {
-      '1º ESO': { focus: ['living things', 'the cell', 'vital functions', 'ecosystems'], outcomes: ['basic scientific vocabulary', 'classifies examples'], misconceptions: ['memorizing names without understanding functions', 'confusing levels of organization'] },
-      '2º ESO': { focus: ['energy in ecosystems', 'trophic relationships', 'biodiversity'], outcomes: ['cause-effect relationships', 'interprets diagrams'], misconceptions: ['habitat vs niche', 'ecosystems as simple lists'] },
-      '3º ESO': { focus: ['human body systems', 'nutrition', 'coordination', 'health'], outcomes: ['bodily processes', 'informed health decisions'], misconceptions: ['separating systems without seeing coordination'] },
-      '4º ESO': { focus: ['genetics', 'evolution', 'biotechnology'], outcomes: ['inheritance and variability', 'evolutionary evidence'], misconceptions: ['evolution as linear progress', 'gene vs visible trait'] }
-    }
-  },
+      rationale: 'La materia debe ayudar a observar, explicar y relacionar fenómenos naturales con la salud, los seres vivos y el medio ambiente.',
+      grades: {
+        '1º ESO': {
+          focus: ['seres vivos', 'célula', 'funciones vitales', 'ecosistemas', 'salud y hábitos'],
+          outcomes: ['describe procesos con vocabulario científico básico', 'clasifica ejemplos', 'relaciona ciencia y vida cotidiana'],
+          misconceptions: ['memorizar nombres sin comprender funciones', 'confundir niveles de organización', 'mezclar nutrición con alimentación'],
+        },
+        '2º ESO': {
+          focus: ['materia y energía en los ecosistemas', 'relaciones tróficas', 'biodiversidad', 'impacto humano y sostenibilidad'],
+          outcomes: ['explica relaciones causa-efecto en sistemas naturales', 'interpreta esquemas y cadenas tróficas', 'propone medidas sencillas de cuidado ambiental'],
+          misconceptions: ['entender los ecosistemas como listas de seres vivos', 'confundir hábitat con nicho', 'ver el impacto humano solo como contaminación visible'],
+        },
+        '3º ESO': {
+          focus: ['organización del cuerpo humano', 'nutrición', 'relación', 'reproducción', 'salud'],
+          outcomes: ['explica procesos corporales', 'interpreta causas y consecuencias', 'toma decisiones informadas sobre salud'],
+          misconceptions: ['separar sistemas sin ver su coordinación', 'repetir definiciones sin función biológica', 'no conectar hábitos con prevención'],
+        },
+        '4º ESO': {
+          focus: ['genética básica', 'evolución', 'biotecnología', 'ecología y salud'],
+          outcomes: ['relaciona herencia y variabilidad', 'explica cambios evolutivos con evidencias', 'valora implicaciones éticas y sociales de la ciencia'],
+          misconceptions: ['pensar la evolución como progreso lineal', 'confundir gen con rasgo visible', 'tratar la genética como puro vocabulario'],
+        },
+      }
+    },
     'Historia': {
-    rationale: 'Build historical and geographical thinking, causality, and relationship between facts and sources.',
-    grades: {
-      '1º ESO': { focus: ['Earth Relief', 'Climates', 'Ancient Civilizations'], outcomes: ['Chronology', 'Historical legacy'], misconceptions: ['dates without context', 'ignoring sources'] },
-      '2º ESO': { focus: ['Middle Ages', 'Al-Andalus', 'Christian kingdoms'], outcomes: ['feudalism', 'cultural exchange'], misconceptions: ['treating periods as isolated blocks'] },
-      '3º ESO': { focus: ['Economic Sectors', 'Industrial Revolution', '18th & 19th Century'], outcomes: ['Trade and industry', 'Political change'], misconceptions: ['forgetting social actors'] },
-      '4º ESO': { focus: ['Contemporary History', 'World Wars', '20th Century Spain'], outcomes: ['analyses conflicts', 'evidence-based arguing'], misconceptions: ['oversimplifying complex conflicts'] }
-    }
-  },
+      rationale: 'La enseñanza debe construir pensamiento histórico, comprensión del tiempo, causalidad y relación entre hechos, fuentes y contextos.',
+      grades: {
+        '1º ESO': {
+          focus: ['prehistoria', 'primeras civilizaciones', 'mundo clásico', 'ejes temporales y mapas'],
+          outcomes: ['ordena cronológicamente', 'usa vocabulario histórico básico', 'explica cambios y permanencias'],
+          misconceptions: ['aprender fechas sin proceso histórico', 'confundir simultaneidad con causalidad', 'ignorar el uso de mapas y fuentes'],
+        },
+        '2º ESO': {
+          focus: ['Edad Media', 'Al-Ándalus', 'reinos cristianos', 'Edad Moderna temprana'],
+          outcomes: ['conecta hechos con contexto', 'interpreta mapas y fuentes sencillas', 'compara sociedades'],
+          misconceptions: ['ver periodos históricos como bloques aislados', 'reducir Al-Ándalus a una etiqueta', 'responder sin situar espacio y tiempo'],
+        },
+        '3º ESO': {
+          focus: ['expansión europea', 'Antiguo Régimen', 'Ilustración', 'revoluciones liberales e industrialización'],
+          outcomes: ['explica transformaciones políticas, económicas y sociales', 'relaciona causas y consecuencias', 'compara procesos históricos'],
+          misconceptions: ['separar revoluciones políticas y económicas', 'memorizar acontecimientos sin hilo conductor', 'olvidar a los actores sociales'],
+        },
+        '4º ESO': {
+          focus: ['Edad Contemporánea', 'España contemporánea', 'cambios políticos y sociales', 'siglo XX y mundo actual'],
+          outcomes: ['analiza causas y consecuencias', 'argumenta con evidencias', 'relaciona procesos históricos'],
+          misconceptions: ['simplificar conflictos complejos', 'usar explicaciones monocausales', 'no distinguir hecho, interpretación y opinión'],
+        },
+      }
+    },
     'Lengua': {
       rationale: 'La prioridad es comprender, expresar, argumentar y revisar el propio lenguaje oral y escrito con creciente autonomía.',
       grades: {
@@ -108,16 +140,33 @@ const MADRID_CURRICULUM = {
       }
     },
     'Inglés': {
-    rationale: 'Learning must combine comprehension, production, interaction, and functional use in real-life situations.',
-    grades: {
-      '1º ESO': { focus: ['everyday vocabulary', 'present simple/continuous', 'guided production'], outcomes: ['understands simple messages', 'model structures'], misconceptions: ['translating word-for-word', 'ignoring pronunciation'] },
-      '2º ESO': { focus: ['past simple', 'comparatives', 'structured writing'], outcomes: ['tense usage', 'improves fluency'], misconceptions: ['mixing tenses without reference', 'writing without models'] },
-      '3º ESO': { focus: ['present perfect', 'future forms', 'basic conditionals'], outcomes: ['communicative intent', 'greater autonomy'], misconceptions: ['confusing present perfect with past simple', 'isolated grammar'] },
-      '4º ESO': { focus: ['conditionals', 'reported speech', 'passive voice'], outcomes: ['complex structures', 'adjusts register'], misconceptions: ['structure vs function', 'neglecting context'] }
+      rationale: 'El aprendizaje debe combinar comprensión, producción, interacción y uso funcional del idioma en situaciones reales.',
+      grades: {
+        '1º ESO': {
+          focus: ['vocabulario cotidiano', 'present simple/continuous', 'comprensión básica', 'producción guiada'],
+          outcomes: ['entiende mensajes sencillos', 'responde con estructuras modelo', 'gana confianza para comunicarse'],
+          misconceptions: ['traducir palabra por palabra', 'usar reglas sin contexto', 'ignorar pronunciación y comprensión'],
+        },
+        '2º ESO': {
+          focus: ['past simple', 'comparatives', 'reading/listening guiado', 'writing estructurado'],
+          outcomes: ['usa tiempos y estructuras con apoyo', 'corrige errores frecuentes', 'mejora fluidez y comprensión'],
+          misconceptions: ['mezclar tiempos verbales sin referencia temporal', 'aprender listas sin uso comunicativo', 'escribir sin modelos'],
+        },
+        '3º ESO': {
+          focus: ['present perfect', 'future forms', 'conditionals básicos', 'reading inferencial', 'speaking guiado'],
+          outcomes: ['selecciona la estructura según intención comunicativa', 'comprende información explícita e inferida', 'se expresa con mayor autonomía'],
+          misconceptions: ['confundir present perfect con past simple', 'centrarse solo en gramática aislada', 'evitar hablar por miedo al error'],
+        },
+        '4º ESO': {
+          focus: ['conditionals', 'reported speech', 'passive voice', 'writing formal', 'interacción y mediación'],
+          outcomes: ['usa estructuras complejas con más control', 'ajusta el registro', 'comprende textos y audios más variados'],
+          misconceptions: ['transformar estructuras sin comprender su función', 'descuidar el contexto comunicativo', 'pensar que hablar bien es no cometer ningún error'],
+        },
+      }
     }
   }
 };
-     
+
 const SUBJECT_LANGUAGE = {
   'Matemáticas': 'es',
   'Biología': 'en',
@@ -127,6 +176,110 @@ const SUBJECT_LANGUAGE = {
   'Inglés': 'en',
 };
 
+const SUBJECT_META = {
+  'Matemáticas': {
+    language: 'es',
+    badge: 'ES',
+    welcomePrompt: '¿Por qué tema de Matemáticas empezamos hoy?',
+    topicPrompt: '¿Qué tema quieres trabajar y qué te está costando?',
+    modePrompts: {
+      diagnostico: 'Vamos a empezar con un **diagnóstico** en Matemáticas. Te haré preguntas cortas para ver desde dónde partimos.',
+      guiada: 'Pasamos a **enseñanza guiada** en Matemáticas. Iremos paso a paso, con una idea cada vez.',
+      practica: 'Entramos en **práctica** de Matemáticas. Voy a proponerte ejercicios cortos con feedback inmediato.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnóstico',
+      guiada: '🧭 Guiada',
+      practica: '💪 Práctica',
+      exam: '📝 Modo examen',
+    },
+  },
+  'Biología': {
+    language: 'en',
+    badge: 'EN',
+    welcomePrompt: 'Which Biology topic should we start with today?',
+    topicPrompt: 'Which topic do you want to work on, and what feels difficult right now?',
+    modePrompts: {
+      diagnostico: 'Let’s start with a **diagnostic check** in Biology. I’ll ask a few short questions to see your starting point.',
+      guiada: 'We are switching to **guided learning** in Biology. We will go step by step, one idea at a time.',
+      practica: 'We are now in **practice mode** for Biology. I’ll give you short tasks and immediate feedback.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnose',
+      guiada: '🧭 Guided',
+      practica: '💪 Practice',
+      exam: '📝 Exam mode',
+    },
+  },
+  'Física y Química': {
+    language: 'es',
+    badge: 'ES',
+    welcomePrompt: '¿Por qué tema de Física y Química empezamos hoy?',
+    topicPrompt: '¿Qué tema quieres trabajar y qué parte te resulta más difícil?',
+    modePrompts: {
+      diagnostico: 'Vamos a empezar con un **diagnóstico** en Física y Química. Te haré unas preguntas cortas para ver desde dónde partimos.',
+      guiada: 'Pasamos a **enseñanza guiada** en Física y Química. Iremos paso a paso, con el procedimiento bien justificado.',
+      practica: 'Entramos en **práctica** de Física y Química. Te propondré ejercicios cortos con corrección inmediata.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnóstico',
+      guiada: '🧭 Guiada',
+      practica: '💪 Práctica',
+      exam: '📝 Modo examen',
+    },
+  },
+  'Historia': {
+    language: 'en',
+    badge: 'EN',
+    welcomePrompt: 'Which Social Sciences topic should we start with today?',
+    topicPrompt: 'Which Geography or History topic do you want to work on, and what part feels hardest?',
+    modePrompts: {
+      diagnostico: 'Let’s start with a **diagnostic check** in Social Sciences. I’ll ask a few short questions to see what you already remember.',
+      guiada: 'We are switching to **guided learning** in Social Sciences. We will connect ideas step by step.',
+      practica: 'We are now in **practice mode** for Social Sciences. I’ll give you short questions with immediate feedback.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnose',
+      guiada: '🧭 Guided',
+      practica: '💪 Practice',
+      exam: '📝 Exam mode',
+    },
+  },
+  'Lengua': {
+    language: 'es',
+    badge: 'ES',
+    welcomePrompt: '¿Por qué tema de Lengua empezamos hoy?',
+    topicPrompt: '¿Qué tema quieres trabajar y en qué parte necesitas más ayuda?',
+    modePrompts: {
+      diagnostico: 'Vamos a empezar con un **diagnóstico** en Lengua. Te haré preguntas cortas para ver tu punto de partida.',
+      guiada: 'Pasamos a **enseñanza guiada** en Lengua. Iremos paso a paso, con ejemplos muy claros.',
+      practica: 'Entramos en **práctica** de Lengua. Te propondré ejercicios cortos con feedback inmediato.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnóstico',
+      guiada: '🧭 Guiada',
+      practica: '💪 Práctica',
+      exam: '📝 Modo examen',
+    },
+  },
+  'Inglés': {
+    language: 'en',
+    badge: 'EN',
+    welcomePrompt: 'Which English topic should we start with today?',
+    topicPrompt: 'Which topic do you want to work on, and what part feels hardest?',
+    modePrompts: {
+      diagnostico: 'Let’s begin with a short **diagnostic check** in English. I’ll ask a few quick questions first.',
+      guiada: 'We are switching to **guided learning** in English. We will build the answer step by step.',
+      practica: 'We are now in **practice mode** for English. I’ll give you short exercises and instant feedback.',
+    },
+    chips: {
+      diagnostico: '🎯 Diagnose',
+      guiada: '🧭 Guided',
+      practica: '💪 Practice',
+      exam: '📝 Exam mode',
+    },
+  },
+};
 
 const SUBJECT_UNIT_MAP = {
   'Lengua': {
@@ -147,59 +300,33 @@ const SUBJECT_UNIT_MAP = {
   },
   'Biología': {
     '1º ESO': [
-      { id: 'bg1-u1', title: 'The Cell', titleEn: 'The Cell', keywords: ['cell', 'organelles', 'nucleus', 'mitochondria', 'prokaryotic'] },
-      { id: 'bg1-u2', title: 'Living Things', titleEn: 'Living Things', keywords: ['kingdom', 'monera', 'protista', 'fungi', 'plants', 'animals'] },
-      { id: 'bg1-u3', title: 'Invertebrates and Plants', titleEn: 'Invertebrates and Plants', keywords: ['arthropods', 'mollusks', 'photosynthesis', 'angiosperms'] }
+      { id: 'bg1-geosfera', title: 'La Geosfera terrestre e impactos de actividades humanas', titleEn: 'The geosphere and human impact', keywords: ['geosfera', 'rocas', 'minerales', 'volcanes'] },
+      { id: 'bg1-atmosfera', title: 'La Atmósfera terrestre e impactos de actividades humanas', titleEn: 'The atmosphere and human impact', keywords: ['atmósfera', 'aire', 'capas', 'contaminación'] },
+      { id: 'bg1-hidrosfera', title: 'La Hidrosfera terrestre e impactos de actividades humanas', titleEn: 'The hydrosphere and human impact', keywords: ['hidrosfera', 'agua', 'ríos', 'mares', 'ciclo del agua'] },
+      { id: 'bg1-biosfera-celula', title: 'La Biosfera terrestre y la célula', titleEn: 'The biosphere and the cell', keywords: ['biosfera', 'seres vivos', 'célula', 'cell'] },
+      { id: 'bg1-clasificacion', title: 'Clasificación de seres vivos y reinos', titleEn: 'Classification of living things and kingdoms', keywords: ['clasificación', 'reinos', 'taxonomy', 'living things'] },
+      { id: 'bg1-plantas', title: 'Reino Plantas', titleEn: 'Plant kingdom', keywords: ['plantas', 'plants', 'photosynthesis', 'fotosíntesis'] },
+      { id: 'bg1-animal', title: 'Reino Animal', titleEn: 'Animal kingdom', keywords: ['animals', 'animales', 'animal kingdom'] },
+      { id: 'bg1-invertebrados', title: 'Animales invertebrados', titleEn: 'Invertebrate animals', keywords: ['invertebrates', 'invertebrados', 'arthropods'] },
+      { id: 'bg1-vertebrados', title: 'Animales vertebrados', titleEn: 'Vertebrate animals', keywords: ['vertebrates', 'vertebrados', 'mammals', 'birds', 'fish'] },
+      { id: 'bg1-salud', title: 'Hábitos saludables', titleEn: 'Healthy habits', keywords: ['healthy habits', 'hábitos saludables', 'health', 'alimentación'] },
     ],
-    '3º ESO': [
-      { id: 'bg3-u1', title: 'Human Anatomy', titleEn: 'Human Anatomy', keywords: ['digestive', 'respiratory', 'circulatory', 'excretory', 'organs'] },
-      { id: 'bg3-u2', title: 'Health and Nutrition', titleEn: 'Health and Nutrition', keywords: ['nutrients', 'diet', 'diseases', 'vaccines', 'healthy habits'] }
-    ],
-    '4º ESO': [
-      { id: 'bg4-u1', title: 'Genetics', titleEn: 'Genetics', keywords: ['dna', 'gene', 'mendel', 'inheritance', 'chromosome'] },
-      { id: 'bg4-u2', title: 'Evolution', titleEn: 'Evolution', keywords: ['darwin', 'natural selection', 'lamarck', 'species'] }
-    ]
   },
   'Historia': {
     '1º ESO': [
-      { id: 'gh1-u1', title: 'Prehistory', titleEn: 'Prehistory', keywords: ['palaeolithic', 'neolithic', 'hominids', 'metal ages'] },
-      { id: 'gh1-u2', title: 'Ancient Civilizations', titleEn: 'Ancient Civilizations', keywords: ['mesopotamia', 'egypt', 'pharaoh', 'nile'] },
-      { id: 'gh1-u3', title: 'Greece and Rome', titleEn: 'Greece and Rome', keywords: ['polis', 'athens', 'sparta', 'empire', 'senate', 'republic'] }
+      { id: 'gh1-tierra', title: 'La Tierra y su representación', titleEn: 'Earth and its representation', keywords: ['tierra', 'representación', 'mapas', 'coordenadas'] },
+      { id: 'gh1-relieve', title: 'El relieve terrestre', titleEn: 'Landforms and relief', keywords: ['relieve', 'montañas', 'llanuras'] },
+      { id: 'gh1-aguas', title: 'Las aguas', titleEn: 'Water on Earth', keywords: ['aguas', 'ríos', 'mares', 'océanos'] },
+      { id: 'gh1-clima', title: 'El clima', titleEn: 'Climate', keywords: ['clima', 'temperatura', 'precipitaciones'] },
+      { id: 'gh1-paisajes', title: 'Los paisajes de la Tierra', titleEn: 'Earth landscapes', keywords: ['paisajes', 'paisaje natural', 'paisaje humanizado'] },
+      { id: 'gh1-continentes', title: 'Atlas de los continentes', titleEn: 'Continents atlas', keywords: ['continentes', 'atlas'] },
+      { id: 'gh1-espana-fisica', title: 'El estudio físico de España', titleEn: 'Physical geography of Spain', keywords: ['españa', 'relieve de españa', 'clima de españa'] },
+      { id: 'gh1-prehistoria', title: 'La prehistoria', titleEn: 'Prehistory', keywords: ['prehistoria', 'paleolítico', 'neolítico'] },
+      { id: 'gh1-fluviales', title: 'Mesopotamia y Egipto', titleEn: 'Mesopotamia and Egypt', keywords: ['mesopotamia', 'egipto', 'civilizaciones fluviales'] },
+      { id: 'gh1-grecia', title: 'La civilización griega', titleEn: 'Ancient Greece', keywords: ['grecia', 'griega', 'polis'] },
+      { id: 'gh1-roma', title: 'La civilización romana', titleEn: 'Ancient Rome', keywords: ['roma', 'romana', 'imperio romano'] },
+      { id: 'gh1-antiguedad-espana', title: 'España en la Antigüedad', titleEn: 'Ancient Spain', keywords: ['hispania', 'españa en la antigüedad'] },
     ],
-    '2º ESO': [
-      { id: 'gh2-u1', title: 'The Middle Ages', titleEn: 'The Middle Ages', keywords: ['feudalism', 'vassal', 'crusades', 'gothic', 'romanesque'] },
-      { id: 'gh2-u2', title: 'Islam and Al-Andalus', titleEn: 'Islam and Al-Andalus', keywords: ['mohammad', 'caliphate', 'emirate', 'alhambra', 'reconquista'] }
-    ],
-    '4º ESO': [
-      { id: 'gh4-u1', title: 'Historia Contemporánea', keywords: ['revolucion francesa', 'industrializacion', 'imperialismo', 'primera guerra mundial'] },
-      { id: 'gh4-u2', title: 'Siglo XX y España', keywords: ['guerra civil', 'franquismo', 'segunda guerra mundial', 'transicion'] }
-    ]
-  },
- 'Matemáticas': {
-    '1º ESO': [
-      { id: 'mat1-u1', title: 'Números naturales y divisibilidad', keywords: ['naturales', 'divisibilidad', 'mcd', 'mcm', 'primos'] },
-      { id: 'mat1-u2', title: 'Números enteros', keywords: ['enteros', 'negativos', 'valor absoluto', 'recta numerica'] },
-      { id: 'mat1-u3', title: 'Fracciones y Decimales', keywords: ['fraccion', 'numerador', 'denominador', 'equivalentes', 'decimales'] },
-      { id: 'mat1-u4', title: 'Proporcionalidad y porcentajes', keywords: ['regla de tres', 'porcentaje', 'proporcional', 'descuento'] },
-      { id: 'mat1-u5', title: 'Álgebra inicial', keywords: ['algebra', 'ecuacion', 'incognita', 'monomio', 'letras'] },
-      { id: 'mat1-u6', title: 'Geometría plana', keywords: ['poligono', 'triangulo', 'area', 'perimetro', 'circulo', 'pitagoras'] }
-    ],
-    '2º ESO': [
-      { id: 'mat2-u1', title: 'Potencias y raíces', keywords: ['potencia', 'raiz cuadrada', 'exponente', 'base'] },
-      { id: 'mat2-u2', title: 'Álgebra: Polinomios', keywords: ['polinomio', 'grado', 'identidad notable', 'suma de monomios'] },
-      { id: 'mat2-u3', title: 'Ecuaciones y Sistemas', keywords: ['ecuacion segundo grado', 'sistema de ecuaciones', 'sustitucion', 'reduccion'] },
-      { id: 'mat2-u4', title: 'Funciones y gráficas', keywords: ['ejes', 'coordenadas', 'funcion', 'pendiente', 'recta'] }
-    ],
-    '3º ESO': [
-      { id: 'mat3-u1', title: 'Números racionales e irracionales', keywords: ['racionales', 'irracionales', 'notacion cientifica', 'error'] },
-      { id: 'mat3-u2', title: 'Sucesiones', keywords: ['sucesion', 'progresion aritmetica', 'progresion geometrica', 'termino general'] },
-      { id: 'mat3-u3', title: 'Geometría del espacio', keywords: ['volumen', 'area lateral', 'piramide', 'cono', 'esfera', 'prisma'] }
-    ],
-    '4º ESO': [
-      { id: 'mat4-u1', title: 'Números reales y Logaritmos', keywords: ['reales', 'logaritmo', 'intervalo', 'entorno'] },
-      { id: 'mat4-u2', title: 'Trigonometría', keywords: ['seno', 'coseno', 'tangente', 'triangulo rectangulo', 'radianes'] },
-      { id: 'mat4-u3', title: 'Geometría analítica', keywords: ['vector', 'recta', 'ecuacion explicita', 'distancia entre puntos'] }
-    ]
   },
   'Física y Química': {
     '2º ESO': [
