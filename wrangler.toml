@@ -6,4 +6,6 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 # ✅ Updated to your actual Cloudflare Pages URL
 ALLOWED_ORIGINS = "https://sofia-tutora.pages.dev,http://localhost:5173,http://localhost:8787"
-
+[[kv_namespaces]]
+binding = "TUTOR_CACHE"
+id = "your_generated_id_here"
