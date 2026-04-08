@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-// IMPORTACIÓN COMPLETA DE LA INTELIGENCIA
+// Importamos toda la inteligencia de curriculum.js
 import { 
   buildPedagogyBlock, 
   getSubjectMeta, 
@@ -11,96 +11,104 @@ import {
 
 const app = new Hono();
 
-// 🔒 Configuración de CORS
+// 🔒 1. Configuración de CORS (Permite que tu web hable con el servidor)
 app.use('/*', cors());
 
-// --- HELPERS DE FIRESTORE ---
+// 🛠️ 2. Helpers para Firebase/Firestore
 function firestoreBase(env) {
   return `https://firestore.googleapis.com/v1/projects/${env.FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 }
+
 function hasFirestore(env) {
-  return Boolean(env.FIREBASE_PROJECT_ID && env.FIREBASE_API_KEY);
+  return !!(env.FIREBASE_PROJECT_ID && env.FIREBASE_API_KEY);
 }
+
 function encodeFields(data) {
-  return Object.fromEntries(Object.entries(data).map(([key, value]) => {
-    if (typeof value === 'number') return [key, { integerValue: String(Math.trunc(value)) }];
-    return [key, { stringValue: value == null ? '' : String(value) }];
-  }));
+  return Object.fromEntries(
+    Object.entries(data).map(([key, value]) => {
+      if (typeof value === 'number') return [key, { integerValue: String(Math.trunc(value)) }];
+      return [key, { stringValue: value == null ? '' : String(value) }];
+    })
+  );
 }
+
 function decodeField(field) {
   if (!field) return null;
   if ('stringValue' in field) return field.stringValue;
   if ('integerValue' in field) return Number(field.integerValue);
-  if ('timestampValue' in field) return field.timestampValue;
   return null;
 }
 
-// --- RUTAS DE PERFIL ---
-async function fetchStudentMemory(env, studentKey) {
-  const res = await fetch(`${firestoreBase(env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${env.FIREBASE_API_KEY}`);
-  if (res.status === 404) return null;
-  const data = await res.json();
-  const fields = data.fields || {};
-  return Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, decodeField(v)]));
-}
-
+// 📥 3. Rutas de Perfil del Alumno (Cargar y Guardar)
 app.get('/student/:studentKey', async (c) => {
-  if (!hasFirestore(c.env)) return c.json({ error: { message: 'Firestore not configured' } }, 503);
+  if (!hasFirestore(c.env)) return c.json({ student: null });
   try {
-    const data = await fetchStudentMemory(c.env, c.req.param('studentKey'));
-    return c.json({ student: data });
-  } catch (err) { return c.json({ error: { message: err.message } }, 500); }
+    const studentKey = c.req.param('studentKey');
+    const res = await fetch(`${firestoreBase(c.env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${c.env.FIREBASE_API_KEY}`);
+    if (!res.ok) return c.json({ student: null });
+    const data = await res.json();
+    const fields = data.fields || {};
+    const student = Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, decodeField(v)]));
+    return c.json({ student });
+  } catch (err) {
+    return c.json({ student: null });
+  }
 });
 
 app.post('/student/:studentKey', async (c) => {
-  if (!hasFirestore(c.env)) return c.json({ error: { message: 'Firestore not configured' } }, 503);
+  const studentKey = c.req.param('studentKey');
   try {
-    const studentKey = c.req.param('studentKey');
     const body = await c.req.json();
-    const res = await fetch(`${firestoreBase(c.env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${c.env.FIREBASE_API_KEY}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: encodeFields({
-        profileJson: JSON.stringify(body.profile || {}),
-        progressJson: JSON.stringify(body.progress || {}),
-        sessionsJson: JSON.stringify(body.sessions || []),
-        updatedAt: new Date().toISOString(),
-      })}),
-    });
+    if (hasFirestore(c.env)) {
+      await fetch(`${firestoreBase(c.env)}/sofia_profiles/${encodeURIComponent(studentKey)}?key=${c.env.FIREBASE_API_KEY}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: encodeFields({
+          profileJson: JSON.stringify(body.profile || {}),
+          progressJson: JSON.stringify(body.progress || {}),
+          sessionsJson: JSON.stringify(body.sessions || []),
+          updatedAt: new Date().toISOString(),
+        })}),
+      });
+    }
     return c.json({ ok: true });
-  } catch (err) { return c.json({ error: { message: err.message } }, 500); }
+  } catch (err) {
+    console.error("Error guardando perfil:", err.message);
+    return c.json({ ok: true }); // Respondemos OK para no bloquear la interfaz
+  }
 });
 
-// --- RUTA PRINCIPAL DE MENSAJES ---
+// 💬 4. Ruta Principal de Mensajes (La Inteligencia de Sofía)
 app.post('/message', async (c) => {
-  const body = await c.req.json();
-  const { 
-    messages, 
-    userId = 'default_user', 
-    subject = 'Matemáticas', 
-    grade = '1º ESO', 
-    learningMode = 'guiada',
-    studentName = 'la alumna'
-  } = body;
+  try {
+    const body = await c.req.json();
+    const { 
+      messages, 
+      userId = 'default_user', 
+      subject = 'Matemáticas', 
+      grade = '1º ESO', 
+      learningMode = 'guiada',
+      studentName = 'la alumna'
+    } = body;
 
-  // 1. Lógica de Currículo y Bilingüismo
-  const pedagogyData = buildPedagogyBlock(learningMode, grade, subject);
-  const instructionLang = getSubjectLanguage(subject, grade);
-  
-  // 2. Detección de Unidad (para el progreso del alumno)
-  const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
-  const detectedUnit = detectCurriculumUnit(subject, grade, lastUserMsg);
+    // A. Obtenemos la configuración pedagógica de Madrid
+    const pedagogyData = buildPedagogyBlock(learningMode, grade, subject);
+    const instructionLang = getSubjectLanguage(subject, grade);
+    
+    // B. Detectamos si el alumno está hablando de un tema específico para el progreso
+    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+    const detectedUnit = detectCurriculumUnit(subject, grade, lastUserMsg);
 
-  // 3. Construcción del System Prompt
-  const finalSystemPrompt = `
+    // C. Construimos el System Prompt con tu lógica de Tutor Experto
+    const finalSystemPrompt = `
 Role: You are Sofía, an expert Private Tutor for a student in Madrid, Spain.
 Student Profile: ${studentName}, currently in ${grade}.
-Context: You are fully familiar with the LOMCE/LOMLOE curriculum of the Comunidad de Madrid.
+Context: You are fully familiar with the LOMCE/LOMLOE curriculum of the Comunidad de Madrid and the Bilingual Program.
 
 PEDAGOGICAL RULES:
-1. Socratic Method: Never give the final answer immediately. Ask leading questions to help ${studentName} find the solution themselves.
+1. Socratic Method: NEVER give the final answer immediately. Ask leading questions to help ${studentName} find the solution themselves.
 2. Bilingual Support: The instruction language for ${subject} is ${instructionLang.toUpperCase()}. 
-   - If instruction is English: Use specific English terminology from the Madrid Bilingual Section, but provide a small Spanish "Glossary" for key terms at the end of the message.
+   - If instruction is English: Use specific English terminology from the Madrid Bilingual Section. At the end of your message, provide a "Glossary" (Spanish translation) for the 3 most important technical terms used.
    - If instruction is Spanish: Respond entirely in Spanish.
 3. Curriculum Alignment: 
    ${pedagogyData}
@@ -110,11 +118,10 @@ PEDAGOGICAL RULES:
 CONSTRAINTS:
 - Be brief (3-6 lines per message).
 - Only one question at a time.
-- If this is the start, ask if they are in "Sección" or "Programa" to adapt your English level.
-  `;
+- If this is the start of the conversation, introduce yourself briefly in Spanish and ask if they are in "Sección" or "Programa" to adapt your English level.
+    `;
 
-  // 4. Llamada a Groq
-  try {
+    // D. Llamada a Groq
     const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -129,13 +136,19 @@ CONSTRAINTS:
       }),
     });
 
+    if (!groqRes.ok) {
+      const errorData = await groqRes.text();
+      return c.json({ error: { message: "Error de Groq: " + errorData } }, 500);
+    }
+
     const data = await groqRes.json();
     const aiText = data.choices?.[0]?.message?.content ?? '¡Lo siento! Error inesperado.';
 
-    // 5. Guardar en Firestore (fire-and-forget)
+    // E. Guardar historial en Firestore (fire-and-forget)
     if (hasFirestore(c.env)) {
+      const fsBase = firestoreBase(c.env);
       const saveMsg = async (role, content) => {
-        await fetch(`${firestoreBase(c.env)}/sofia_messages/${userId}/history?key=${c.env.FIREBASE_API_KEY}`, {
+        await fetch(`${fsBase}/sofia_messages/${userId}/history?key=${c.env.FIREBASE_API_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fields: {
@@ -151,21 +164,27 @@ CONSTRAINTS:
       ]));
     }
 
-    // 6. Respuesta al Frontend (incluyendo la unidad detectada)
+    // F. Enviamos respuesta y la unidad detectada al frontend
     return c.json({ 
       content: [{ type: 'text', text: aiText }],
       detectedUnit: detectedUnit ? detectedUnit.id : null 
     });
 
-  } catch (err) { return c.json({ error: { message: err.message } }, 500); }
+  } catch (err) {
+    return c.json({ error: { message: err.message } }, 500);
+  }
 });
 
-// --- RUTA PARA METADATOS DE INTERFAZ ---
+// ℹ️ 5. Ruta para obtener metadatos de la asignatura (Idioma, Badge, etc.)
 app.post('/subject-info', async (c) => {
-  const { subject, grade } = await c.req.json();
-  return c.json(getSubjectMeta(subject, grade));
+  try {
+    const { subject, grade } = await c.req.json();
+    return c.json(getSubjectMeta(subject, grade));
+  } catch (err) {
+    return c.json({ error: { message: err.message } }, 500);
+  }
 });
 
-app.get('/', (c) => c.text('Sofía Worker OK - Full Brain Active'));
+app.get('/', (c) => c.text('Sofía Worker OK - Brain Connected'));
 
 export default app;
