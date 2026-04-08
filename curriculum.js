@@ -1,4 +1,4 @@
-export const GRADE_INFO = {
+const GRADE_INFO = {
   '1º ESO':  { age: 12, level: 'básico',      detail: 'Contenidos de iniciación. Usa ejemplos muy cotidianos y concretos. Frases cortas. Vocabulario sencillo.' },
   '2º ESO':  { age: 13, level: 'básico',      detail: 'Consolida conceptos de 1º ESO. Introduce razonamiento abstracto poco a poco.' },
   '3º ESO':  { age: 14, level: 'intermedio',  detail: 'Nivel intermedio. Puede manejar más abstracción y relaciones entre conceptos.' },
@@ -7,7 +7,7 @@ export const GRADE_INFO = {
   '2º Bach': { age: 17, level: 'avanzado',    detail: 'Nivel máximo pre-universitario. Orientado a selectividad (EBAU). Máximo rigor, síntesis y precisión.' },
 };
 
-export const LEARNING_MODES = {
+const LEARNING_MODES = {
   diagnostico: { label: 'Diagnóstico', goal: 'detectar qué sabe ya la alumna y sus confusiones', flow: 'Preguntas breves. Resume aciertos y lagunas antes de dar explicaciones largas.' },
   guiada: { label: 'Guiada', goal: 'enseñar paso a paso con andamiaje (scaffolding)', flow: 'Usa una idea cada vez. Pide a la alumna completar el siguiente paso o justificar una decisión.' },
   practica: { label: 'Práctica', goal: 'consolidar mediante ejercicios graduados y feedback inmediato', flow: 'Retos de menor a mayor dificultad. Corrige el error exacto tras cada respuesta.' }
@@ -21,7 +21,7 @@ const LANGUAGE_MAP = {
 };
 
 // --- CURRÍCULO DETALLADO EN ESPAÑOL ---
-export const SPANISH_CURRICULUM = {
+const SPANISH_CURRICULUM = {
   'Matemáticas': {
     grades: {
       '1º ESO': { focus: ['Enteros, fracciones y decimales', 'Proporcionalidad básica', 'Geometría plana'], outcomes: ['Distingue datos de pregunta', 'Justifica operaciones'], misconceptions: ['Confundir parte-todo con división exacta'] },
@@ -48,7 +48,7 @@ export const SPANISH_CURRICULUM = {
 };
 
 // --- CURRÍCULO DETALLADO EN INGLÉS (ANLs) ---
-export const ENGLISH_MEDIUM_CURRICULUM = {
+const ENGLISH_MEDIUM_CURRICULUM = {
   'Biología': {
     rationale: 'Observe, explain, and relate natural phenomena to health, living things, and the environment.',
     grades: {
@@ -79,7 +79,7 @@ export const ENGLISH_MEDIUM_CURRICULUM = {
 };
 
 // --- MAPA DE UNIDADES (PARA PROGRESO) ---
-export const SUBJECT_UNIT_MAP = {
+const SUBJECT_UNIT_MAP = {
   'Matemáticas': {
     '1º ESO': [
       { id: 'mat1-u1', title: 'Números naturales y divisibilidad', keywords: ['naturales', 'divisibilidad', 'mcd', 'mcm', 'primos'] },
@@ -190,7 +190,7 @@ export const SUBJECT_UNIT_MAP = {
 
 // --- FUNCIONES LÓGICAS ---
 
-export function resolveSubjectKey(subject) {
+function resolveSubjectKey(subject) {
   const norm = (subject || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   if (norm.includes('matemat')) return 'Matemáticas';
   if (norm.includes('biolog')) return 'Biología';
@@ -201,13 +201,13 @@ export function resolveSubjectKey(subject) {
   return 'Matemáticas';
 }
 
-export function getSubjectLanguage(subject, grade = '1º ESO') {
+function getSubjectLanguage(subject, grade = '1º ESO') {
   const key = resolveSubjectKey(subject);
   if (key === 'Historia' && grade === '4º ESO') return 'es';
   return LANGUAGE_MAP[key] || 'es';
 }
 
-export function getCurriculumGuide(grade, subject) {
+function getCurriculumGuide(grade, subject) {
   const key = resolveSubjectKey(subject);
   const lang = getSubjectLanguage(key, grade);
   const source = lang === 'en' ? ENGLISH_MEDIUM_CURRICULUM : SPANISH_CURRICULUM;
@@ -215,7 +215,7 @@ export function getCurriculumGuide(grade, subject) {
   return guide.grades[grade] || { focus: ['General course content'], outcomes: ['Applied understanding'], misconceptions: [] };
 }
 
-export function buildPedagogyBlock(modeKey, grade, subject) {
+function buildPedagogyBlock(modeKey, grade, subject) {
   const mode = LEARNING_MODES[modeKey] || LEARNING_MODES.guiada;
   const curr = getCurriculumGuide(grade, subject);
   const lang = getSubjectLanguage(subject, grade);
@@ -237,7 +237,7 @@ export function buildPedagogyBlock(modeKey, grade, subject) {
 - Estrategia: ${mode.flow}`;
 }
 
-export function getSubjectMeta(subject, grade = '1º ESO') {
+function getSubjectMeta(subject, grade = '1º ESO') {
   const key = resolveSubjectKey(subject);
   const lang = getSubjectLanguage(key, grade);
   const texts = {
@@ -248,17 +248,17 @@ export function getSubjectMeta(subject, grade = '1º ESO') {
   return { language: lang, badge: lang.toUpperCase(), welcomePrompt: sel.welcome, topicPrompt: sel.topic };
 }
 
-export function getSubjectUnits(subject, grade) {
+function getSubjectUnits(subject, grade) {
   const key = resolveSubjectKey(subject);
   return SUBJECT_UNIT_MAP[key]?.[grade] || [];
 }
 
-export function getUnitDisplayTitle(subject, unit, lang) {
+function getUnitDisplayTitle(subject, unit, lang) {
   if (!unit) return '';
   return (lang === 'en' && unit.titleEn) ? unit.titleEn : unit.title;
 }
 
-export function detectCurriculumUnit(subject, grade, text) {
+function detectCurriculumUnit(subject, grade, text) {
   if (!text) return null;
   const norm = text.toLowerCase();
   const units = getSubjectUnits(subject, grade);
