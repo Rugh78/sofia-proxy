@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Sofía · Tutora IA · 1º ESO Madrid</title>
+<title>Sofía · Tutora IA · Madrid</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sofía IA">
 <meta name="theme-color" content="#0f0e17">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230f0e17'/%3E%3Ccircle cx='90' cy='90' r='70' fill='url(%23g)'/%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='40%25'%3E%3Cstop offset='0' stop-color='%23ff6b6b'/%3E%3Cstop offset='1' stop-color='%23ffd166'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ctext x='90' y='115' font-size='80' text-anchor='middle'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
-<!-- NEW: Added KaTeX for beautiful math rendering -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <style>
@@ -29,7 +28,7 @@ body {
   overflow: hidden; position: fixed; width: 100%; top: 0; left: 0;
 }
 
-/* ── SIDE MENU OVERLAY ── */
+/* ── SIDE MENU ── */
 #sideOverlay {
   display: none; position: fixed; inset: 0; z-index: 160;
   background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
@@ -70,10 +69,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .subj-btn:active { background: rgba(47, 106, 93, 0.05); }
-.subj-btn.active {
-  color: #143731; background: rgba(47,106,93,0.09);
-  border-left-color: #2f6a5d;
-}
+.subj-btn.active { color: #143731; background: rgba(47,106,93,0.09); border-left-color: #2f6a5d; }
 .subj-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
 
 .side-divider { height: 1px; background: rgba(22, 51, 45, 0.08); margin: 8px 0; }
@@ -86,6 +82,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .side-action:active { background: rgba(47, 106, 93, 0.05); }
+.side-action.active { color: #143731; background: rgba(47,106,93,0.09); }
 .side-action.exam-on { color: #2f6a5d; }
 .side-action .side-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
 
@@ -111,7 +108,6 @@ body {
 .hstatus { font-size: 11px; color: #6b7f77; display: flex; align-items: center; gap: 4px; }
 .dot { width: 6px; height: 6px; background: #2f8f72; border-radius: 50%; animation: pulse 2s infinite; }
 
-/* active subject badge in header */
 #subjectBadge {
   font-size: 12px; padding: 5px 12px; border-radius: 999px;
   background: rgba(255,255,255,0.66); border: 1px solid rgba(22, 51, 45, 0.08);
@@ -125,229 +121,87 @@ body {
   border: 1px solid rgba(47, 106, 93, 0.16);
   background: rgba(255,255,255,0.66); color: #2f6a5d;
 }
-
 .header-right { display: flex; align-items: center; gap: 6px; }
 
+/* ── HOME VIEW ── */
 #homeView {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 16px 18px 12px;
-  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 16px 18px 12px; overflow-y: auto;
 }
-
 #heroCard {
-  background: rgba(255,255,255,0.48);
-  border: 1px solid rgba(22, 51, 45, 0.06);
-  border-radius: 34px;
-  padding: 28px 24px;
+  background: rgba(255,255,255,0.48); border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 34px; padding: 28px 24px;
   box-shadow: 0 18px 40px rgba(54, 62, 56, 0.08);
 }
+.hero-kicker { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6a8178; }
+.hero-title { margin-top: 10px; font-size: clamp(28px, 4vw, 42px); line-height: 1.02; letter-spacing: -0.03em; color: #143731; max-width: 12ch; }
+.hero-title .accent { color: #2f6a5d; }
+.hero-copy { margin-top: 14px; max-width: 48ch; font-size: 16px; line-height: 1.55; color: #4b645d; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.hero-btn { border: none; border-radius: 999px; padding: 13px 20px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.hero-btn.primary { background: #376f62; color: #f6f2eb; box-shadow: 0 10px 24px rgba(55, 111, 98, 0.18); }
+.hero-btn.secondary { background: rgba(255,255,255,0.72); color: #2f6a5d; border: 1px solid rgba(22, 51, 45, 0.08); }
 
-.hero-kicker {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6a8178;
-}
+#subjectHub { display: flex; flex-direction: column; gap: 10px; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; }
+.section-title { font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; color: #143731; }
+.section-copy { margin-top: 4px; font-size: 14px; color: #61766f; }
 
-.hero-title {
-  margin-top: 10px;
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: #143731;
-  max-width: 12ch;
-}
-
-.hero-title .accent {
-  color: #2f6a5d;
-}
-
-.hero-copy {
-  margin-top: 14px;
-  max-width: 48ch;
-  font-size: 16px;
-  line-height: 1.55;
-  color: #4b645d;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 18px;
-}
-
-.hero-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 13px 20px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.hero-btn.primary {
-  background: #376f62;
-  color: #f6f2eb;
-  box-shadow: 0 10px 24px rgba(55, 111, 98, 0.18);
-}
-
-.hero-btn.secondary {
-  background: rgba(255,255,255,0.72);
-  color: #2f6a5d;
-  border: 1px solid rgba(22, 51, 45, 0.08);
-}
-
-#subjectHub {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 12px;
-}
-
-.section-title {
-  font-size: 30px;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: #143731;
-}
-
-.section-copy {
-  margin-top: 4px;
-  font-size: 14px;
-  color: #61766f;
-}
-
-#subjectCardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-}
-
+#subjectCardGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
 .subject-card {
-  text-align: left;
-  border: 1px solid rgba(22, 51, 45, 0.06);
-  background: rgba(255,255,255,0.62);
-  border-radius: 24px;
-  padding: 18px 16px;
-  cursor: pointer;
-  color: #143731;
+  text-align: left; border: 1px solid rgba(22, 51, 45, 0.06);
+  background: rgba(255,255,255,0.62); border-radius: 24px; padding: 18px 16px;
+  cursor: pointer; color: #143731;
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
-
-.subject-card:active,
-.subject-card.active {
-  transform: translateY(-1px);
-  border-color: rgba(47, 106, 93, 0.26);
+.subject-card:active, .subject-card.active {
+  transform: translateY(-1px); border-color: rgba(47, 106, 93, 0.26);
   box-shadow: 0 12px 24px rgba(57, 88, 79, 0.09);
 }
-
 .subject-card-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background: rgba(47, 106, 93, 0.09);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 18px;
 }
+.subject-card-title { font-size: 22px; line-height: 1.06; }
+.subject-card-sub { margin-top: 8px; font-size: 13px; line-height: 1.45; color: #5f736c; }
 
-.subject-card-title {
-  font-size: 22px;
-  line-height: 1.06;
-}
-
-.subject-card-sub {
-  margin-top: 8px;
-  font-size: 13px;
-  line-height: 1.45;
-  color: #5f736c;
-}
-
-#progressStrip {
-  flex-shrink: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-}
+#progressStrip { flex-shrink: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
 .progress-card {
-  background: rgba(255,255,255,0.66);
-  border: 1px solid rgba(22, 51, 45, 0.06); border-radius: 24px;
-  padding: 16px 18px; min-width: 0;
+  background: rgba(255,255,255,0.66); border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 24px; padding: 16px 18px; min-width: 0;
   box-shadow: 0 12px 28px rgba(54,62,56,0.06);
 }
 .progress-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a8178; }
 .progress-value { font-size: 28px; font-weight: 700; color: #16332d; margin-top: 8px; }
 .progress-note { font-size: 13px; color: #61766f; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-#studyPanel {
-  flex-shrink: 0; display: grid; grid-template-columns: 1.2fr 1fr;
-  gap: 12px;
-}
+#studyPanel { flex-shrink: 0; display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; }
 .study-card {
-  background: rgba(255,255,255,0.66);
-  border: 1px solid rgba(22, 51, 45, 0.06); border-radius: 28px; padding: 22px 20px;
-  box-shadow: 0 12px 28px rgba(54,62,56,0.06);
+  background: rgba(255,255,255,0.66); border: 1px solid rgba(22, 51, 45, 0.06);
+  border-radius: 28px; padding: 22px 20px; box-shadow: 0 12px 28px rgba(54,62,56,0.06);
 }
 .study-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a8178; }
 .study-main { font-size: 27px; letter-spacing: -0.03em; color: #16332d; margin-top: 10px; line-height: 1.15; }
 .study-sub { font-size: 14px; color: #61766f; margin-top: 8px; line-height: 1.5; }
 
-.field-help {
-  font-size: 12px; color: #6a8178; margin-top: 8px; margin-bottom: 16px; line-height: 1.45;
-}
+.field-help { font-size: 12px; color: #6a8178; margin-top: 8px; margin-bottom: 16px; line-height: 1.45; }
 
-#masteryPanel {
-  flex-shrink: 0;
-}
-#masteryHeader {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
-}
-#masteryTitle {
-  font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; color: #143731;
-}
-#masteryHint {
-  font-size: 13px; color: #61766f;
-}
-#masteryGrid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
-}
+#masteryPanel { flex-shrink: 0; }
+#masteryHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+#masteryTitle { font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; color: #143731; }
+#masteryHint { font-size: 13px; color: #61766f; }
+#masteryGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
 .mastery-card {
-  background: rgba(255,255,255,0.62);
-  border: 1px solid rgba(22, 51, 45, 0.06);
+  background: rgba(255,255,255,0.62); border: 1px solid rgba(22, 51, 45, 0.06);
   border-radius: 24px; padding: 18px 16px;
 }
-.mastery-topic {
-  font-size: 18px; color: #16332d; line-height: 1.22; min-height: 46px;
-}
-.mastery-bar {
-  height: 8px; border-radius: 999px; background: rgba(47, 106, 93, 0.09);
-  overflow: hidden; margin-top: 16px;
-}
-.mastery-fill {
-  height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, #8ed9c3, #376f62);
-}
-.mastery-meta {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: 10px; font-size: 12px; color: #61766f;
-}
-@media (max-width: 700px) {
-  #progressStrip { grid-template-columns: 1fr; }
-  #studyPanel { grid-template-columns: 1fr; }
-  #masteryGrid { grid-template-columns: 1fr; }
-}
+.mastery-topic { font-size: 18px; color: #16332d; line-height: 1.22; min-height: 46px; }
+.mastery-bar { height: 8px; border-radius: 999px; background: rgba(47, 106, 93, 0.09); overflow: hidden; margin-top: 16px; }
+.mastery-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #8ed9c3, #376f62); }
+.mastery-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #61766f; }
 
-/* icon buttons in header */
+/* ── HEADER ICON BUTTONS ── */
 .hbtn {
   background: transparent; border: none; cursor: pointer;
   color: #5f736c; font-size: 17px; padding: 4px 5px;
@@ -363,22 +217,14 @@ body {
 }
 
 /* ── CHAT ── */
-#lessonView {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background: transparent;
-}
+#lessonView { flex: 1; display: flex; flex-direction: column; min-height: 0; background: transparent; }
 #chat {
   flex: 1; overflow-y: auto; padding: 18px 18px 10px;
   display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
-  max-width: 980px;
-  width: 100%;
-  margin: 0 auto;
+  max-width: 980px; width: 100%; margin: 0 auto;
 }
 #chat::-webkit-scrollbar { width: 3px; }
-#chat::-webkit-scrollbar-thumb { background: #2a2945; border-radius: 3px; }
+#chat::-webkit-scrollbar-thumb { background: rgba(22,51,45,0.18); border-radius: 3px; }
 
 .msg { display: flex; gap: 10px; max-width: min(88%, 760px); }
 .msg.user { align-self: flex-end; flex-direction: row-reverse; }
@@ -393,8 +239,7 @@ body {
 
 .bubble {
   padding: 16px 18px; font-size: 16px; line-height: 1.7; border-radius: 28px;
-  animation: fadeUp 0.25s ease;
-  box-shadow: 0 12px 28px rgba(54,62,56,0.06);
+  animation: fadeUp 0.25s ease; box-shadow: 0 12px 28px rgba(54,62,56,0.06);
 }
 .msg.ai   .bubble { background: #bfe2fb; border: 1px solid rgba(22, 51, 45, 0.06); border-bottom-left-radius: 8px; color: #173b35; }
 .msg.user .bubble { background: #c6efdf; border: 1px solid rgba(22, 51, 45, 0.06); border-bottom-right-radius: 8px; color: #173b35; }
@@ -402,11 +247,11 @@ body {
 .bubble em { color: #2f6a5d; }
 .bubble img { max-width: 100%; border-radius: 8px; margin-top: 6px; display: block; }
 
-.date-divider { text-align: center; font-size: 11px; color: #4a4970; margin: 4px 0; flex-shrink: 0; }
+.date-divider { text-align: center; font-size: 11px; color: #6a8178; margin: 4px 0; flex-shrink: 0; }
 
 .typing-dots { display: flex; gap: 4px; padding: 4px 0; }
 .typing-dots span {
-  width: 7px; height: 7px; background: #7a79a0; border-radius: 50%;
+  width: 7px; height: 7px; background: #7a9e96; border-radius: 50%;
   display: inline-block; animation: bounce 1.2s infinite;
 }
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -414,11 +259,8 @@ body {
 
 /* ── UPLOAD PREVIEW ── */
 #uploadPreview {
-  display: none; flex-shrink: 0;
-  padding: 8px 18px; flex-wrap: wrap; gap: 8px;
-  max-width: 980px;
-  width: 100%;
-  margin: 0 auto;
+  display: none; flex-shrink: 0; padding: 8px 18px; flex-wrap: wrap; gap: 8px;
+  max-width: 980px; width: 100%; margin: 0 auto;
 }
 .preview-item {
   position: relative; display: inline-flex; align-items: center; gap: 6px;
@@ -437,8 +279,7 @@ body {
 #footer {
   flex-shrink: 0; padding: 10px 18px 14px;
   padding-bottom: max(12px, env(safe-area-inset-bottom));
-  background: rgba(246, 242, 235, 0.92);
-  border-top: 1px solid rgba(22, 51, 45, 0.08);
+  background: rgba(246, 242, 235, 0.92); border-top: 1px solid rgba(22, 51, 45, 0.08);
   backdrop-filter: blur(14px);
 }
 #input-row { display: flex; gap: 10px; align-items: flex-end; max-width: 980px; margin: 0 auto; }
@@ -451,7 +292,6 @@ body {
 }
 #attachBtn:active { border-color: #2f6a5d; }
 
-/* FIX: Textarea style adjustments for better placeholder display */
 textarea {
   flex: 1; height: 46px; min-height: 46px; max-height: 120px;
   background: rgba(255,255,255,0.8); border: 1px solid rgba(22,51,45,0.08); border-radius: 18px;
@@ -469,11 +309,7 @@ textarea::placeholder { color: #7b8e87; }
   font-size: 20px; -webkit-tap-highlight-color: transparent; transition: all 0.2s;
   position: relative; overflow: hidden;
 }
-#voiceBtn.listening {
-  background: rgba(255,107,107,0.15);
-  border-color: #ff6b6b;
-  animation: voicePulse 1s infinite;
-}
+#voiceBtn.listening { background: rgba(255,107,107,0.15); border-color: #ff6b6b; animation: voicePulse 1s infinite; }
 #voiceBtn.unsupported { opacity: 0.35; cursor: not-allowed; }
 
 @keyframes voicePulse {
@@ -488,7 +324,7 @@ textarea::placeholder { color: #7b8e87; }
   box-shadow: 0 8px 18px rgba(55,111,98,0.24);
   -webkit-tap-highlight-color: transparent; transition: all 0.2s;
 }
-#sendBtn:disabled { background: #2a2945; box-shadow: none; cursor: default; }
+#sendBtn:disabled { background: rgba(22,51,45,0.15); box-shadow: none; cursor: default; }
 #sendBtn:not(:disabled):active { transform: scale(0.94); }
 
 /* ── HISTORY PANEL ── */
@@ -498,55 +334,53 @@ textarea::placeholder { color: #7b8e87; }
 }
 #historyDrawer {
   position: absolute; top: 0; right: 0; bottom: 0; width: min(320px, 90vw);
-  background: #13121f; border-left: 1px solid #2a2945;
+  /* FIX: responds to theme now — see dark mode block below */
+  background: rgba(246, 242, 235, 0.98); border-left: 1px solid rgba(22,51,45,0.08);
   display: flex; flex-direction: column; padding: 20px 16px;
   overflow-y: auto; gap: 10px;
 }
-#historyDrawer h3 { font-size: 16px; color: #fffffe; margin-bottom: 4px; }
+#historyDrawer h3 { font-size: 16px; color: #143731; margin-bottom: 4px; }
 .session-item {
-  background: #1a1935; border: 1px solid #2a2945; border-radius: 12px;
+  background: rgba(255,255,255,0.72); border: 1px solid rgba(22,51,45,0.08); border-radius: 12px;
   padding: 12px 14px; cursor: pointer; transition: all 0.2s;
 }
-.session-item:active { border-color: #ff6b6b; }
-.session-item .s-date    { font-size: 11px; color: #4a4970; }
-.session-item .s-preview { font-size: 13px; color: #a7a6c0; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.session-item .s-subj    { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(255,107,107,0.12); color: #ff6b6b; margin-top: 4px; }
-#closeHistory { align-self: flex-end; background: transparent; border: none; color: #7a79a0; font-size: 22px; cursor: pointer; margin-bottom: 8px; }
-.no-sessions { font-size: 13px; color: #4a4970; text-align: center; padding: 20px 0; }
+.session-item:active { border-color: #2f6a5d; }
+.session-item .s-date    { font-size: 11px; color: #6a8178; }
+.session-item .s-preview { font-size: 13px; color: #4b645d; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.session-item .s-subj    { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(47,106,93,0.1); color: #2f6a5d; margin-top: 4px; }
+#closeHistory { align-self: flex-end; background: transparent; border: none; color: #6a8178; font-size: 22px; cursor: pointer; margin-bottom: 8px; }
+.no-sessions { font-size: 13px; color: #6a8178; text-align: center; padding: 20px 0; }
 
 /* ── SEARCH BAR ── */
+/* FIX: search bar now themed, not always dark */
 #searchBar {
   display: none; flex-shrink: 0;
-  padding: 8px 14px; background: #13121f;
-  border-bottom: 1px solid #2a2945;
+  padding: 8px 14px; background: rgba(246,242,235,0.96);
+  border-bottom: 1px solid rgba(22,51,45,0.08);
   gap: 8px; align-items: center;
 }
 #searchInput {
   flex: 1; padding: 8px 12px; border-radius: 10px;
-  background: #1a1935; border: 1px solid #2a2945; color: #fffffe;
-  font-size: 14px; outline: none;
+  background: rgba(255,255,255,0.82); border: 1px solid rgba(22,51,45,0.1); color: #16332d;
+  font-size: 14px; outline: none; font-family: inherit;
 }
 
 /* ── SETTINGS MODAL ── */
 #settingsOverlay {
   display: none; position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
-  align-items: center; justify-content: center; padding: 20px;
-  overflow-y: auto;
+  align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
 }
 #settingsModal {
   background: rgba(246, 242, 235, 0.98); border: 1px solid rgba(22, 51, 45, 0.08); border-radius: 28px;
   padding: 28px 24px; width: 100%; max-width: 420px;
-  animation: fadeUp 0.22s ease;
-  box-shadow: 0 20px 60px rgba(49, 56, 51, 0.16);
-  max-height: min(760px, calc(100dvh - 24px));
-  overflow-y: auto;
+  animation: fadeUp 0.22s ease; box-shadow: 0 20px 60px rgba(49, 56, 51, 0.16);
+  max-height: min(760px, calc(100dvh - 24px)); overflow-y: auto;
 }
 #settingsModal h2 { font-size: 32px; line-height: 1.04; letter-spacing: -0.03em; color: #143731; margin-bottom: 6px; }
 #settingsModal .modal-sub { font-size: 14px; color: #5f736c; margin-bottom: 22px; line-height: 1.5; }
 .welcome-panel {
-  background: rgba(255,255,255,0.56);
-  border: 1px solid rgba(22, 51, 45, 0.06);
+  background: rgba(255,255,255,0.56); border: 1px solid rgba(22, 51, 45, 0.06);
   border-radius: 20px; padding: 16px 18px; margin-bottom: 20px;
 }
 .welcome-panel strong { color: #143731; }
@@ -556,11 +390,9 @@ textarea::placeholder { color: #7b8e87; }
 .copy-btn {
   border-radius: 14px; border: 1px solid rgba(22, 51, 45, 0.08); background: rgba(255,255,255,0.82);
   color: #2f6a5d; padding: 0 14px; font-size: 14px; font-weight: 700; cursor: pointer;
-  white-space: nowrap;
-  min-height: 52px;
+  white-space: nowrap; min-height: 52px;
 }
 .copy-btn:active { border-color: #2f6a5d; }
-
 .field-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.09em; color: #6a8178; margin-bottom: 6px; display: block;
@@ -572,11 +404,7 @@ textarea::placeholder { color: #7b8e87; }
   transition: border-color 0.2s; margin-bottom: 16px;
 }
 .field-input:focus { border-color: rgba(47,106,93,0.32); }
-
-/* Grade selector grid */
-.grade-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
-}
+.grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px; }
 .grade-tile {
   padding: 12px 8px; border-radius: 18px; text-align: center;
   background: rgba(255,255,255,0.72); border: 1px solid rgba(22, 51, 45, 0.08); cursor: pointer;
@@ -585,14 +413,11 @@ textarea::placeholder { color: #7b8e87; }
 }
 .grade-tile .grade-num { font-size: 19px; font-weight: 700; display: block; }
 .grade-tile:active { border-color: #2f6a5d; }
-.grade-tile.selected {
-  border-color: rgba(47,106,93,0.26); background: rgba(47,106,93,0.10); color: #143731;
-}
+.grade-tile.selected { border-color: rgba(47,106,93,0.26); background: rgba(47,106,93,0.10); color: #143731; }
 .grade-tile.selected .grade-num { color: #2f6a5d; }
 
 .modal-actions {
-  display: flex; gap: 10px;
-  position: sticky; bottom: 0;
+  display: flex; gap: 10px; position: sticky; bottom: 0;
   padding-top: 14px; padding-bottom: max(10px, env(safe-area-inset-bottom));
   margin-top: 6px;
   background: linear-gradient(180deg, rgba(246,242,235,0), rgba(246,242,235,0.94) 24%, rgba(246,242,235,1));
@@ -601,16 +426,71 @@ textarea::placeholder { color: #7b8e87; }
   flex: 1; padding: 14px; border-radius: 16px;
   background: linear-gradient(135deg, #376f62, #4d8a78);
   border: none; color: white; font-size: 15px; font-weight: 700;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  min-height: 54px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; min-height: 54px;
 }
 .btn-cancel {
   padding: 13px 18px; border-radius: 16px;
   background: rgba(255,255,255,0.68); border: 1px solid rgba(22,51,45,0.08);
-  color: #4b645d; font-size: 15px; cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  color: #4b645d; font-size: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 
+/* ── EXAM OPTION BUTTONS ── */
+.exam-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.exam-opt {
+  display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+  background: rgba(22,51,45,0.06); border: 1px solid rgba(22,51,45,0.1);
+  color: #173b35; font-size: 15px; font-family: inherit;
+  cursor: pointer; text-align: left; line-height: 1.4;
+  transition: all 0.18s; -webkit-tap-highlight-color: transparent;
+  animation: fadeUp 0.2s ease both;
+}
+.exam-opt:nth-child(2) { animation-delay: 0.05s; }
+.exam-opt:nth-child(3) { animation-delay: 0.10s; }
+.exam-opt:nth-child(4) { animation-delay: 0.15s; }
+.exam-opt:nth-child(5) { animation-delay: 0.20s; }
+.exam-opt:not(:disabled):active { border-color: #2f6a5d; background: rgba(47,106,93,0.1); }
+.exam-opt .opt-key {
+  min-width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(22,51,45,0.08); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #4b645d; flex-shrink: 0; transition: all 0.18s;
+}
+.exam-opt:not(:disabled):hover .opt-key,
+.exam-opt:not(:disabled):active .opt-key { background: #2f6a5d; color: white; }
+.exam-opt:disabled { cursor: default; opacity: 0.55; }
+.exam-opt.chosen   { border-color: #2f6a5d; background: rgba(47,106,93,0.1); opacity: 1 !important; }
+.exam-opt.chosen .opt-key { background: #2f6a5d; color: white; }
+
+/* ── ANIMATIONS ── */
+@keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  #progressStrip { grid-template-columns: 1fr; }
+  #studyPanel { grid-template-columns: 1fr; }
+  #masteryGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  #progressStrip, #studyPanel, #masteryPanel { padding-left: 10px; padding-right: 10px; }
+}
+@media (max-width: 720px) {
+  #header { padding: 10px 10px; }
+  .hname { font-size: 14px; }
+  #subjectBadge { font-size: 11px; padding: 3px 8px; }
+  #footer { padding: 8px 10px calc(12px + env(safe-area-inset-bottom)); position: sticky; bottom: 0; z-index: 20; }
+  #input-row { gap: 6px; }
+  #attachBtn, #voiceBtn, #sendBtn { width: 48px; height: 48px; }
+  textarea { height: 48px; min-height: 48px; font-size: 16px; }
+  #settingsOverlay { align-items: flex-start; padding: 12px; }
+  #settingsModal { margin-top: 12px; padding: 20px 16px 16px; border-radius: 18px; max-height: calc(100dvh - 24px); }
+  .welcome-panel { padding: 10px 12px; margin-bottom: 14px; }
+  .sync-row { grid-template-columns: 1fr; display: grid; }
+  .grade-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── DARK MODE ── */
 body.dark {
   background:
     radial-gradient(circle at top left, rgba(66, 110, 97, 0.28), transparent 28%),
@@ -618,15 +498,37 @@ body.dark {
     linear-gradient(180deg, #11131a, #151926 52%, #171824);
   color: #edf3f0;
 }
-
 body.dark #header,
 body.dark #footer,
 body.dark #settingsModal,
-body.dark #sideDrawer,
-body.dark #historyDrawer,
-body.dark #searchBar {
+body.dark #sideDrawer {
   background: rgba(18, 22, 32, 0.94);
   border-color: rgba(214, 231, 225, 0.08);
+}
+/* FIX: history drawer and search bar now respond to dark mode */
+body.dark #historyDrawer {
+  background: rgba(18, 22, 32, 0.97);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark #historyDrawer h3 { color: #edf3f0; }
+body.dark .session-item {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark .session-item:active { border-color: #8ed9c3; }
+body.dark .session-item .s-date { color: #6a8c84; }
+body.dark .session-item .s-preview { color: #a8b5b0; }
+body.dark .session-item .s-subj { background: rgba(109,190,164,0.14); color: #8ed9c3; }
+body.dark #closeHistory { color: #a8b5b0; }
+body.dark .no-sessions { color: #6a8c84; }
+body.dark #searchBar {
+  background: rgba(18, 22, 32, 0.97);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark #searchInput {
+  background: rgba(27, 31, 43, 0.92);
+  border-color: rgba(214, 231, 225, 0.08);
+  color: #edf3f0;
 }
 
 body.dark #menuBtn,
@@ -650,7 +552,6 @@ body.dark .welcome-panel {
   border-color: rgba(214, 231, 225, 0.08);
   color: #edf3f0;
 }
-
 body.dark .side-title,
 body.dark .hname,
 body.dark .section-title,
@@ -661,10 +562,7 @@ body.dark .subject-card-title,
 body.dark .progress-value,
 body.dark .study-main,
 body.dark .mastery-topic,
-body.dark .bubble,
-body.dark .welcome-panel strong {
-  color: #edf3f0;
-}
+body.dark .welcome-panel strong { color: #edf3f0; }
 
 body.dark .side-sub,
 body.dark .side-action,
@@ -681,202 +579,44 @@ body.dark .field-help,
 body.dark textarea::placeholder,
 body.dark .hero-copy,
 body.dark .subject-card-sub,
-body.dark .mastery-meta {
-  color: #a8b5b0;
-}
+body.dark .mastery-meta { color: #a8b5b0; }
 
 body.dark .subj-btn.active,
-body.dark .side-action:active,
+body.dark .side-action.active {
+  background: rgba(109, 190, 164, 0.12);
+  border-color: rgba(109, 190, 164, 0.22);
+  color: #d6f5ec;
+}
 body.dark .subject-card.active {
   background: rgba(109, 190, 164, 0.12);
   border-color: rgba(109, 190, 164, 0.22);
   color: #edf3f0;
 }
-
-body.dark .hero-btn.primary,
+body.dark .hero-btn.primary { background: #8ed9c3; color: #143731; }
 body.dark .btn-save,
-body.dark #sendBtn {
-  background: linear-gradient(135deg, #4f8b7c, #67a391);
-}
-
+body.dark #sendBtn { background: linear-gradient(135deg, #4f8b7c, #67a391); }
 body.dark .modal-actions {
   background: linear-gradient(180deg, rgba(18,22,32,0), rgba(18,22,32,0.94) 24%, rgba(18,22,32,1));
 }
-
-body.dark #searchInput,
-body.dark .session-item,
+body.dark .hbtn { color: #a8b5b0; }
+body.dark #heroCard { background: rgba(27, 31, 43, 0.92); border-color: rgba(214, 231, 225, 0.08); }
+body.dark .hero-kicker, body.dark .hero-copy { color: #a8b5b0; }
+body.dark .hero-title { color: #edf3f0; }
+body.dark .hero-title .accent { color: #8ed9c3; }
+body.dark .msg.ai .bubble { background: #28475d; border-color: rgba(214, 231, 225, 0.08); color: #edf3f0; }
+body.dark .msg.user .bubble { background: #24463b; border-color: rgba(214, 231, 225, 0.08); color: #edf3f0; }
+body.dark .bubble b, body.dark .bubble em { color: #ffd166; }
+body.dark #examBanner { background: rgba(80, 114, 154, 0.35); color: #d5e7f8; }
 body.dark .exam-opt {
-  background: rgba(27, 31, 43, 0.92);
-  border-color: rgba(214, 231, 225, 0.08);
-  color: #edf3f0;
+  background: rgba(27,31,43,0.92); border-color: rgba(214,231,225,0.1); color: #edf3f0;
 }
-
-body.dark .hbtn,
-body.dark #closeHistory {
-  color: #a8b5b0;
-}
-
-body.dark .msg.ai .bubble {
-  background: #28475d;
-  border-color: rgba(214, 231, 225, 0.08);
-  color: #edf3f0;
-}
-
-body.dark .msg.user .bubble {
-  background: #24463b;
-  border-color: rgba(214, 231, 225, 0.08);
-  color: #edf3f0;
-}
-
-body.dark #examBanner {
-  background: rgba(80, 114, 154, 0.35);
-  color: #d5e7f8;
-}
-
-@keyframes bounce  { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
-@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:0.5} }
-@keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-@keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
-
-/* ── EXAM OPTION BUTTONS ── */
-.exam-options {
-  display: flex; flex-direction: column; gap: 8px; margin-top: 10px;
-}
-.exam-opt {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 14px; border-radius: 12px;
-  background: #13121f; border: 1px solid #2a2945;
-  color: #fffffe; font-size: 15px; font-family: inherit;
-  cursor: pointer; text-align: left; line-height: 1.4;
-  transition: all 0.18s; -webkit-tap-highlight-color: transparent;
-  animation: fadeUp 0.2s ease both;
-}
-.exam-opt:nth-child(2) { animation-delay: 0.05s; }
-.exam-opt:nth-child(3) { animation-delay: 0.10s; }
-.exam-opt:nth-child(4) { animation-delay: 0.15s; }
-.exam-opt:nth-child(5) { animation-delay: 0.20s; }
-.exam-opt:not(:disabled):active {
-  border-color: #ffd166; background: rgba(255,209,102,0.1);
-}
-.exam-opt .opt-key {
-  min-width: 28px; height: 28px; border-radius: 8px;
-  background: #2a2945; display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #7a79a0; flex-shrink: 0;
-  transition: all 0.18s;
-}
-.exam-opt:not(:disabled):hover .opt-key,
-.exam-opt:not(:disabled):active .opt-key {
-  background: #ffd166; color: #13121f;
-}
-/* after selection */
-.exam-opt:disabled { cursor: default; opacity: 0.55; }
-.exam-opt.chosen   { border-color: #ffd166; background: rgba(255,209,102,0.1); opacity: 1 !important; }
-.exam-opt.chosen .opt-key { background: #ffd166; color: #13121f; }
-
-@media (max-width: 900px) {
-  #progressStrip,
-  #studyPanel,
-  #masteryPanel {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-
-@media (max-width: 720px) {
-  #header {
-    padding: 10px 10px;
-  }
-  .hname {
-    font-size: 14px;
-  }
-  #subjectBadge {
-    font-size: 11px;
-    padding: 3px 8px;
-  }
-  #footer {
-    padding: 8px 10px calc(12px + env(safe-area-inset-bottom));
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
-  }
-  #input-row {
-    gap: 6px;
-  }
-  #attachBtn,
-  #voiceBtn,
-  #sendBtn {
-    width: 48px;
-    height: 48px;
-  }
-  textarea {
-    height: 48px;
-    min-height: 48px;
-    font-size: 16px;
-  }
-  #settingsOverlay {
-    align-items: flex-start;
-    padding: 12px;
-  }
-  #settingsModal {
-    margin-top: 12px;
-    padding: 20px 16px 16px;
-    border-radius: 18px;
-    max-height: calc(100dvh - 24px);
-  }
-  .welcome-panel {
-    padding: 10px 12px;
-    margin-bottom: 14px;
-  }
-  .sync-row {
-    grid-template-columns: 1fr;
-    display: grid;
-  }
-  .grade-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* --- FIXES --- */
-
-/* Add an 'active' style for the new side-menu mode buttons */
-.side-action.active {
-  color: #143731;
-  background: rgba(47,106,93,0.09);
-}
-
-/* --- DARK MODE FIXES --- */
-
-/* Fix hero card colors in dark mode */
-body.dark #heroCard {
-  background: rgba(27, 31, 43, 0.92); /* Match other dark cards */
-  border-color: rgba(214, 231, 225, 0.08);
-}
-body.dark .hero-kicker,
-body.dark .hero-copy {
-  color: #a8b5b0; /* Lighter text for subtitles */
-}
-body.dark .hero-title {
-  color: #edf3f0; /* Brightest text for the main title */
-}
-body.dark .hero-title .accent {
-  color: #8ed9c3; /* A pleasant, high-contrast accent color */
-}
-body.dark .hero-btn.primary {
-  background: #8ed9c3;
-  color: #143731; /* Dark text on the light button for contrast */
-}
-
-/* Fix chat bubble accent text color in dark mode */
-body.dark .bubble b,
-body.dark .bubble em {
-  color: #ffd166; /* High-contrast yellow/gold */
-}
-
-/* Fix active style for new side-menu buttons in dark mode */
-body.dark .side-action.active {
-  color: #d6f5ec;
-  background: rgba(109, 190, 164, 0.12);
-}
+body.dark .exam-opt:not(:disabled):active { border-color: #8ed9c3; background: rgba(109,190,164,0.1); }
+body.dark .exam-opt .opt-key { background: rgba(109,190,164,0.12); color: #8ed9c3; }
+body.dark .exam-opt:not(:disabled):hover .opt-key,
+body.dark .exam-opt:not(:disabled):active .opt-key { background: #8ed9c3; color: #143731; }
+body.dark .exam-opt.chosen { border-color: #8ed9c3; background: rgba(109,190,164,0.1); }
+body.dark .exam-opt.chosen .opt-key { background: #8ed9c3; color: #143731; }
+body.dark .date-divider { color: #6a8c84; }
 </style>
 </head>
 <body>
@@ -929,7 +669,6 @@ body.dark .side-action.active {
 
     <div class="side-divider"></div>
     <div class="side-section-label">Acciones</div>
-
     <button class="side-action" onclick="goHome()">
       <span class="side-icon">🏠</span> Inicio
     </button>
@@ -939,9 +678,7 @@ body.dark .side-action.active {
     <button class="side-action" onclick="toggleSearch(); closeSideMenuDirect()">
       <span class="side-icon">🔍</span> Buscar en chat
     </button>
-
     <div class="side-divider"></div>
-
     <button class="side-action" onclick="deleteConversation()">
       <span class="side-icon">🗑️</span> Borrar conversación
     </button>
@@ -963,22 +700,18 @@ body.dark .side-action.active {
     <div style="font-size:36px;margin-bottom:10px;">🎓</div>
     <h2>Bienvenida a Sofía</h2>
     <p class="modal-sub">Un espacio bonito, claro y tranquilo para estudiar mejor contigo.</p>
-
     <div class="welcome-panel">
       <p><strong>Un perfil, todos tus dispositivos.</strong><br>Si usas la misma clave en móvil, tablet y ordenador, Sofía recordará el perfil y el progreso del alumno.</p>
     </div>
-
     <label class="field-label">Tu nombre</label>
     <input id="settingName" class="field-input" type="text" placeholder="Ej: María" maxlength="30"
       onkeydown="if(event.key==='Enter')saveSettings()"/>
-
     <label class="field-label">Clave de sincronización</label>
     <div class="sync-row">
       <input id="settingSyncKey" class="field-input" type="text" placeholder="Ej: 54821" maxlength="10"/>
       <button class="copy-btn" type="button" onclick="copySyncKey()">Copiar</button>
     </div>
     <div class="field-help">Usa esta clave en otros dispositivos para sincronizar tu progreso.</div>
-
     <label class="field-label">Tu curso</label>
     <div class="grade-grid">
       <div class="grade-tile" onclick="selectGrade(this,'1º ESO')"><span class="grade-num">1º</span>ESO</div>
@@ -988,7 +721,6 @@ body.dark .side-action.active {
       <div class="grade-tile" onclick="selectGrade(this,'1º Bach')"><span class="grade-num">1º</span>Bachillerato</div>
       <div class="grade-tile" onclick="selectGrade(this,'2º Bach')"><span class="grade-num">2º</span>Bachillerato</div>
     </div>
-
     <div class="modal-actions">
       <button class="btn-save" onclick="saveSettings()">Empezar →</button>
     </div>
@@ -1001,7 +733,7 @@ body.dark .side-action.active {
     <button id="closeHistory" onclick="document.getElementById('historyPanel').style.display='none'">✕</button>
     <h3>📚 Sesiones anteriores</h3>
     <div id="sessionList"></div>
-    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid #2a2945;color:#7a79a0;font-size:13px;cursor:pointer;">Borrar todo el historial</button>
+    <button onclick="clearAllSessions()" style="margin-top:12px;padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(22,51,45,0.12);color:#6a8178;font-size:13px;cursor:pointer;font-family:inherit;">Borrar todo el historial</button>
   </div>
 </div>
 
@@ -1013,7 +745,13 @@ body.dark .side-action.active {
     </button>
     <div>
       <div class="hname">Sofía · Tutora IA</div>
-      <div class="hstatus"><span class="dot"></span><div class="subject-wrap"><span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span><span id="languageBadge" class="lang-badge">ES</span></div></div>
+      <div class="hstatus">
+        <span class="dot"></span>
+        <div class="subject-wrap">
+          <span id="subjectBadge" onclick="openSideMenu()">🔢 Matemáticas</span>
+          <span id="languageBadge" class="lang-badge">ES</span>
+        </div>
+      </div>
     </div>
   </div>
   <div class="header-right">
@@ -1023,53 +761,54 @@ body.dark .side-action.active {
   </div>
 </div>
 
+<!-- ── HOME VIEW ── -->
 <div id="homeView">
   <div id="heroCard">
-    <div class="hero-kicker" id="heroKicker">Today with Sofía</div>
-    <div class="hero-title" id="heroTitle">Ready for a calm study session?</div>
-    <div class="hero-copy" id="heroCopy">We will keep things simple, clear, and steady so studying feels lighter.</div>
+    <div class="hero-kicker" id="heroKicker">Con Sofía hoy</div>
+    <div class="hero-title" id="heroTitle">¿Lista para estudiar?</div>
+    <div class="hero-copy" id="heroCopy">Lo haremos claro, tranquilo y paso a paso.</div>
     <div class="hero-actions">
-      <button class="hero-btn primary" id="heroPrimaryBtn" onclick="focusComposer()">Continue learning</button>
-      <button class="hero-btn secondary" id="heroSecondaryBtn" onclick="openSideMenu()">Choose subject</button>
+      <button class="hero-btn primary" id="heroPrimaryBtn" onclick="focusComposer()">Continuar</button>
+      <button class="hero-btn secondary" id="heroSecondaryBtn" onclick="openSideMenu()">Elegir asignatura</button>
     </div>
   </div>
 
   <div id="progressStrip">
     <div class="progress-card">
-      <div class="progress-label" id="progressLessonsLabel">Today</div>
+      <div class="progress-label" id="progressLessonsLabel">Hoy</div>
       <div class="progress-value" id="progressLessonsValue">0</div>
-      <div class="progress-note" id="progressLessonsNote">Study steps</div>
+      <div class="progress-note" id="progressLessonsNote">Pasos de estudio</div>
     </div>
     <div class="progress-card">
-      <div class="progress-label" id="progressScoreLabel">Your progress</div>
+      <div class="progress-label" id="progressScoreLabel">Tu avance</div>
       <div class="progress-value" id="progressScoreValue">0</div>
-      <div class="progress-note" id="progressScoreNote">Little by little</div>
+      <div class="progress-note" id="progressScoreNote">Poco a poco</div>
     </div>
     <div class="progress-card">
-      <div class="progress-label" id="progressStreakLabel">Routine</div>
+      <div class="progress-label" id="progressStreakLabel">Rutina</div>
       <div class="progress-value" id="progressStreakValue">0</div>
-      <div class="progress-note" id="progressStreakNote">days of practice</div>
+      <div class="progress-note" id="progressStreakNote">días de práctica</div>
     </div>
   </div>
 
   <div id="studyPanel">
     <div class="study-card" id="dailyGoalCard">
-      <div class="study-title" id="dailyGoalLabel">Today</div>
-      <div class="study-main" id="dailyGoalMain">Finish 1 guided lesson</div>
-      <div class="study-sub" id="dailyGoalSub">Stay consistent, one step at a time.</div>
+      <div class="study-title" id="dailyGoalLabel">Hoy</div>
+      <div class="study-main" id="dailyGoalMain">Terminar 1 sesión guiada</div>
+      <div class="study-sub" id="dailyGoalSub">Un paso cada vez.</div>
     </div>
     <div class="study-card" id="recapCard">
-      <div class="study-title" id="recapLabel">Next step</div>
-      <div class="study-main" id="recapMain">No recap yet</div>
-      <div class="study-sub" id="recapSub">Your latest learning win will appear here.</div>
+      <div class="study-title" id="recapLabel">Siguiente paso</div>
+      <div class="study-main" id="recapMain">Sin datos aún</div>
+      <div class="study-sub" id="recapSub">Tu avance aparecerá aquí.</div>
     </div>
   </div>
 
   <div id="subjectHub">
     <div class="section-head">
       <div>
-        <div class="section-title" id="subjectHubTitle">Subjects</div>
-        <div class="section-copy" id="subjectHubCopy">Choose where Sofía should help next.</div>
+        <div class="section-title" id="subjectHubTitle">Asignaturas</div>
+        <div class="section-copy" id="subjectHubCopy">Elige dónde quieres que Sofía te ayude ahora.</div>
       </div>
     </div>
     <div id="subjectCardGrid">
@@ -1080,7 +819,7 @@ body.dark .side-action.active {
       </button>
       <button class="subject-card" id="home-Biología" onclick="selectSubject('Biología'); focusComposer();">
         <div class="subject-card-icon">🧬</div>
-        <div class="subject-card-title">Biología</div>
+        <div class="subject-card-title">Biology</div>
         <div class="subject-card-sub">Cells, ecosystems, health, and life science.</div>
       </button>
       <button class="subject-card" id="home-Física y Química" onclick="selectSubject('Física y Química'); focusComposer();">
@@ -1090,8 +829,8 @@ body.dark .side-action.active {
       </button>
       <button class="subject-card" id="home-Historia" onclick="selectSubject('Historia'); focusComposer();">
         <div class="subject-card-icon">🏛️</div>
-        <div class="subject-card-title">Social Sciences</div>
-        <div class="subject-card-sub">Geography, history, maps, and civilisations.</div>
+        <div class="subject-card-title">Geography & History</div>
+        <div class="subject-card-sub">Maps, civilisations, and historical change.</div>
       </button>
       <button class="subject-card" id="home-Lengua" onclick="selectSubject('Lengua'); focusComposer();">
         <div class="subject-card-icon">📖</div>
@@ -1108,24 +847,24 @@ body.dark .side-action.active {
 
   <div id="masteryPanel">
     <div id="masteryHeader">
-      <div id="masteryTitle">Your topics</div>
-      <div id="masteryHint">Where Sofía has already helped most</div>
+      <div id="masteryTitle">Tus temas</div>
+      <div id="masteryHint">Dónde Sofía ya te ha ayudado más</div>
     </div>
     <div id="masteryGrid"></div>
   </div>
 </div>
 
+<!-- ── LESSON / CHAT VIEW ── -->
 <div id="lessonView">
   <div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
 
   <div id="searchBar">
     <input id="searchInput" type="text" placeholder="Buscar en la conversación..." oninput="doSearch(this.value)"/>
-    <span id="searchCount" style="font-size:12px;color:#7a79a0;white-space:nowrap;"></span>
-    <button onclick="toggleSearch()" style="background:transparent;border:none;color:#7a79a0;font-size:18px;cursor:pointer;">✕</button>
+    <span id="searchCount" style="font-size:12px;color:#6a8178;white-space:nowrap;"></span>
+    <button onclick="toggleSearch()" style="background:transparent;border:none;color:#6a8178;font-size:18px;cursor:pointer;">✕</button>
   </div>
 
   <div id="chat"></div>
-
   <div id="uploadPreview"></div>
 
   <div id="footer">
@@ -1146,112 +885,144 @@ body.dark .side-action.active {
 // ── CONFIG ──
 const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
 
-// ── GRADE METADATA ──
-
-
+// ── SYSTEM PROMPT BUILDERS ────────────────────────────────────────────────────
+// FIX: Both builders are now fully language-consistent — English subjects get
+// an entirely English prompt, Spanish subjects get an entirely Spanish prompt.
+// No more mixed-language instructions confusing the model.
 
 function buildSystemNormal(name, grade, subject) {
-  const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
-  const nombre = name || 'la alumna';
+  const g        = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const lang     = getSubjectLanguage(subject);
   const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
-  const language = getSubjectLanguage(subject);
-  const languageRule = language === 'en'
-    ? `LANGUAGE MODE: ENGLISH ONLY. For mathematical formulas, always use LaTeX syntax. For inline math, wrap the expression in \\( ... \\). For display equations, wrap them in \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).`
-    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE. Para fórmulas matemáticas, usa siempre la sintaxis de LaTeX. Para matemáticas en línea, envuelve la expresión en \\( ... \\). Para bloques de ecuaciones, envuélvelas en \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).`;
-  return `Eres Sofía, una tutora privada experta y empática.
-Alumna: ${nombre}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
-Currículo de referencia: Comunidad de Madrid para ESO. Si no está claro el contenido exacto, mantente en contenidos nucleares del curso y no inventes un criterio hiper-específico.
-Asignatura actual: ${subject}.
+
+  if (lang === 'en') {
+    const studentRef = name || 'the student';
+    return `You are Sofía, an expert and empathetic private tutor working in the Madrid Bilingual Programme.
+Student: ${studentRef}, in ${grade} in Madrid (approx. ${g.age} years old), ${g.level} level.
+Curriculum: Community of Madrid ESO. Stick to core content for this year — do not invent hyper-specific criteria.
+Current subject: ${subject} (taught in English as a Non-Linguistic Subject).
+DIFFICULTY LEVEL: ${g.detail}
+${pedagogy}
+TEACHING METHOD:
+- Act as a real private tutor: diagnose, teach, check understanding, and reinforce.
+- Start by identifying the goal, the student's starting point, and the main error.
+- Use scaffolding: a short hint, a minimal example, a checking question, then practice.
+- Prioritise understanding, transfer, and study habits — not just getting the right answer.
+- If the student asks for help with homework, help them think — do not complete the work for them.
+- Every few turns, summarise what the student has learned and what the next step is.
+LANGUAGE: ENGLISH ONLY. This subject is taught entirely in English.
+For mathematical or scientific formulas, always use LaTeX syntax.
+For inline math: \\( ... \\). For display equations: \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).
+RESPONSE STRUCTURE — always follow this order:
+1. Short, clear explanation (one idea at a time)
+2. A real-life or concrete example
+3. One question to the student
+PERSONALISATION: Use the student's name (${studentRef}) occasionally, in a warm and natural way.
+STYLE: Warm, patient, encouraging. Moderate use of emojis. Do NOT do the homework for them.
+LENGTH: Keep each turn SHORT — usually 3–6 lines. Ask ONE question at a time. Give longer explanations only if the student asks for more or you detect a real block.
+CLOSING: Where it makes sense, end with a micro-task or a question that requires the student to actively recall the key idea.`;
+  }
+
+  const studentRef = name || 'la alumna';
+  return `Eres Sofía, una tutora privada experta y empática del Programa Bilingüe de Madrid.
+Alumna: ${studentRef}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
+Currículo: Comunidad de Madrid ESO. Mantente en contenidos nucleares del curso — no inventes criterios hiper-específicos.
+Asignatura actual: ${subject} (impartida en español).
 NIVEL DE DIFICULTAD: ${g.detail}
 ${pedagogy}
 METODOLOGÍA DOCENTE:
-- No seas solo un chatbot: actúa como una profesora particular que diagnostica, enseña, comprueba y refuerza.
-- Empieza por identificar objetivo, punto de partida y error principal.
+- Actúa como una profesora particular real: diagnostica, enseña, comprueba y refuerza.
+- Empieza por identificar el objetivo, el punto de partida y el error principal.
 - Usa andamiaje: pista breve, ejemplo mínimo, pregunta de comprobación y luego práctica.
 - Prioriza comprensión, transferencia y hábito de estudio, no solo acertar una respuesta.
-- Si la alumna pide ayuda con deberes, ayuda a pensar sin hacerle la tarea completa.
+- Si la alumna pide ayuda con deberes, ayuda a pensar — no hagas el trabajo completo.
 - Cada pocas intervenciones, resume qué ha aprendido y cuál es el siguiente paso.
-IDIOMA:
-- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
-- Si la asignatura es en español, responde completamente en español.
-- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
-${languageRule}
-ESTRUCTURA OBLIGATORIA:
-1. Simple explanation
-2. Real-life example
-3. Ask the student a question
-- Mantén siempre esta estructura.
-- Be friendly and interactive.
-PERSONALIZACIÓN: Llama a la alumna por su nombre (${nombre}) de vez en cuando, de forma natural y cálida.
-ESTILO: Español castellano. Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
-LONGITUD: Sé BREVE en cada turno — normalmente 3-6 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o si detectas un bloqueo real.
-CIERRE DE RESPUESTA: Cuando tenga sentido, termina con una microtarea o una pregunta que obligue a recuperar activamente la idea clave.`;
+IDIOMA: ESPAÑOL SOLAMENTE. Esta asignatura se imparte en español.
+Para fórmulas matemáticas o científicas, usa siempre la sintaxis de LaTeX.
+Matemáticas en línea: \\( ... \\). Bloques de ecuaciones: \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).
+ESTRUCTURA DE RESPUESTA — sigue siempre este orden:
+1. Explicación breve y clara (una sola idea cada vez)
+2. Un ejemplo real o concreto
+3. Una pregunta a la alumna
+PERSONALIZACIÓN: Llama a la alumna por su nombre (${studentRef}) de vez en cuando, de forma natural y cálida.
+ESTILO: Tono cálido, paciente, alentador. Emojis moderados. NO hagas los deberes.
+LONGITUD: Sé BREVE en cada turno — normalmente 3–6 líneas. Haz UNA sola pregunta a la vez. Solo da explicaciones largas si pide "explícame más" o si detectas un bloqueo real.
+CIERRE: Cuando tenga sentido, termina con una microtarea o una pregunta que obligue a recuperar activamente la idea clave.`;
 }
 
 function buildSystemExam(name, grade, subject) {
-  const g = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
-  const nombre = name || 'la alumna';
+  const g          = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const lang       = getSubjectLanguage(subject);
   const curriculum = getCurriculumGuide(grade, subject);
-  const language = getSubjectLanguage(subject);
-  const languageRule = language === 'en'
-    ? `LANGUAGE MODE: ENGLISH ONLY. For mathematical formulas, always use LaTeX syntax. For inline math, wrap the expression in \\( ... \\). For display equations, wrap them in \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).`
-    : `MODO DE IDIOMA: ESPAÑOL SOLAMENTE. Para fórmulas matemáticas, usa siempre la sintaxis de LaTeX. Para matemáticas en línea, envuelve la expresión en \\( ... \\). Para bloques de ecuaciones, envuélvelas en \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).`;
-  return `Eres Sofía en MODO EXAMEN ayudando a ${nombre} (${grade}, nivel ${g.level}) a preparar un examen.
-Asignatura: ${subject}.
+
+  if (lang === 'en') {
+    const studentRef = name || 'the student';
+    return `You are Sofía in EXAM MODE, helping ${studentRef} (${grade}, ${g.level} level) prepare for an exam.
+Subject: ${subject} (taught in English in the Madrid Bilingual Programme).
+LEVEL: ${g.detail}
+MADRID CURRICULUM BASE:
+- Assess on the core content for this year, especially: ${curriculum.focus.join(', ')}.
+- Look for evidence of: ${curriculum.outcomes.join('; ')}.
+LANGUAGE: ENGLISH ONLY.
+For formulas, use LaTeX: inline \\( ... \\), display \\[ ... \\].
+EXAM RULES:
+1. Ask one exam-style question at a time — wait for the answer before continuing.
+2. After each answer: ✅ correct or ❌ incorrect — explain why, give the correct answer if wrong, and name the skill being tested.
+3. At the end: give a score, list strengths, list common errors, and suggest a short review plan.
+4. Vary question types: definition, short answer, true/false, concept matching, application.
+5. Adjust difficulty precisely to ${grade} level in Madrid.
+6. If you detect a serious gap, do a brief rescue explanation before continuing with the exam.
+MULTIPLE CHOICE FORMAT — when using multiple choice, ALWAYS put each option on its OWN LINE:
+  a) option text
+  b) option text
+  c) option text
+Never put options on the same line separated by commas or dashes.
+Start by asking which topic the student wants to practise and how many questions they want.`;
+  }
+
+  const studentRef = name || 'la alumna';
+  return `Eres Sofía en MODO EXAMEN ayudando a ${studentRef} (${grade}, nivel ${g.level}) a preparar un examen.
+Asignatura: ${subject} (impartida en español).
 NIVEL: ${g.detail}
 BASE CURRICULAR MADRID:
 - Evalúa sobre contenidos nucleares del curso, especialmente: ${curriculum.focus.join(', ')}.
 - Observa si demuestra estas evidencias: ${curriculum.outcomes.join('; ')}.
-IDIOMA:
-- Si la asignatura es en inglés en un colegio bilingüe, responde completamente en inglés.
-- Si la asignatura es en español, responde completamente en español.
-- Para la asignatura actual (${subject}), el idioma obligatorio es ${language === 'en' ? 'English' : 'Spanish'}.
-${languageRule}
-ESTRUCTURA OBLIGATORIA:
-1. Simple explanation
-2. Real-life example
-3. Ask the student a question
-- Incluso al corregir o evaluar, mantén esta estructura.
-- Be friendly and interactive.
-REGLAS:
-1. Haz preguntas tipo examen una por una — espera la respuesta
-2. Tras cada respuesta: ✅ correcta o ❌ incorrecta, explica por qué, da la respuesta correcta si falló y di qué criterio o destreza se está entrenando
-3. Al final: puntuación, fortalezas, errores frecuentes y plan breve de repaso
-4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos, aplicación
-5. Adapta la dificultad exactamente al nivel de ${grade} en Madrid
-6. Si detectas una laguna grave, antes de seguir con el examen haz una micro-explicación de rescate y luego retoma
-FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES:
-- Cuando hagas una pregunta de opción múltiple, SIEMPRE pon cada opción en su PROPIA LÍNEA, con el formato exacto:
+IDIOMA: ESPAÑOL SOLAMENTE.
+Para fórmulas, usa LaTeX: en línea \\( ... \\), bloque \\[ ... \\].
+REGLAS DEL EXAMEN:
+1. Haz preguntas tipo examen una por una — espera la respuesta antes de continuar.
+2. Tras cada respuesta: ✅ correcta o ❌ incorrecta — explica por qué, da la respuesta correcta si falló y di qué criterio o destreza se está entrenando.
+3. Al final: puntuación, fortalezas, errores frecuentes y plan breve de repaso.
+4. Preguntas variadas: definición, desarrollo, verdadero/falso, relacionar conceptos, aplicación.
+5. Adapta la dificultad exactamente al nivel de ${grade} en Madrid.
+6. Si detectas una laguna grave, haz una micro-explicación de rescate antes de continuar.
+FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES — pon cada opción en su PROPIA LÍNEA:
   a) texto de la opción
   b) texto de la opción
   c) texto de la opción
-- Nunca pongas las opciones en la misma línea separadas por comas o guiones.
-- Este formato es imprescindible para que la interfaz muestre botones táctiles.
+Nunca pongas las opciones en la misma línea separadas por comas o guiones.
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 }
 
-const SUBJECT_EMOJIS = { 'Matemáticas':'🔢', 'Biología':'🧬', 'Física y Química':'⚗️', 'Historia':'🏛️', 'Lengua':'📖', 'Inglés':'🇬🇧' };
-
-// ── STATE ──
-let history = [];
-let subject = 'Matemáticas';
-let loading = false;
-let examMode = false;
-let pendingImages = [];
-let learningMode = 'guiada';
-let currentView = 'home';
-let themeMode = localStorage.getItem('sofia_theme') || 'light';
-let progressData = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let history              = [];
+let subject              = 'Matemáticas';
+let loading              = false;
+let examMode             = false;
+let pendingImages        = [];
+let learningMode         = 'guiada';
+let currentView          = 'home';
+let themeMode            = localStorage.getItem('sofia_theme') || 'light';
+let progressData         = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
 let currentSessionAwarded = false;
-let currentSessionId = null;
+let currentSessionId     = null;
+let studentName          = '';
+let studentGrade         = '1º ESO';
+let studentSyncKey       = '';
+let _selectedGrade       = '';
+let searchActive         = false;
 
-// Student profile — loaded from localStorage
-let studentName  = '';
-let studentGrade = '1º ESO';
-let studentSyncKey = '';
-
-// ── SETTINGS MODAL ──
-let _selectedGrade = '';
+// ── SETTINGS MODAL ────────────────────────────────────────────────────────────
 
 function selectGrade(el, grade) {
   document.querySelectorAll('.grade-tile').forEach(t => t.classList.remove('selected'));
@@ -1259,14 +1030,8 @@ function selectGrade(el, grade) {
   _selectedGrade = grade;
 }
 
-function normalizeSyncKey(value) {
-  return (value || '').replace(/[^0-9]/g, '');
-}
-
-function generateSyncKey() {
-  return Math.floor(10000 + Math.random() * 90000).toString();
-}
-
+function normalizeSyncKey(value) { return (value || '').replace(/[^0-9]/g, ''); }
+function generateSyncKey() { return Math.floor(10000 + Math.random() * 90000).toString(); }
 function saveLocalStudentProfile() {
   localStorage.setItem('sofia_student', JSON.stringify({ name: studentName, grade: studentGrade, syncKey: studentSyncKey }));
 }
@@ -1278,30 +1043,28 @@ async function copySyncKey() {
   try {
     await navigator.clipboard.writeText(value);
     const btn = document.querySelector('.copy-btn');
-    const original = btn.textContent;
+    const orig = btn.textContent;
     btn.textContent = 'Copiada';
-    setTimeout(() => { btn.textContent = original; }, 1200);
-  } catch (e) {}
+    setTimeout(() => { btn.textContent = orig; }, 1200);
+  } catch(e) {}
 }
 
 async function loadRemoteStudentMemory() {
   if (!studentSyncKey) return false;
   try {
-    const res = await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`);
+    const res  = await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`);
     const data = await res.json();
     if (!res.ok || !data.student) return false;
-    const profile = JSON.parse(data.student.profileJson || '{}');
+    const profile  = JSON.parse(data.student.profileJson  || '{}');
     const progress = JSON.parse(data.student.progressJson || '{}');
     const sessions = JSON.parse(data.student.sessionsJson || '[]');
-    studentName = profile.name || studentName;
+    studentName  = profile.name  || studentName;
     studentGrade = profile.grade || studentGrade;
     progressData = { ...progressData, ...progress };
     if (sessions.length) localStorage.setItem('sofia_sessions', JSON.stringify(sessions));
     saveLocalStudentProfile();
     return true;
-  } catch (e) {
-    return false;
-  }
+  } catch(e) { return false; }
 }
 
 async function saveRemoteStudentMemory() {
@@ -1312,16 +1075,16 @@ async function saveRemoteStudentMemory() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        profile: { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
+        profile:  { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
         progress: progressData,
         sessions: sessions.slice(0, 20),
       }),
     });
-  } catch (e) {}
+  } catch(e) {}
 }
 
 function openSettings() {
-  document.getElementById('settingName').value = studentName;
+  document.getElementById('settingName').value    = studentName;
   document.getElementById('settingSyncKey').value = studentSyncKey || generateSyncKey();
   _selectedGrade = studentGrade;
   document.querySelectorAll('.grade-tile').forEach(t => {
@@ -1330,32 +1093,28 @@ function openSettings() {
   const ov = document.getElementById('settingsOverlay');
   ov.style.display = 'flex';
   const actions = ov.querySelector('.modal-actions');
-  if (studentName) {
-    if (!actions.querySelector('.btn-cancel')) {
-      const cancel = document.createElement('button');
-      cancel.className = 'btn-cancel';
-      cancel.textContent = 'Cancelar';
-      cancel.onclick = closeSettings;
-      actions.insertBefore(cancel, actions.firstChild);
-    }
+  if (studentName && !actions.querySelector('.btn-cancel')) {
+    const cancel = document.createElement('button');
+    cancel.className = 'btn-cancel';
+    cancel.textContent = 'Cancelar';
+    cancel.onclick = closeSettings;
+    actions.insertBefore(cancel, actions.firstChild);
   }
   setTimeout(() => document.getElementById('settingName').focus(), 100);
 }
 
-function closeSettings() {
-  document.getElementById('settingsOverlay').style.display = 'none';
-}
+function closeSettings() { document.getElementById('settingsOverlay').style.display = 'none'; }
 
 async function saveSettings() {
   const nameVal  = document.getElementById('settingName').value.trim();
   const gradeVal = _selectedGrade;
-  const syncVal = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey();
+  const syncVal  = normalizeSyncKey(document.getElementById('settingSyncKey').value) || generateSyncKey();
   if (!nameVal)  { document.getElementById('settingName').focus(); shake('settingName'); return; }
   if (!gradeVal) { shake('settingsModal'); return; }
 
   const previousSyncKey = studentSyncKey;
-  studentName  = nameVal;
-  studentGrade = gradeVal;
+  studentName    = nameVal;
+  studentGrade   = gradeVal;
   studentSyncKey = syncVal;
   document.getElementById('settingSyncKey').value = studentSyncKey;
   document.querySelector('.copy-btn').textContent = 'Copiar';
@@ -1368,18 +1127,13 @@ async function saveSettings() {
 
   updateStudentUI();
   closeSettings();
-
   history = [];
   document.getElementById('chat').innerHTML = '';
   currentSessionAwarded = false;
   currentSessionId = null;
 
-  if (loadedRemote) {
-    updateStudentUI();
-    loadLastSession();
-  } else {
-    saveRemoteStudentMemory();
-  }
+  if (loadedRemote) { updateStudentUI(); loadLastSession(); }
+  else { saveRemoteStudentMemory(); }
   showHomeView();
 }
 
@@ -1391,50 +1145,23 @@ function shake(id) {
   setTimeout(() => el.style.animation = '', 400);
 }
 
-function getModeLabel(mode, lang) {
-  const labels = {
-    diagnostico: { es: 'Diagnóstico', en: 'Diagnostic' },
-    guiada: { es: 'Guiada', en: 'Guided' },
-    practica: { es: 'Práctica', en: 'Practice' },
-  };
-  return labels[mode]?.[lang] || labels[mode]?.es || 'Guiada';
-}
+// ── THEME ─────────────────────────────────────────────────────────────────────
 
 function updateThemeButtons() {
   const dark = themeMode === 'dark';
   const headerBtn = document.getElementById('themeToggleBtn');
-  const sideBtn = document.getElementById('sideThemeBtn');
-  if (headerBtn) {
-    headerBtn.textContent = dark ? '☀️' : '🌙';
-    headerBtn.title = dark ? 'Modo claro' : 'Modo oscuro';
-  }
-  if (sideBtn) {
-    sideBtn.innerHTML = `<span class="side-icon">${dark ? '☀️' : '🌙'}</span>${dark ? 'Modo claro' : 'Modo oscuro'}`;
-  }
+  const sideBtn   = document.getElementById('sideThemeBtn');
+  if (headerBtn) { headerBtn.textContent = dark ? '☀️' : '🌙'; headerBtn.title = dark ? 'Modo claro' : 'Modo oscuro'; }
+  if (sideBtn)   { sideBtn.innerHTML = `<span class="side-icon">${dark ? '☀️' : '🌙'}</span>${dark ? 'Modo claro' : 'Modo oscuro'}`; }
 }
+function applyTheme() { document.body.classList.toggle('dark', themeMode === 'dark'); updateThemeButtons(); }
+function toggleTheme() { themeMode = themeMode === 'dark' ? 'light' : 'dark'; localStorage.setItem('sofia_theme', themeMode); applyTheme(); }
 
-function applyTheme() {
-  document.body.classList.toggle('dark', themeMode === 'dark');
-  updateThemeButtons();
-}
+// ── VIEW SWITCHING ────────────────────────────────────────────────────────────
 
-function toggleTheme() {
-  themeMode = themeMode === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('sofia_theme', themeMode);
-  applyTheme();
-}
-
-function showHomeView() {
-  currentView = 'home';
-  updateLocalizedUI();
-}
-
-function showConversationView() {
-  currentView = 'conversation';
-  if (history.length === 0) showWelcome();
-  updateLocalizedUI();
-}
-
+function showHomeView() { currentView = 'home'; updateLocalizedUI(); }
+function showConversationView() { currentView = 'conversation'; if (history.length === 0) showWelcome(); updateLocalizedUI(); }
+function focusComposer() { showConversationView(); document.getElementById('ta').focus(); }
 function goHome() {
   searchActive = false;
   doSearch('');
@@ -1444,141 +1171,130 @@ function goHome() {
   showHomeView();
 }
 
-function focusComposer() {
-  showConversationView();
-  document.getElementById('ta').focus();
+// ── SUBJECT & UI HELPERS ──────────────────────────────────────────────────────
+
+// FIX: getSubjectDisplayName reads officialName from SUBJECTS_EN instead of
+// hard-coding 'Social Sciences'. Falls back to the key name for ES subjects.
+function getSubjectDisplayName(subjectKey, lang) {
+  const enData = SUBJECTS_EN[subjectKey];
+  if (enData && lang === 'en') return enData.officialName || subjectKey;
+  return subjectKey;
 }
 
 function updateHomeHero() {
-  const meta = getSubjectMeta(subject);
-  const lang = meta.language;
-  const subjectLabel = subject === 'Historia' && lang === 'en' ? 'Social Sciences' : subject;
-  const name = studentName || (lang === 'en' ? 'there' : 'ahí');
-  const topic = getMasterySnapshot()?.unit;
-  const topicTitle = topic ? getDisplayUnitTitle(topic, lang) : '';
-  const modeLabel = getModeLabel(learningMode, lang);
+  const meta         = getSubjectMeta(subject);
+  const lang         = meta.lang; // FIX: was meta.language
+  const subjectLabel = getSubjectDisplayName(subject, lang);
+  const name         = studentName || (lang === 'en' ? 'there' : 'ahí');
+  const topic        = getMasterySnapshot()?.unit;
+  const topicTitle   = topic ? getDisplayUnitTitle(topic, lang) : '';
+  const modeLabel    = getModeLabel(learningMode, lang); // uses curriculum.js version
 
-  document.getElementById('heroKicker').textContent = lang === 'en' ? `${subjectLabel} with Sofía` : `${subjectLabel} con Sofía`;
+  document.getElementById('heroKicker').textContent = lang === 'en'
+    ? `${subjectLabel} with Sofía`
+    : `${subjectLabel} con Sofía`;
   document.getElementById('heroTitle').innerHTML = lang === 'en'
     ? `Hi, ${name}. <span class="accent">Ready for today?</span>`
     : `Hola, ${name}. <span class="accent">¿Lista para hoy?</span>`;
   document.getElementById('heroCopy').textContent = topicTitle
     ? (lang === 'en'
-      ? `Your next steady step is ${topicTitle}. We’ll keep it clear, kind, and one idea at a time.`
+      ? `Your next steady step is ${topicTitle}. We'll keep it clear, kind, and one idea at a time.`
       : `Tu siguiente paso tranquilo es ${topicTitle}. Iremos con claridad, calma y una idea cada vez.`)
     : (lang === 'en'
-      ? `We’ll study ${subjectLabel} in a clear, calm way so today feels lighter and easier to continue.`
+      ? `We'll study ${subjectLabel} in a clear, calm way so today feels lighter and easier to continue.`
       : `Vamos a estudiar ${subjectLabel} con claridad y calma, para que hoy se sienta más fácil continuar.`);
   document.getElementById('heroPrimaryBtn').textContent = lang === 'en'
     ? `Continue in ${modeLabel}`
     : `Seguir en ${modeLabel}`;
   document.getElementById('heroSecondaryBtn').textContent = lang === 'en' ? 'Choose subject' : 'Elegir asignatura';
   document.getElementById('subjectHubTitle').textContent = lang === 'en' ? 'Subject space' : 'Espacio de asignaturas';
-  document.getElementById('subjectHubCopy').textContent = lang === 'en'
+  document.getElementById('subjectHubCopy').textContent  = lang === 'en'
     ? 'Choose where Sofía should help next.'
     : 'Elige dónde quieres que Sofía te ayude ahora.';
 }
 
 function updateHomeSubjectCards() {
-  document.querySelectorAll('.subject-card').forEach(card => card.classList.remove('active'));
-  const activeCard = document.getElementById(`home-${subject}`);
-  if (activeCard) activeCard.classList.add('active');
+  document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`home-${subject}`)?.classList.add('active');
 }
 
 function updateSubjectUI() {
-  const meta = getSubjectMeta(subject);
-  const label = subject === 'Historia' && meta.language === 'en' ? 'Social Sciences' : subject;
-  document.getElementById('subjectBadge').textContent = `${SUBJECT_EMOJIS[subject]||'📚'} ${label}`;
-  document.getElementById('languageBadge').textContent = meta.badge;
-  document.getElementById('languageBadge').style.color = meta.language === 'en' ? '#356b7d' : '#2f6a5d';
-  document.getElementById('languageBadge').style.borderColor = meta.language === 'en' ? 'rgba(53,107,125,0.16)' : 'rgba(47,106,93,0.16)';
-  document.getElementById('languageBadge').style.background = 'rgba(255,255,255,0.66)';
+  const meta         = getSubjectMeta(subject);
+  const lang         = meta.lang; // FIX: was meta.language
+  const subjectLabel = getSubjectDisplayName(subject, lang);
+  // FIX: uses meta.icon instead of removed SUBJECT_EMOJIS map
+  document.getElementById('subjectBadge').textContent = `${meta.icon || '📚'} ${subjectLabel}`;
+  document.getElementById('languageBadge').textContent    = meta.badge;
+  document.getElementById('languageBadge').style.color       = lang === 'en' ? '#356b7d' : '#2f6a5d';
+  document.getElementById('languageBadge').style.borderColor = lang === 'en' ? 'rgba(53,107,125,0.16)' : 'rgba(47,106,93,0.16)';
+  document.getElementById('languageBadge').style.background  = 'rgba(255,255,255,0.66)';
   updateHomeSubjectCards();
   updateHomeHero();
 }
 
+// ── PROGRESS DATA ─────────────────────────────────────────────────────────────
+
 function loadProgressData() {
   const saved = localStorage.getItem('sofia_progress');
-  if (saved) {
-    try {
-      progressData = { ...progressData, ...JSON.parse(saved) };
-    } catch (e) {}
-  }
+  if (saved) { try { progressData = { ...progressData, ...JSON.parse(saved) }; } catch(e) {} }
 }
-
-function persistProgressData() {
-  localStorage.setItem('sofia_progress', JSON.stringify(progressData));
-  saveRemoteStudentMemory();
-}
+function persistProgressData() { localStorage.setItem('sofia_progress', JSON.stringify(progressData)); saveRemoteStudentMemory(); }
 
 function getDailyGoalText() {
-  const lang = getSubjectLanguage(subject);
-  const goalDone = progressData.dailyGoalDone || 0;
+  const lang      = getSubjectLanguage(subject);
+  const goalDone  = progressData.dailyGoalDone   || 0;
   const goalTarget = progressData.dailyGoalTarget || 1;
   return {
-    label: lang === 'en' ? `Today` : 'Hoy',
-    main: lang === 'en'
-      ? `${goalDone}/${goalTarget} study session${goalTarget > 1 ? 's' : ''}`
-      : `${goalDone}/${goalTarget} sesiones de estudio`,
-    sub: lang === 'en'
-      ? 'Small steps, steady progress.'
-      : 'Pequeños pasos, avance constante.',
+    label: lang === 'en' ? 'Today' : 'Hoy',
+    main:  lang === 'en' ? `${goalDone}/${goalTarget} study session${goalTarget > 1 ? 's' : ''}` : `${goalDone}/${goalTarget} sesiones de estudio`,
+    sub:   lang === 'en' ? 'Small steps, steady progress.' : 'Pequeños pasos, avance constante.',
   };
 }
 
 function getMasterySnapshot() {
-  const units = getSubjectUnits(subject, studentGrade);
+  const units   = getSubjectUnits(subject, studentGrade);
   const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
   if (!units.length) return null;
-  const ranked = units
-    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
-    .sort((a, b) => b.score - a.score);
-  return ranked[0];
+  return units.map(u => ({ unit: u, score: mastery[u.id] || 0 })).sort((a,b) => b.score - a.score)[0];
 }
 
 function getTopMasteryUnits(limit = 3) {
-  const units = getSubjectUnits(subject, studentGrade);
+  const units   = getSubjectUnits(subject, studentGrade);
   const mastery = progressData.mastery?.[subject]?.[studentGrade] || {};
-  return units
-    .map(unit => ({ unit, score: mastery[unit.id] || 0 }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+  return units.map(u => ({ unit: u, score: mastery[u.id] || 0 })).sort((a,b) => b.score - a.score).slice(0, limit);
 }
 
-function getDisplayUnitTitle(unit, lang = getSubjectLanguage(subject)) {
-  return getUnitDisplayTitle(subject, unit, lang);
+function getDisplayUnitTitle(unit, lang) {
+  return getUnitDisplayTitle(subject, unit, lang || getSubjectLanguage(subject));
 }
+
+// ── UI UPDATE FUNCTIONS ───────────────────────────────────────────────────────
 
 function updateStudyPanel() {
   const lang = getSubjectLanguage(subject);
   const goal = getDailyGoalText();
   document.getElementById('dailyGoalLabel').textContent = goal.label;
-  document.getElementById('dailyGoalMain').textContent = goal.main;
-  document.getElementById('dailyGoalSub').textContent = goal.sub;
-
+  document.getElementById('dailyGoalMain').textContent  = goal.main;
+  document.getElementById('dailyGoalSub').textContent   = goal.sub;
   document.getElementById('recapLabel').textContent = lang === 'en' ? 'Next step' : 'Siguiente paso';
-  document.getElementById('recapMain').textContent = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
+  document.getElementById('recapMain').textContent  = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
   const masteryTop = getMasterySnapshot();
   document.getElementById('recapSub').textContent = masteryTop
-    ? (lang === 'en'
-      ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}`
-      : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
+    ? (lang === 'en' ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}` : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
     : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
 }
 
 function updateMasteryPanel() {
   const lang = getSubjectLanguage(subject);
   document.getElementById('masteryTitle').textContent = lang === 'en' ? 'Your topics' : 'Tus temas';
-  document.getElementById('masteryHint').textContent = lang === 'en' ? 'Where Sofía has already helped most' : 'Dónde Sofía ya te ha ayudado más';
-
-  const top = getTopMasteryUnits(3);
-  document.getElementById('masteryPanel').style.display = top.some(item => item.score > 0) ? 'block' : 'none';
+  document.getElementById('masteryHint').textContent  = lang === 'en' ? 'Where Sofía has already helped most' : 'Dónde Sofía ya te ha ayudado más';
+  const top  = getTopMasteryUnits(3);
   const grid = document.getElementById('masteryGrid');
+  document.getElementById('masteryPanel').style.display = top.some(i => i.score > 0) ? 'block' : 'none';
   if (!top.length) {
-    grid.innerHTML = `<div class="mastery-card"><div class="mastery-topic">${lang === 'en' ? 'Your topic cards will appear as you practise different units.' : 'Tus tarjetas de temas aparecerán cuando practiques distintos bloques.'}</div><div class="mastery-meta"><span>${lang === 'en' ? 'Start with practice mode' : 'Empieza con modo práctica'}</span><span>0/5</span></div></div>`;
+    grid.innerHTML = `<div class="mastery-card"><div class="mastery-topic">${lang === 'en' ? 'Your topic cards will appear as you practise different units.' : 'Tus tarjetas aparecerán cuando practiques distintos bloques.'}</div><div class="mastery-meta"><span>${lang === 'en' ? 'Start with practice mode' : 'Empieza con modo práctica'}</span><span>0/5</span></div></div>`;
     return;
   }
-
   grid.innerHTML = top.map(({ unit, score }) => `
     <div class="mastery-card">
       <div class="mastery-topic">${getDisplayUnitTitle(unit, lang)}</div>
@@ -1587,39 +1303,38 @@ function updateMasteryPanel() {
         <span>${score >= 4 ? (lang === 'en' ? 'Confident' : 'Con confianza') : score >= 2 ? (lang === 'en' ? 'In progress' : 'En progreso') : (lang === 'en' ? 'Starting' : 'Empezando')}</span>
         <span>${score}/5</span>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
 function updateHomePanelsVisibility() {
   const hasProgress = progressData.lessonsCompleted > 1 || progressData.streak > 1;
-  const hasRecap = Boolean(progressData.lastRecap);
-  const hasMastery = progressData.lessonsCompleted > 2 && getTopMasteryUnits(3).some(item => item.score > 1);
-  const inConversation = currentView === 'conversation';
+  const hasRecap    = Boolean(progressData.lastRecap);
+  const hasMastery  = progressData.lessonsCompleted > 2 && getTopMasteryUnits(3).some(i => i.score > 1);
+  const inConvo     = currentView === 'conversation';
 
-  document.getElementById('homeView').style.display = inConversation ? 'none' : 'flex';
-  document.getElementById('lessonView').style.display = inConversation ? 'flex' : 'none';
-  document.getElementById('chat').style.display = inConversation ? 'flex' : 'none';
-  document.getElementById('searchBar').style.display = inConversation && searchActive ? 'flex' : 'none';
-  document.getElementById('examBanner').style.display = inConversation && examMode ? 'block' : 'none';
-  document.getElementById('progressStrip').style.display = hasProgress && !inConversation ? 'grid' : 'none';
-  document.getElementById('recapCard').style.display = hasRecap && hasProgress && !inConversation ? 'block' : 'none';
-  document.getElementById('studyPanel').style.display = (hasRecap || !hasProgress) && !inConversation ? 'grid' : 'none';
+  document.getElementById('homeView').style.display        = inConvo ? 'none' : 'flex';
+  document.getElementById('lessonView').style.display      = inConvo ? 'flex' : 'none';
+  document.getElementById('chat').style.display            = inConvo ? 'flex' : 'none';
+  document.getElementById('searchBar').style.display       = inConvo && searchActive ? 'flex' : 'none';
+  document.getElementById('examBanner').style.display      = inConvo && examMode ? 'block' : 'none';
+  document.getElementById('progressStrip').style.display   = hasProgress && !inConvo ? 'grid' : 'none';
+  document.getElementById('recapCard').style.display       = hasRecap && hasProgress && !inConvo ? 'block' : 'none';
+  document.getElementById('studyPanel').style.display      = (hasRecap || !hasProgress) && !inConvo ? 'grid' : 'none';
   document.getElementById('studyPanel').style.gridTemplateColumns = hasRecap && hasProgress ? 'repeat(auto-fit, minmax(220px, 1fr))' : '1fr';
-  document.getElementById('masteryPanel').style.display = hasMastery && !inConversation ? 'block' : 'none';
+  document.getElementById('masteryPanel').style.display    = hasMastery && !inConvo ? 'block' : 'none';
 }
 
 function updateProgressUI() {
   const lang = getSubjectLanguage(subject);
-  document.getElementById('progressLessonsLabel').textContent = lang === 'en' ? 'Today' : 'Hoy';
+  document.getElementById('progressLessonsLabel').textContent = lang === 'en' ? 'Today'         : 'Hoy';
   document.getElementById('progressLessonsValue').textContent = progressData.lessonsCompleted;
-  document.getElementById('progressLessonsNote').textContent = lang === 'en' ? 'Study steps' : 'Pasos de estudio';
-  document.getElementById('progressScoreLabel').textContent = lang === 'en' ? 'Your progress' : 'Tu avance';
-  document.getElementById('progressScoreValue').textContent = progressData.score;
-  document.getElementById('progressScoreNote').textContent = lang === 'en' ? 'Little by little' : 'Poco a poco';
-  document.getElementById('progressStreakLabel').textContent = lang === 'en' ? 'Routine' : 'Rutina';
-  document.getElementById('progressStreakValue').textContent = progressData.streak;
-  document.getElementById('progressStreakNote').textContent = lang === 'en' ? 'days of practice' : 'días de práctica';
+  document.getElementById('progressLessonsNote').textContent  = lang === 'en' ? 'Study steps'   : 'Pasos de estudio';
+  document.getElementById('progressScoreLabel').textContent   = lang === 'en' ? 'Your progress'  : 'Tu avance';
+  document.getElementById('progressScoreValue').textContent   = progressData.score;
+  document.getElementById('progressScoreNote').textContent    = lang === 'en' ? 'Little by little': 'Poco a poco';
+  document.getElementById('progressStreakLabel').textContent  = lang === 'en' ? 'Routine'        : 'Rutina';
+  document.getElementById('progressStreakValue').textContent  = progressData.streak;
+  document.getElementById('progressStreakNote').textContent   = lang === 'en' ? 'days of practice': 'días de práctica';
 }
 
 function updateLocalizedUI() {
@@ -1637,21 +1352,18 @@ function updateStudyProgress(replyText, userText) {
   const today = new Date().toISOString().slice(0, 10);
   if (progressData.lastStudyDate !== today) {
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-    progressData.streak = progressData.lastStudyDate === yesterday ? progressData.streak + 1 : 1;
-    progressData.activeDays = (progressData.activeDays || 0) + 1;
+    progressData.streak      = progressData.lastStudyDate === yesterday ? progressData.streak + 1 : 1;
+    progressData.activeDays  = (progressData.activeDays || 0) + 1;
     progressData.lastStudyDate = today;
     progressData.dailyGoalDone = 0;
   }
-
   progressData.score += examMode ? 15 : (learningMode === 'practica' ? 12 : 8);
-
   const userTurns = history.filter(m => m.role === 'user').length;
   if (!currentSessionAwarded && userTurns >= 2) {
     progressData.lessonsCompleted += 1;
     progressData.dailyGoalDone = Math.min((progressData.dailyGoalDone || 0) + 1, progressData.dailyGoalTarget || 1);
     currentSessionAwarded = true;
   }
-
   const detectedUnit = detectCurriculumUnit(subject, studentGrade, `${userText || ''} ${replyText || ''}`);
   if (detectedUnit) {
     progressData.mastery[subject] ||= {};
@@ -1667,7 +1379,6 @@ function updateStudyProgress(replyText, userText) {
       ? 'Nice work. You completed another guided study step.'
       : 'Buen trabajo. Has completado otro paso de estudio guiado.';
   }
-
   persistProgressData();
   updateLocalizedUI();
 }
@@ -1683,9 +1394,9 @@ function loadStudentProfile() {
   if (saved) {
     try {
       const p = JSON.parse(saved);
-      studentName  = p.name  || '';
-      studentGrade = p.grade || '1º ESO';
-      studentSyncKey = p.syncKey || '';
+      studentName    = p.name     || '';
+      studentGrade   = p.grade    || '1º ESO';
+      studentSyncKey = p.syncKey  || '';
       updateStudentUI();
       return true;
     } catch(e) {}
@@ -1693,26 +1404,19 @@ function loadStudentProfile() {
   return false;
 }
 
-// ── INIT ──
+// ── INIT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', async () => {
   applyTheme();
   loadProgressData();
   const hasProfile = loadStudentProfile();
-  if (studentSyncKey) {
-    await loadRemoteStudentMemory();
-    updateStudentUI();
-  }
-  if (!hasProfile) {
-    openSettings();
-  } else {
-    closeSettings();
-    loadLastSession();
-  }
+  if (studentSyncKey) { await loadRemoteStudentMemory(); updateStudentUI(); }
+  if (!hasProfile) { openSettings(); }
+  else { closeSettings(); loadLastSession(); }
   updateLocalizedUI();
   document.getElementById('sm-guiada')?.classList.add('active');
 });
 
-// ── SIDE MENU ──
+// ── SIDE MENU ─────────────────────────────────────────────────────────────────
 function openSideMenu() {
   const ov = document.getElementById('sideOverlay');
   ov.style.display = 'block';
@@ -1723,36 +1427,31 @@ function closeSideMenuDirect() {
   ov.classList.remove('open');
   setTimeout(() => { ov.style.display = 'none'; }, 280);
 }
-function closeSideMenu(e) {
-  if (e.target === document.getElementById('sideOverlay')) closeSideMenuDirect();
-}
+function closeSideMenu(e) { if (e.target === document.getElementById('sideOverlay')) closeSideMenuDirect(); }
 
+// FIX: selectSubject uses getSubjectDisplayName and meta.icon instead of the
+// removed SUBJECT_EMOJIS map, and reads meta.lang instead of meta.language.
 function selectSubject(s, el) {
   subject = s;
   document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-  const activeBtn = el || document.getElementById(`sb-${s}`);
-  if (activeBtn) activeBtn.classList.add('active');
+  (el || document.getElementById(`sb-${s}`))?.classList.add('active');
   currentView = 'conversation';
   updateLocalizedUI();
   closeSideMenuDirect();
-  const meta = getSubjectMeta(s);
-  const subjectLabel = s === 'Historia' && meta.language === 'en' ? 'Social Sciences' : s;
-  const msg = `${SUBJECT_EMOJIS[s]||'📚'} ${meta.language === 'en' ? `Let’s work on **${subjectLabel}**! We are in **${getModeLabel(learningMode, 'en')}** mode. ${meta.topicPrompt}` : `¡Vamos con **${subjectLabel}**! Estoy en modo **${getModeLabel(learningMode, 'es')}**. ${meta.topicPrompt}`}`;
+  const meta         = getSubjectMeta(s);
+  const lang         = meta.lang; // FIX
+  const subjectLabel = getSubjectDisplayName(s, lang); // FIX
+  const modeLabel    = getModeLabel(learningMode, lang);
+  const msg = lang === 'en'
+    ? `${meta.icon} Let's work on **${subjectLabel}**! We are in **${modeLabel}** mode. ${meta.topicPrompt}`
+    : `${meta.icon} ¡Vamos con **${subjectLabel}**! Estoy en modo **${modeLabel}**. ${meta.topicPrompt}`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
 
-function toggleExamFromMenu() {
-  toggleExam();
-  closeSideMenuDirect();
-}
+function toggleExamFromMenu() { toggleExam(); closeSideMenuDirect(); }
+function resetSettings() { if (confirm('¿Reiniciar la sesión actual?')) newSession(null); }
 
-// ── SETTINGS / RESET ──
-function resetSettings() {
-  if (confirm('¿Reiniciar la sesión actual?')) newSession(null);
-}
-
-// ── DELETE CONVERSATION ──
 function deleteConversation() {
   if (!confirm('¿Borrar toda la conversación?')) return;
   history = [];
@@ -1762,24 +1461,22 @@ function deleteConversation() {
   showWelcome();
 }
 
-// ── SEARCH ──
-let searchActive = false;
+// ── SEARCH ────────────────────────────────────────────────────────────────────
 function toggleSearch() {
   searchActive = !searchActive;
   if (searchActive) currentView = 'conversation';
-  const bar = document.getElementById('searchBar');
-  bar.style.display = searchActive && currentView === 'conversation' ? 'flex' : 'none';
-  if (searchActive) document.getElementById('searchInput').focus();
-  else { doSearch(''); document.getElementById('searchInput').value=''; document.getElementById('searchCount').textContent=''; }
+  document.getElementById('searchBar').style.display = searchActive && currentView === 'conversation' ? 'flex' : 'none';
+  if (searchActive) { document.getElementById('searchInput').focus(); }
+  else { doSearch(''); document.getElementById('searchInput').value = ''; document.getElementById('searchCount').textContent = ''; }
   updateLocalizedUI();
 }
 
 function doSearch(query) {
   const bubbles = document.querySelectorAll('.bubble');
-  bubbles.forEach(b => { b.innerHTML = b.innerHTML.replace(/<mark class="search-hl"[^>]*>([^<]*)<\/mark>/g,'$1'); });
-  if (!query.trim()) { document.getElementById('searchCount').textContent=''; return; }
+  bubbles.forEach(b => { b.innerHTML = b.innerHTML.replace(/<mark class="search-hl"[^>]*>([^<]*)<\/mark>/g, '$1'); });
+  if (!query.trim()) { document.getElementById('searchCount').textContent = ''; return; }
   let count = 0;
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
   bubbles.forEach(b => {
     const matches = b.textContent.match(regex);
     if (matches) {
@@ -1787,26 +1484,25 @@ function doSearch(query) {
       b.innerHTML = b.innerHTML.replace(regex, '<mark class="search-hl" style="background:rgba(255,209,102,0.4);border-radius:3px;padding:0 2px;">$1</mark>');
     }
   });
-  document.getElementById('searchCount').textContent = count ? `${count} resultado${count>1?'s':''}` : 'Sin resultados';
-  const first = document.querySelector('.search-hl');
-  if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+  document.getElementById('searchCount').textContent = count ? `${count} resultado${count > 1 ? 's' : ''}` : 'Sin resultados';
+  document.querySelector('.search-hl')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ── EXAM MODE ──
+// ── EXAM MODE ─────────────────────────────────────────────────────────────────
+// FIX: exam welcome message now also language-aware
 function toggleExam() {
   examMode = !examMode;
   currentView = 'conversation';
-  const banner = document.getElementById('examBanner');
+  const banner  = document.getElementById('examBanner');
   const sideBtn = document.getElementById('sm-exam');
-  const meta = getSubjectMeta(subject);
+  const meta    = getSubjectMeta(subject);
+  const lang    = meta.lang; // FIX
   banner.style.display = examMode ? 'block' : 'none';
-  banner.innerHTML = meta.language === 'en'
+  banner.innerHTML = lang === 'en'
     ? '📝 <b>Exam Mode ON</b> — Sofía will ask questions and correct your answers'
     : '📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas';
-  
   sideBtn?.classList.toggle('exam-on', examMode);
   sideBtn?.classList.toggle('active', examMode);
-
   if (examMode) {
     document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => {
       if (btn.id !== 'sm-exam') btn.classList.remove('active');
@@ -1814,8 +1510,9 @@ function toggleExam() {
     learningMode = 'guiada';
     history = [];
     document.getElementById('chat').innerHTML = '';
-    const nombre = studentName || '';
-    const msg = `¡${nombre ? 'Vamos, **' + nombre + '**' : 'Vamos'}! 🎯 Estoy en **Modo Examen**.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
+    const msg = lang === 'en'
+      ? `${studentName ? `Let's go, **${studentName}**!` : `Let's go!`} 🎯 I'm in **Exam Mode**.\n\n**What topic do you want to practise, and how many questions would you like?**`
+      : `¡${studentName ? `Vamos, **${studentName}**` : 'Vamos'}! 🎯 Estoy en **Modo Examen**.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
     addMsg('ai', msg);
     history.push({ role: 'assistant', content: msg });
   }
@@ -1824,26 +1521,17 @@ function toggleExam() {
 function setLearningMode(mode) {
   if (!LEARNING_MODES[mode]) return;
   learningMode = mode;
-  
-  if (examMode) {
-    examMode = false;
-    document.getElementById('examBanner').style.display = 'none';
-  }
-
+  if (examMode) { examMode = false; document.getElementById('examBanner').style.display = 'none'; }
   document.querySelectorAll('#sideDrawer .side-action[id^="sm-"]').forEach(btn => btn.classList.remove('active', 'exam-on'));
   document.getElementById(`sm-${mode}`)?.classList.add('active');
-  
   closeSideMenuDirect();
   updateLocalizedUI();
-
-  const meta = getSubjectMeta(subject);
-  const prompts = meta.modePrompts;
-  const msg = prompts[mode];
+  const msg = getSubjectMeta(subject).modePrompts[mode];
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
 
-// ── FILE UPLOAD ──
+// ── FILE UPLOAD ───────────────────────────────────────────────────────────────
 function handleFiles(e) {
   Array.from(e.target.files).forEach(file => {
     const reader = new FileReader();
@@ -1869,129 +1557,83 @@ function renderPreviews() {
       : `<span style="font-size:24px">📄</span><span>${img.name.slice(0,20)}</span>`;
     const rm = document.createElement('div');
     rm.className = 'remove'; rm.textContent = '×';
-    rm.onclick = () => { pendingImages.splice(i,1); renderPreviews(); updateSendBtn(); };
+    rm.onclick = () => { pendingImages.splice(i, 1); renderPreviews(); updateSendBtn(); };
     item.appendChild(rm);
     container.appendChild(item);
   });
 }
 
-// ── VOICE INPUT ──
+// ── VOICE INPUT ───────────────────────────────────────────────────────────────
 let recognition = null;
 let isListening = false;
 
 (function initVoice() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const voiceBtn = document.getElementById('voiceBtn');
-  if (!SpeechRecognition) {
-    voiceBtn.classList.add('unsupported');
-    voiceBtn.title = 'Reconocimiento de voz no disponible en este navegador';
-    return;
-  }
+  if (!SpeechRecognition) { voiceBtn.classList.add('unsupported'); voiceBtn.title = 'Voz no disponible en este navegador'; return; }
   recognition = new SpeechRecognition();
   recognition.lang = 'es-ES';
   recognition.continuous = false;
   recognition.interimResults = true;
-
-  recognition.onstart = () => {
-    isListening = true;
-    voiceBtn.classList.add('listening');
-    voiceBtn.textContent = '⏹️';
-    document.getElementById('ta').placeholder = 'Escuchando...';
-  };
-
+  recognition.onstart = () => { isListening = true; voiceBtn.classList.add('listening'); voiceBtn.textContent = '⏹️'; document.getElementById('ta').placeholder = 'Escuchando...'; };
   recognition.onresult = (e) => {
     const ta = document.getElementById('ta');
-    let interim = '';
-    let final = '';
+    let final = '', interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
       if (e.results[i].isFinal) final += e.results[i][0].transcript;
       else interim += e.results[i][0].transcript;
     }
     ta.value = final || interim;
-    resizeTA(ta);
-    updateSendBtn();
+    resizeTA(ta); updateSendBtn();
   };
-
   recognition.onend = () => {
-    isListening = false;
-    voiceBtn.classList.remove('listening');
-    voiceBtn.textContent = '🎤';
+    isListening = false; voiceBtn.classList.remove('listening'); voiceBtn.textContent = '🎤';
     document.getElementById('ta').placeholder = 'Escribe aquí...';
     const ta = document.getElementById('ta');
     if (ta.value.trim()) sendMsg();
   };
-
   recognition.onerror = (e) => {
-    isListening = false;
-    voiceBtn.classList.remove('listening');
-    voiceBtn.textContent = '🎤';
+    isListening = false; voiceBtn.classList.remove('listening'); voiceBtn.textContent = '🎤';
     document.getElementById('ta').placeholder = 'Escribe aquí...';
-    if (e.error !== 'no-speech' && e.error !== 'aborted') {
-      addMsg('ai', `⚠️ Error de micrófono: ${e.error}`);
-    }
+    if (e.error !== 'no-speech' && e.error !== 'aborted') addMsg('ai', `⚠️ Error de micrófono: ${e.error}`);
   };
 })();
 
 function toggleVoice() {
   const voiceBtn = document.getElementById('voiceBtn');
-  if (voiceBtn.classList.contains('unsupported')) return;
-  if (!recognition) return;
-  if (isListening) {
-    recognition.stop();
-  } else {
-    document.getElementById('ta').value = '';
-    recognition.start();
-  }
+  if (voiceBtn.classList.contains('unsupported') || !recognition) return;
+  if (isListening) { recognition.stop(); } else { document.getElementById('ta').value = ''; recognition.start(); }
 }
 
-// ── CHAT ──
+// ── CHAT ──────────────────────────────────────────────────────────────────────
 const chatEl = document.getElementById('chat');
 const taEl   = document.getElementById('ta');
 const btnEl  = document.getElementById('sendBtn');
 
 function fmt(t) {
   if (!t) return '';
-  let temp = t;
-  let mathBlocks = [];
-  
-  // 1. Extraer matemáticas grandes (Display)
-  temp = temp.replace(/(\$\$|\\+\[)([\s\S]+?)(\$\$|\\+\])/g, (m, left, math, right) => {
+  let temp = t, mathBlocks = [];
+  // 1. Extract display math: $$...$$ or \[...\]
+  temp = temp.replace(/(\$\$|\\+\[)([\s\S]+?)(\$\$|\\+\])/g, (m, _l, math) => {
     mathBlocks.push({ math: math.trim(), display: true, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
-  
-  // 2. Extraer matemáticas pequeñas (Inline)
-  temp = temp.replace(/(\\+\()([\s\S]+?)(\\+\))/g, (m, left, math, right) => {
+  // 2. Extract inline math: \(...\)
+  temp = temp.replace(/(\\+\()([\s\S]+?)(\\+\))/g, (m, _l, math) => {
     mathBlocks.push({ math: math.trim(), display: false, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
-
-  // 3. Aplicar Markdown (negritas, cursivas, saltos de línea)
-  temp = temp
-    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
-
-  // 4. Dibujar las matemáticas con KaTeX
+  // 3. Markdown: bold, italic, line breaks
+  temp = temp.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+  // 4. Render math with KaTeX
   temp = temp.replace(/__MATH_(\d+)__/g, (m, i) => {
-    let b = mathBlocks[parseInt(i)];
-    
-    // Comprobamos si KaTeX cargó correctamente
+    const b = mathBlocks[parseInt(i)];
     if (typeof katex !== 'undefined') {
-      try {
-        return katex.renderToString(b.math, { 
-          displayMode: b.display, 
-          throwOnError: false 
-        });
-      } catch(e) {
-        return b.raw;
-      }
-    } else {
-      // ¡CHIVATO! Si ves esto en rojo, tu red está bloqueando la descarga de KaTeX
-      return `<span style="color:red; font-weight:bold;">[KaTeX no cargó] ${b.raw}</span>`;
+      try { return katex.renderToString(b.math, { displayMode: b.display, throwOnError: false }); }
+      catch(e) { return b.raw; }
     }
+    return `<span style="color:red;font-weight:bold;">[KaTeX no cargó] ${b.raw}</span>`;
   });
-  
   return temp;
 }
 
@@ -1999,16 +1641,11 @@ function parseOptions(text) {
   if (!examMode) return null;
   const re = /^([a-eA-E])[).]\s+(.+)/;
   const lines = text.split('\n');
-  const opts = [];
-  const nonOptLines = [];
-
+  const opts = [], nonOptLines = [];
   for (const line of lines) {
     const m = line.trim().match(re);
-    if (m) {
-      opts.push({ key: m[1].toLowerCase(), text: m[2].trim() });
-    } else {
-      nonOptLines.push(line);
-    }
+    if (m) opts.push({ key: m[1].toLowerCase(), text: m[2].trim() });
+    else nonOptLines.push(line);
   }
   if (opts.length < 2) return null;
   return { preamble: nonOptLines.join('\n').trim(), opts };
@@ -2022,9 +1659,7 @@ function addMsg(role, text, imgSrc) {
   av.textContent = role === 'ai' ? '🎓' : '👩‍🎓';
   const bub = document.createElement('div');
   bub.className = 'bubble';
-
   const parsed = role === 'ai' ? parseOptions(text) : null;
-
   if (parsed) {
     bub.innerHTML = parsed.preamble ? fmt(parsed.preamble) : '';
     const grid = document.createElement('div');
@@ -2040,12 +1675,7 @@ function addMsg(role, text, imgSrc) {
   } else {
     bub.innerHTML = fmt(text);
   }
-
-  if (imgSrc) {
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    bub.appendChild(img);
-  }
+  if (imgSrc) { const img = document.createElement('img'); img.src = imgSrc; bub.appendChild(img); }
   wrap.appendChild(av);
   wrap.appendChild(bub);
   chatEl.appendChild(wrap);
@@ -2053,10 +1683,7 @@ function addMsg(role, text, imgSrc) {
 }
 
 function pickOption(btn, grid, key, optText) {
-  grid.querySelectorAll('.exam-opt').forEach(b => {
-    b.disabled = true;
-    b.classList.remove('chosen');
-  });
+  grid.querySelectorAll('.exam-opt').forEach(b => { b.disabled = true; b.classList.remove('chosen'); });
   btn.classList.add('chosen');
   sendMsg(`${key}) ${optText}`);
 }
@@ -2070,24 +1697,22 @@ function showTyping() {
 }
 function hideTyping() { document.getElementById('typing')?.remove(); }
 
+// FIX: loading=false is now in a finally block so UI never permanently locks up
 async function sendMsg(txt) {
   if (loading) return;
   const text = (txt || taEl.value).trim();
   if (!text && pendingImages.length === 0) return;
 
-  taEl.value = ''; resizeTA(taEl);
-  btnEl.disabled = true;
+  taEl.value = ''; resizeTA(taEl); btnEl.disabled = true;
 
-  let userContent;
   const imgs = [...pendingImages];
   pendingImages = [];
   renderPreviews();
 
+  let userContent;
   if (imgs.length > 0) {
     userContent = [];
-    imgs.forEach(img => {
-      userContent.push({ type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.base64 }});
-    });
+    imgs.forEach(img => userContent.push({ type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.base64 } }));
     if (text) userContent.push({ type: 'text', text });
     const imgSrc = imgs[0].mediaType.startsWith('image/') ? `data:${imgs[0].mediaType};base64,${imgs[0].base64}` : null;
     addMsg('user', text || '📎 Archivo adjunto', imgSrc);
@@ -2107,95 +1732,79 @@ async function sendMsg(txt) {
     const res = await fetch(`${WORKER_URL}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'default_user' })
+      // FIX: 'default_user' → 'anonymous' to match server.js
+      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'anonymous' }),
     });
     const d = await res.json();
-    if (d.error) { hideTyping(); addMsg('ai', `⚠️ API Error: ${d.error.message || JSON.stringify(d.error)}`); loading=false; updateSendBtn(); return; }
+    if (d.error) { hideTyping(); addMsg('ai', `⚠️ Error: ${d.error.message || JSON.stringify(d.error)}`); return; }
     const replyText = d.content?.[0]?.text || '¡Lo siento! Error inesperado 🙈';
     hideTyping();
-  history.push({ role: 'assistant', content: replyText });
+    history.push({ role: 'assistant', content: replyText });
     addMsg('ai', replyText);
     updateStudyProgress(replyText, text);
     saveSession();
   } catch(err) {
     hideTyping();
     addMsg('ai', `⚠️ Error de conexión. (${err.message})`);
+  } finally {
+    // FIX: always reset loading state — previously could lock up on error
+    loading = false;
+    updateSendBtn();
   }
-  loading = false;
-  updateSendBtn();
 }
 
-function onKey(e) { if (e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
-function resizeTA(el) {
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,120)+'px';
-  updateSendBtn();
-}
-function updateSendBtn() {
-  btnEl.disabled = loading || (!taEl.value.trim() && pendingImages.length === 0);
-}
+function onKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); } }
+function resizeTA(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; updateSendBtn(); }
+function updateSendBtn() { btnEl.disabled = loading || (!taEl.value.trim() && pendingImages.length === 0); }
 
-// ── SESSION MEMORY ──
+// ── SESSION MEMORY ────────────────────────────────────────────────────────────
 function saveSession() {
   if (history.length < 2) return;
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  const id = currentSessionId || Date.now();
-  const preview = history.find(m => m.role==='user')?.content;
-  const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p=>p.type==='text')?.text || '📎 Image') : '');
-  const sessionRecord = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0,80), history };
-  const existingIndex = sessions.findIndex(s => s.id === id);
-  if (existingIndex >= 0) {
-    sessions[existingIndex] = sessionRecord;
-    if (existingIndex > 0) {
-      const [existing] = sessions.splice(existingIndex, 1);
-      sessions.unshift(existing);
-    }
+  const id       = currentSessionId || Date.now();
+  const preview  = history.find(m => m.role === 'user')?.content;
+  const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p => p.type === 'text')?.text || '📎 Image') : '');
+  const record = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0, 80), history };
+  const idx = sessions.findIndex(s => s.id === id);
+  if (idx >= 0) {
+    sessions[idx] = record;
+    if (idx > 0) { const [r] = sessions.splice(idx, 1); sessions.unshift(r); }
   } else {
-    sessions.unshift(sessionRecord);
+    sessions.unshift(record);
   }
   currentSessionId = id;
-  localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0,20)));
+  localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0, 20)));
   saveRemoteStudentMemory();
 }
 
 function loadLastSession() {
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
   chatEl.innerHTML = '';
-  if (sessions.length === 0) {
-    history = [];
-    currentSessionAwarded = false;
-    currentSessionId = null;
-    showHomeView();
-    return;
-  }
-  const last = sessions[0];
-  const hourAgo = Date.now() - 60*60*1000;
+  if (!sessions.length) { history = []; currentSessionAwarded = false; currentSessionId = null; showHomeView(); return; }
+  const last    = sessions[0];
+  const hourAgo = Date.now() - 60 * 60 * 1000;
   if (new Date(last.date).getTime() > hourAgo) {
     history = last.history;
     subject = last.subject || 'Matemáticas';
     currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
     currentSessionId = last.id;
     document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.getElementById(`sb-${subject}`);
-    if (activeBtn) activeBtn.classList.add('active');
+    document.getElementById(`sb-${subject}`)?.classList.add('active');
     updateLocalizedUI();
     history.forEach(m => {
       if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
       else if (m.role === 'user') {
-        const text = typeof m.content === 'string' ? m.content : (m.content.find?.(c=>c.type==='text')?.text || '📎');
-        addMsg('user', text);
+        const t = typeof m.content === 'string' ? m.content : (m.content.find?.(c => c.type === 'text')?.text || '📎');
+        addMsg('user', t);
       }
     });
     const banner = document.createElement('div');
     banner.className = 'date-divider';
-    banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#ff6b6b">Empezar nueva</a>`;
+    banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#2f6a5d">Empezar nueva</a>`;
     chatEl.insertBefore(banner, chatEl.firstChild);
     showHomeView();
   } else {
-    history = [];
-    currentSessionAwarded = false;
-    currentSessionId = null;
-    showHomeView();
+    history = []; currentSessionAwarded = false; currentSessionId = null; showHomeView();
   }
 }
 
@@ -2211,35 +1820,34 @@ function newSession(e) {
   showConversationView();
 }
 
+// FIX: showWelcome reads meta.lang instead of meta.language
 function showWelcome() {
   updateLocalizedUI();
-  const meta = getSubjectMeta(subject);
-  const lang = meta.language;
-  const greeting = lang === 'en'
-    ? (studentName ? `Hi, **${studentName}**! 👋 I’m **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I’m **Sofía**, your tutor.`)
-    : (studentName ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.` : `¡Hola! 👋 Soy **Sofía**, tu tutora.`);
+  const meta      = getSubjectMeta(subject);
+  const lang      = meta.lang; // FIX
   const modeLabel = getModeLabel(learningMode, lang);
+  const greeting  = lang === 'en'
+    ? (studentName ? `Hi, **${studentName}**! 👋 I'm **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I'm **Sofía**, your tutor.`)
+    : (studentName ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.` : `¡Hola! 👋 Soy **Sofía**, tu tutora.`);
   const msg = lang === 'en'
-    ? `${greeting}\n\nI’m here to help you *understand*, practise, and study better like a real teacher.\n\nRight now I’m in **${modeLabel}** mode.\n\n**${meta.welcomePrompt}**`
+    ? `${greeting}\n\nI'm here to help you *understand*, practise, and study better — like a real teacher.\n\nRight now I'm in **${modeLabel}** mode.\n\n**${meta.welcomePrompt}**`
     : `${greeting}\n\nEstoy aquí para ayudarte a *descubrir* las respuestas y a estudiar mejor, con una forma de trabajar más parecida a una profe real.\n\nAhora mismo estoy en modo **${modeLabel}**.\n\n**${meta.welcomePrompt}**`;
   addMsg('ai', msg);
   history.push({ role: 'assistant', content: msg });
 }
 
-// ── HISTORY PANEL ──
+// ── HISTORY PANEL ─────────────────────────────────────────────────────────────
 function showHistory() {
-  const panel = document.getElementById('historyPanel');
-  const list  = document.getElementById('sessionList');
   const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  list.innerHTML = sessions.length === 0
+  document.getElementById('sessionList').innerHTML = sessions.length === 0
     ? '<div class="no-sessions">Aún no hay sesiones anteriores</div>'
     : sessions.map(s => `
       <div class="session-item" onclick="loadSession(${s.id})">
         <div class="s-date">${new Date(s.date).toLocaleDateString('es-ES', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
         <div class="s-preview">${s.preview || '...'}</div>
-        <span class="s-subj">${s.subject}${s.examMode?' · 📝 Examen':''}</span>
+        <span class="s-subj">${s.subject}${s.examMode ? ' · 📝 Examen' : ''}</span>
       </div>`).join('');
-  panel.style.display = 'block';
+  document.getElementById('historyPanel').style.display = 'block';
 }
 
 function loadSession(id) {
@@ -2253,13 +1861,15 @@ function loadSession(id) {
   updateLocalizedUI();
   chatEl.innerHTML = '';
   history.forEach(m => {
-    if (m.role === 'assistant') addMsg('ai', typeof m.content==='string'?m.content:'');
+    if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
     else if (m.role === 'user') {
-      const text = typeof m.content==='string'?m.content:(m.content.find?.(c=>c.type==='text')?.text||'📎');
-      addMsg('user', text);
+      const t = typeof m.content === 'string' ? m.content : (m.content.find?.(c => c.type === 'text')?.text || '📎');
+      addMsg('user', t);
     }
   });
   document.getElementById('historyPanel').style.display = 'none';
+  currentView = 'conversation';
+  updateLocalizedUI();
 }
 
 function clearAllSessions() {
@@ -2268,24 +1878,19 @@ function clearAllSessions() {
     document.getElementById('sessionList').innerHTML = '<div class="no-sessions">Aún no hay sesiones anteriores</div>';
   }
 }
+function closeHistory(e) { if (e.target === document.getElementById('historyPanel')) document.getElementById('historyPanel').style.display = 'none'; }
 
-function closeHistory(e) {
-  if (e.target === document.getElementById('historyPanel'))
-    document.getElementById('historyPanel').style.display = 'none';
-}
-
-// ── PWA INSTALL HINT ──
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-if (isIOS && !window.navigator.standalone && !localStorage.getItem('hint_shown')) {
-  localStorage.setItem('hint_shown','1');
+// ── PWA INSTALL HINT (iOS) ─────────────────────────────────────────────────────
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone && !localStorage.getItem('hint_shown')) {
+  localStorage.setItem('hint_shown', '1');
   setTimeout(() => {
     const h = document.createElement('div');
-    h.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1935;border:1px solid #2a2945;border-radius:14px;padding:12px 16px;font-size:13px;color:#a7a6c0;text-align:center;z-index:300;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,0.5)';
-    h.innerHTML='📲 <b style="color:#ffd166">Instalar como app:</b><br>Pulsa <b>Compartir</b> → <b>"Añadir a inicio"</b>';
-    h.onclick=()=>h.remove();
+    h.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(20,55,49,0.95);border:1px solid rgba(142,217,195,0.2);border-radius:14px;padding:12px 16px;font-size:13px;color:#d6f5ec;text-align:center;z-index:300;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,0.4)';
+    h.innerHTML = '📲 <b style="color:#8ed9c3">Instalar como app:</b><br>Pulsa <b>Compartir</b> → <b>"Añadir a inicio"</b>';
+    h.onclick = () => h.remove();
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-  },2000);
+    setTimeout(() => h.remove(), 6000);
+  }, 2000);
 }
 </script>
 </body>
