@@ -617,6 +617,63 @@ body.dark .exam-opt:not(:disabled):active .opt-key { background: #8ed9c3; color:
 body.dark .exam-opt.chosen { border-color: #8ed9c3; background: rgba(109,190,164,0.1); }
 body.dark .exam-opt.chosen .opt-key { background: #8ed9c3; color: #143731; }
 body.dark .date-divider { color: #6a8c84; }
+
+/* ── SUBJECT TABS ── */
+#subjectTabs {
+  flex-shrink: 0;
+  display: flex;
+  overflow-x: auto;
+  gap: 4px;
+  padding: 8px 12px 0;
+  background: rgba(246, 242, 235, 0.92);
+  border-bottom: 1px solid rgba(22, 51, 45, 0.08);
+  scrollbar-width: none;
+}
+#subjectTabs::-webkit-scrollbar { display: none; }
+
+.subj-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px 10px;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6a8178;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.subj-tab:active { color: #2f6a5d; }
+.subj-tab.active {
+  color: #143731;
+  border-bottom-color: #2f6a5d;
+}
+.subj-tab .tab-icon { font-size: 16px; }
+.subj-tab .tab-dot {
+  position: absolute;
+  top: 6px; right: 8px;
+  width: 6px; height: 6px;
+  background: #2f8f72;
+  border-radius: 50%;
+  display: none;
+}
+.subj-tab.has-thread .tab-dot { display: block; }
+
+body.dark #subjectTabs {
+  background: rgba(18, 22, 32, 0.94);
+  border-color: rgba(214, 231, 225, 0.08);
+}
+body.dark .subj-tab { color: #6a8c84; }
+body.dark .subj-tab.active { color: #edf3f0; border-bottom-color: #8ed9c3; }
+body.dark .subj-tab:active { color: #8ed9c3; }
+
 </style>
 </head>
 <body>
@@ -856,6 +913,33 @@ body.dark .date-divider { color: #6a8c84; }
 
 <!-- ── LESSON / CHAT VIEW ── -->
 <div id="lessonView">
+  <!-- ── SUBJECT TABS ── -->
+  <div id="subjectTabs">
+    <button class="subj-tab active" id="tab-Matemáticas" onclick="switchTab('Matemáticas')">
+      <span class="tab-icon">🔢</span> Mates
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Biología" onclick="switchTab('Biología')">
+      <span class="tab-icon">🧬</span> Biology
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Física y Química" onclick="switchTab('Física y Química')">
+      <span class="tab-icon">⚗️</span> F. y Q.
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Historia" onclick="switchTab('Historia')">
+      <span class="tab-icon">🏛️</span> Geo & Hist
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Lengua" onclick="switchTab('Lengua')">
+      <span class="tab-icon">📖</span> Lengua
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Inglés" onclick="switchTab('Inglés')">
+      <span class="tab-icon">🇬🇧</span> English
+      <span class="tab-dot"></span>
+    </button>
+  </div>
   <div id="examBanner">📝 <b>Modo Examen ON</b> — Sofía te hará preguntas y corregirá tus respuestas</div>
 
   <div id="searchBar">
@@ -1006,7 +1090,22 @@ Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
 }
 
 // ── STATE ──────────────────────────────────────────────────────────────────────
-let history              = [];
+
+// All 6 subjects
+const ALL_SUBJECTS = ['Matemáticas', 'Biología', 'Física y Química', 'Historia', 'Lengua', 'Inglés'];
+
+// Per-subject conversation state
+// Each entry: { history: [], sessionId: null, sessionAwarded: false }
+const subjectState = {};
+ALL_SUBJECTS.forEach(s => {
+  subjectState[s] = { history: [], sessionId: null, sessionAwarded: false };
+});
+
+// Per-subject session storage: { subjectKey: [ ...session records ] }
+// Replaces the old flat sofia_sessions localStorage key.
+let sessionsPerSubject = {};
+ALL_SUBJECTS.forEach(s => { sessionsPerSubject[s] = []; });
+
 let subject              = 'Matemáticas';
 let loading              = false;
 let examMode             = false;
@@ -1015,13 +1114,23 @@ let learningMode         = 'guiada';
 let currentView          = 'home';
 let themeMode            = localStorage.getItem('sofia_theme') || 'light';
 let progressData         = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
-let currentSessionAwarded = false;
-let currentSessionId     = null;
 let studentName          = '';
 let studentGrade         = '1º ESO';
 let studentSyncKey       = '';
 let _selectedGrade       = '';
 let searchActive         = false;
+
+// Convenience accessors for the active subject's state
+function getState()  { return subjectState[subject]; }
+function getHistory(){ return subjectState[subject].history; }
+
+// `history` is used extensively below. We define it as a getter-backed variable
+// so existing code like history.push(), history.length, history.filter() all work
+// transparently on whichever subject is currently active.
+// We cannot use a true Proxy in old Safari, so instead we refresh `history` 
+// every time we switch subjects via refreshHistory().
+let history = subjectState['Matemáticas'].history;
+function refreshHistory() { history = subjectState[subject].history; }
 
 // ── SETTINGS MODAL ────────────────────────────────────────────────────────────
 
@@ -1053,17 +1162,32 @@ async function copySyncKey() {
 async function loadRemoteStudentMemory() {
   if (!studentSyncKey) return false;
   try {
+    // Load profile + progress
     const res  = await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`);
     const data = await res.json();
     if (!res.ok || !data.student) return false;
     const profile  = JSON.parse(data.student.profileJson  || '{}');
     const progress = JSON.parse(data.student.progressJson || '{}');
-    const sessions = JSON.parse(data.student.sessionsJson || '[]');
     studentName  = profile.name  || studentName;
     studentGrade = profile.grade || studentGrade;
     progressData = { ...progressData, ...progress };
-    if (sessions.length) localStorage.setItem('sofia_sessions', JSON.stringify(sessions));
     saveLocalStudentProfile();
+
+    // Load per-subject sessions from the dedicated endpoint
+    try {
+      const sRes  = await fetch(`${WORKER_URL}/sessions/${encodeURIComponent(studentSyncKey)}`);
+      const sData = await sRes.json();
+      if (sRes.ok && sData.sessions) {
+        ALL_SUBJECTS.forEach(s => {
+          if (Array.isArray(sData.sessions[s])) {
+            sessionsPerSubject[s] = sData.sessions[s];
+          }
+        });
+        persistSessionsLocally();
+      }
+    } catch(e) {
+      // Sessions endpoint failed — fall back to localStorage only
+    }
     return true;
   } catch(e) { return false; }
 }
@@ -1071,14 +1195,18 @@ async function loadRemoteStudentMemory() {
 async function saveRemoteStudentMemory() {
   if (!studentSyncKey) return;
   try {
-    const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+    // Build a trimmed copy — max 10 sessions per subject
+    const trimmed = {};
+    ALL_SUBJECTS.forEach(s => {
+      trimmed[s] = (sessionsPerSubject[s] || []).slice(0, 10);
+    });
     await fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        profile:  { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
-        progress: progressData,
-        sessions: sessions.slice(0, 20),
+        profile:            { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
+        progress:           progressData,
+        sessionsPerSubject: trimmed,
       }),
     });
   } catch(e) {}
@@ -1128,10 +1256,16 @@ async function saveSettings() {
 
   updateStudentUI();
   closeSettings();
-  history = [];
-  document.getElementById('chat').innerHTML = '';
-  currentSessionAwarded = false;
-  currentSessionId = null;
+  // Reset all subject states on new profile
+  ALL_SUBJECTS.forEach(s => {
+    subjectState[s].history = [];
+    subjectState[s].sessionId = null;
+    subjectState[s].sessionAwarded = false;
+  });
+  sessionsPerSubject = {};
+  ALL_SUBJECTS.forEach(s => { sessionsPerSubject[s] = []; });
+  refreshHistory();
+  chatEl.innerHTML = '';
 
   if (loadedRemote) { updateStudentUI(); loadLastSession(); }
   else { saveRemoteStudentMemory(); }
@@ -1161,7 +1295,11 @@ function toggleTheme() { themeMode = themeMode === 'dark' ? 'light' : 'dark'; lo
 // ── VIEW SWITCHING ────────────────────────────────────────────────────────────
 
 function showHomeView() { currentView = 'home'; updateLocalizedUI(); }
-function showConversationView() { currentView = 'conversation'; if (history.length === 0) showWelcome(); updateLocalizedUI(); }
+function showConversationView() {
+  currentView = 'conversation';
+  if (history.length === 0) showWelcome();
+  updateLocalizedUI();
+}
 function focusComposer() { showConversationView(); document.getElementById('ta').focus(); }
 function goHome() {
   searchActive = false;
@@ -1360,10 +1498,10 @@ function updateStudyProgress(replyText, userText) {
   }
   progressData.score += examMode ? 15 : (learningMode === 'practica' ? 12 : 8);
   const userTurns = history.filter(m => m.role === 'user').length;
-  if (!currentSessionAwarded && userTurns >= 2) {
+  if (!getState().sessionAwarded && userTurns >= 2) {
     progressData.lessonsCompleted += 1;
     progressData.dailyGoalDone = Math.min((progressData.dailyGoalDone || 0) + 1, progressData.dailyGoalTarget || 1);
-    currentSessionAwarded = true;
+    getState().sessionAwarded = true;
   }
   const detectedUnit = detectCurriculumUnit(subject, studentGrade, `${userText || ''} ${replyText || ''}`);
   if (detectedUnit) {
@@ -1409,11 +1547,17 @@ function loadStudentProfile() {
 window.addEventListener('load', async () => {
   applyTheme();
   loadProgressData();
+  loadSessionsLocally(); // load per-subject sessions from localStorage
   const hasProfile = loadStudentProfile();
   if (studentSyncKey) { await loadRemoteStudentMemory(); updateStudentUI(); }
   if (!hasProfile) { openSettings(); }
-  else { closeSettings(); loadLastSession(); }
+  else {
+    closeSettings();
+    refreshHistory(); // ensure `history` points at the current subject
+    loadLastSession();
+  }
   updateLocalizedUI();
+  updateTabDots();
   document.getElementById('sm-guiada')?.classList.add('active');
 });
 
@@ -1433,30 +1577,26 @@ function closeSideMenu(e) { if (e.target === document.getElementById('sideOverla
 // FIX: selectSubject uses getSubjectDisplayName and meta.icon instead of the
 // removed SUBJECT_EMOJIS map, and reads meta.lang instead of meta.language.
 function selectSubject(s, el) {
-  subject = s;
-  document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-  (el || document.getElementById(`sb-${s}`))?.classList.add('active');
-  currentView = 'conversation';
-  updateLocalizedUI();
   closeSideMenuDirect();
-  const meta         = getSubjectMeta(s);
-  const lang         = meta.lang; // FIX
-  const subjectLabel = getSubjectDisplayName(s, lang); // FIX
-  const modeLabel    = getModeLabel(learningMode, lang);
-  const msg = lang === 'en'
-    ? `${meta.icon} Let's work on **${subjectLabel}**! We are in **${modeLabel}** mode. ${meta.topicPrompt}`
-    : `${meta.icon} ¡Vamos con **${subjectLabel}**! Estoy en modo **${modeLabel}**. ${meta.topicPrompt}`;
-  addMsg('ai', msg);
-  history.push({ role: 'assistant', content: msg });
+  switchTab(s); // switchTab handles all state + UI updates
 }
 
 function toggleExamFromMenu() { toggleExam(); closeSideMenuDirect(); }
-function resetSettings() { if (confirm('¿Reiniciar la sesión actual?')) newSession(null); }
+function resetSettings() {
+  const lang = getSubjectMeta(subject).lang;
+  const msg  = lang === 'en' ? 'Start a new session for this subject?' : '¿Empezar nueva sesión en esta asignatura?';
+  if (confirm(msg)) newSession(null);
+}
 
 function deleteConversation() {
-  if (!confirm('¿Borrar toda la conversación?')) return;
-  history = [];
-  document.getElementById('chat').innerHTML = '';
+  const lang = getSubjectMeta(subject).lang;
+  const msg  = lang === 'en' ? 'Clear this conversation?' : '¿Borrar esta conversación?';
+  if (!confirm(msg)) return;
+  subjectState[subject].history = [];
+  subjectState[subject].sessionId = null;
+  subjectState[subject].sessionAwarded = false;
+  refreshHistory();
+  chatEl.innerHTML = '';
   closeSideMenuDirect();
   currentView = 'conversation';
   showWelcome();
@@ -1509,8 +1649,11 @@ function toggleExam() {
       if (btn.id !== 'sm-exam') btn.classList.remove('active');
     });
     learningMode = 'guiada';
-    history = [];
-    document.getElementById('chat').innerHTML = '';
+    subjectState[subject].history = [];
+    subjectState[subject].sessionId = null;
+    subjectState[subject].sessionAwarded = false;
+    refreshHistory();
+    chatEl.innerHTML = '';
     const msg = lang === 'en'
       ? `${studentName ? `Let's go, **${studentName}**!` : `Let's go!`} 🎯 I'm in **Exam Mode**.\n\n**What topic do you want to practise, and how many questions would you like?**`
       : `¡${studentName ? `Vamos, **${studentName}**` : 'Vamos'}! 🎯 Estoy en **Modo Examen**.\n\n**¿Qué tema quieres repasar y cuántas preguntas quieres hacer?**`;
@@ -1751,7 +1894,7 @@ async function sendMsg(txt) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // FIX: 'default_user' → 'anonymous' to match server.js
-      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'anonymous' }),
+      body: JSON.stringify({ system, messages: history, userId: studentSyncKey || 'anonymous', subject }),
     });
     const d = await res.json();
     if (d.error) { hideTyping(); addMsg('ai', `⚠️ Error: ${d.error.message || JSON.stringify(d.error)}`); return; }
@@ -1775,74 +1918,115 @@ function onKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); 
 function resizeTA(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; updateSendBtn(); }
 function updateSendBtn() { btnEl.disabled = loading || (!taEl.value.trim() && pendingImages.length === 0); }
 
+// ── SESSION STORAGE HELPERS ──────────────────────────────────────────────────
+
+function getSubjectSessions(subj) {
+  return sessionsPerSubject[subj || subject] || [];
+}
+
+function persistSessionsLocally() {
+  localStorage.setItem('sofia_sessions_v2', JSON.stringify(sessionsPerSubject));
+}
+
+function loadSessionsLocally() {
+  try {
+    const saved = localStorage.getItem('sofia_sessions_v2');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      ALL_SUBJECTS.forEach(s => {
+        if (Array.isArray(parsed[s])) sessionsPerSubject[s] = parsed[s];
+      });
+    }
+  } catch(e) {}
+}
+
 // ── SESSION MEMORY ────────────────────────────────────────────────────────────
+
 function saveSession() {
   if (history.length < 2) return;
-  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
-  const id       = currentSessionId || Date.now();
-  const preview  = history.find(m => m.role === 'user')?.content;
-  const previewText = typeof preview === 'string' ? preview : (Array.isArray(preview) ? (preview.find(p => p.type === 'text')?.text || '📎 Image') : '');
-  const record = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0, 80), history };
-  const idx = sessions.findIndex(s => s.id === id);
+  const st      = getState();
+  const id      = st.sessionId || Date.now();
+  const preview = history.find(m => m.role === 'user')?.content;
+  const previewText = typeof preview === 'string' ? preview
+    : (Array.isArray(preview) ? (preview.find(p => p.type === 'text')?.text || '📎 Image') : '');
+  const record = { id, date: new Date().toISOString(), subject, examMode, preview: previewText.slice(0, 80), history: [...history] };
+  const arr = sessionsPerSubject[subject];
+  const idx = arr.findIndex(s => s.id === id);
   if (idx >= 0) {
-    sessions[idx] = record;
-    if (idx > 0) { const [r] = sessions.splice(idx, 1); sessions.unshift(r); }
+    arr[idx] = record;
+    if (idx > 0) { const [r] = arr.splice(idx, 1); arr.unshift(r); }
   } else {
-    sessions.unshift(record);
+    arr.unshift(record);
+    if (arr.length > 10) arr.pop(); // max 10 per subject
   }
-  currentSessionId = id;
-  localStorage.setItem('sofia_sessions', JSON.stringify(sessions.slice(0, 20)));
+  st.sessionId = id;
+  updateTabDots();
+  persistSessionsLocally();
   saveRemoteStudentMemory();
 }
 
 function loadLastSession() {
-  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+  // Load the most recent session for the current subject if within 1 hour
   chatEl.innerHTML = '';
-  if (!sessions.length) { history = []; currentSessionAwarded = false; currentSessionId = null; showHomeView(); return; }
+  const sessions = getSubjectSessions(subject);
+  if (!sessions.length) {
+    subjectState[subject].history = [];
+    history = subjectState[subject].history;
+    getState().sessionId = null;
+    getState().sessionAwarded = false;
+    showHomeView();
+    return;
+  }
   const last    = sessions[0];
   const hourAgo = Date.now() - 60 * 60 * 1000;
   if (new Date(last.date).getTime() > hourAgo) {
-    history = last.history;
-    subject = last.subject || 'Matemáticas';
-    currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
-    currentSessionId = last.id;
-    document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`sb-${subject}`)?.classList.add('active');
+    subjectState[subject].history = last.history || [];
+    history = subjectState[subject].history;
+    getState().sessionId      = last.id;
+    getState().sessionAwarded = history.filter(m => m.role === 'user').length >= 2;
     updateLocalizedUI();
-    history.forEach(m => {
-      if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
-      else if (m.role === 'user') {
-        const t = typeof m.content === 'string' ? m.content : (m.content.find?.(c => c.type === 'text')?.text || '📎');
-        addMsg('user', t);
-      }
-    });
+    renderHistory(history);
     const banner = document.createElement('div');
     banner.className = 'date-divider';
-    banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#2f6a5d">Empezar nueva</a>`;
+    banner.innerHTML = `↩️ Retomando sesión · <a href="#" onclick="newSession(event)" style="color:#2f6a5d">Nueva sesión</a>`;
     chatEl.insertBefore(banner, chatEl.firstChild);
     showHomeView();
   } else {
-    history = []; currentSessionAwarded = false; currentSessionId = null; showHomeView();
+    subjectState[subject].history = [];
+    history = subjectState[subject].history;
+    getState().sessionId = null;
+    getState().sessionAwarded = false;
+    showHomeView();
   }
+}
+
+function renderHistory(msgs) {
+  msgs.forEach(m => {
+    if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
+    else if (m.role === 'user') {
+      const t = typeof m.content === 'string' ? m.content : (m.content.find?.(c => c.type === 'text')?.text || '📎');
+      addMsg('user', t);
+    }
+  });
 }
 
 function newSession(e) {
   if (e) e.preventDefault();
-  history = [];
-  chatEl.innerHTML = '';
+  subjectState[subject].history  = [];
+  subjectState[subject].sessionId = null;
+  subjectState[subject].sessionAwarded = false;
+  history  = subjectState[subject].history;
   examMode = false;
-  currentSessionAwarded = false;
-  currentSessionId = null;
+  chatEl.innerHTML = '';
   document.getElementById('examBanner').style.display = 'none';
   document.getElementById('sm-exam')?.classList.remove('exam-on', 'active');
   showConversationView();
 }
 
-// FIX: showWelcome reads meta.lang instead of meta.language
 function showWelcome() {
   updateLocalizedUI();
   const meta      = getSubjectMeta(subject);
-  const lang      = meta.lang; // FIX
+  const lang      = meta.lang;
   const modeLabel = getModeLabel(learningMode, lang);
   const greeting  = lang === 'en'
     ? (studentName ? `Hi, **${studentName}**! 👋 I'm **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I'm **Sofía**, your tutor.`)
@@ -1854,11 +2038,60 @@ function showWelcome() {
   history.push({ role: 'assistant', content: msg });
 }
 
+// ── SUBJECT TAB SWITCHING ─────────────────────────────────────────────────────
+
+function switchTab(newSubject) {
+  if (newSubject === subject && currentView === 'conversation') return;
+
+  subject = newSubject;
+  refreshHistory(); // point `history` at new subject's array
+
+  // Update tab UI
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${newSubject}`)?.classList.add('active');
+
+  // Update side menu active button
+  document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`sb-${newSubject}`)?.classList.add('active');
+
+  // Clear chat area and render this subject's current session
+  chatEl.innerHTML = '';
+  updateLocalizedUI();
+
+  if (history.length > 0) {
+    renderHistory(history);
+    currentView = 'conversation';
+    updateLocalizedUI();
+  } else {
+    // No history yet for this subject — show welcome in conversation view
+    currentView = 'conversation';
+    showWelcome();
+    updateLocalizedUI();
+  }
+}
+
+function updateTabDots() {
+  ALL_SUBJECTS.forEach(s => {
+    const tab = document.getElementById(`tab-${s}`);
+    if (!tab) return;
+    const hasThread = (sessionsPerSubject[s] || []).length > 0
+                   || subjectState[s].history.length > 0;
+    tab.classList.toggle('has-thread', hasThread && s !== subject);
+  });
+}
+
 // ── HISTORY PANEL ─────────────────────────────────────────────────────────────
+
 function showHistory() {
-  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+  const sessions = getSubjectSessions(subject);
+  const meta     = getSubjectMeta(subject);
+  const lang     = meta.lang;
+  const title    = lang === 'en'
+    ? `📚 Previous sessions — ${getSubjectDisplayName(subject, lang)}`
+    : `📚 Sesiones anteriores — ${subject}`;
+  document.querySelector('#historyDrawer h3').textContent = title;
   document.getElementById('sessionList').innerHTML = sessions.length === 0
-    ? '<div class="no-sessions">Aún no hay sesiones anteriores</div>'
+    ? `<div class="no-sessions">${lang === 'en' ? 'No previous sessions for this subject yet.' : 'Aún no hay sesiones para esta asignatura.'}</div>`
     : sessions.map(s => `
       <div class="session-item" onclick="loadSession(${s.id})">
         <div class="s-date">${new Date(s.date).toLocaleDateString('es-ES', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
@@ -1869,31 +2102,43 @@ function showHistory() {
 }
 
 function loadSession(id) {
-  const sessions = JSON.parse(localStorage.getItem('sofia_sessions') || '[]');
+  const sessions = getSubjectSessions(subject);
   const s = sessions.find(x => x.id === id);
   if (!s) return;
-  history = s.history;
-  subject = s.subject;
-  currentSessionAwarded = history.filter(m => m.role === 'user').length >= 2;
-  currentSessionId = s.id;
+  subjectState[subject].history  = s.history || [];
+  subjectState[subject].sessionId = s.id;
+  subjectState[subject].sessionAwarded = (s.history || []).filter(m => m.role === 'user').length >= 2;
+  history = subjectState[subject].history;
   updateLocalizedUI();
   chatEl.innerHTML = '';
-  history.forEach(m => {
-    if (m.role === 'assistant') addMsg('ai', typeof m.content === 'string' ? m.content : '');
-    else if (m.role === 'user') {
-      const t = typeof m.content === 'string' ? m.content : (m.content.find?.(c => c.type === 'text')?.text || '📎');
-      addMsg('user', t);
-    }
-  });
+  renderHistory(history);
   document.getElementById('historyPanel').style.display = 'none';
   currentView = 'conversation';
   updateLocalizedUI();
 }
 
 function clearAllSessions() {
-  if (confirm('¿Borrar todo el historial?')) {
-    localStorage.removeItem('sofia_sessions');
-    document.getElementById('sessionList').innerHTML = '<div class="no-sessions">Aún no hay sesiones anteriores</div>';
+  const meta = getSubjectMeta(subject);
+  const lang = meta.lang;
+  const msg  = lang === 'en'
+    ? `Clear all sessions for ${getSubjectDisplayName(subject, lang)}?`
+    : `¿Borrar todas las sesiones de ${subject}?`;
+  if (confirm(msg)) {
+    sessionsPerSubject[subject] = [];
+    subjectState[subject].history = [];
+    subjectState[subject].sessionId = null;
+    subjectState[subject].sessionAwarded = false;
+    history = subjectState[subject].history;
+    persistSessionsLocally();
+    saveRemoteStudentMemory();
+    updateTabDots();
+    document.getElementById('sessionList').innerHTML =
+      `<div class="no-sessions">${lang === 'en' ? 'No previous sessions for this subject yet.' : 'Aún no hay sesiones para esta asignatura.'}</div>`;
+    chatEl.innerHTML = '';
+    currentView = 'conversation';
+    showWelcome();
+    updateLocalizedUI();
+    document.getElementById('historyPanel').style.display = 'none';
   }
 }
 function closeHistory(e) { if (e.target === document.getElementById('historyPanel')) document.getElementById('historyPanel').style.display = 'none'; }
