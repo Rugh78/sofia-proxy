@@ -912,7 +912,8 @@ TEACHING METHOD:
 - Every few turns, summarise what the student has learned and what the next step is.
 LANGUAGE: ENGLISH ONLY. This subject is taught entirely in English.
 For mathematical or scientific formulas, always use LaTeX syntax.
-For inline math: \\( ... \\). For display equations: \\[ ... \\]. Example: The fraction is \\(\\frac{3}{4}\\).
+For inline math use single dollars: $...$. Example: The fraction is $\\frac{3}{4}$.
+For display equations use double dollars: $$...$$. Example: $$\\frac{a}{b} + \\frac{c}{d}$$
 RESPONSE STRUCTURE — always follow this order:
 1. Short, clear explanation (one idea at a time)
 2. A real-life or concrete example
@@ -939,7 +940,8 @@ METODOLOGÍA DOCENTE:
 - Cada pocas intervenciones, resume qué ha aprendido y cuál es el siguiente paso.
 IDIOMA: ESPAÑOL SOLAMENTE. Esta asignatura se imparte en español.
 Para fórmulas matemáticas o científicas, usa siempre la sintaxis de LaTeX.
-Matemáticas en línea: \\( ... \\). Bloques de ecuaciones: \\[ ... \\]. Ejemplo: La fracción es \\(\\frac{3}{4}\\).
+Para matemáticas en línea usa dólares simples: $...$. Ejemplo: La fracción es $\\frac{3}{4}$.
+Para bloques de ecuaciones usa dólares dobles: $$...$$. Ejemplo: $$\\frac{a}{b} + \\frac{c}{d}$$
 ESTRUCTURA DE RESPUESTA — sigue siempre este orden:
 1. Explicación breve y clara (una sola idea cada vez)
 2. Un ejemplo real o concreto
@@ -964,7 +966,7 @@ MADRID CURRICULUM BASE:
 - Assess on the core content for this year, especially: ${curriculum.focus.join(', ')}.
 - Look for evidence of: ${curriculum.outcomes.join('; ')}.
 LANGUAGE: ENGLISH ONLY.
-For formulas, use LaTeX: inline \\( ... \\), display \\[ ... \\].
+For formulas use LaTeX: inline $...$, display $$...$$.
 EXAM RULES:
 1. Ask one exam-style question at a time — wait for the answer before continuing.
 2. After each answer: ✅ correct or ❌ incorrect — explain why, give the correct answer if wrong, and name the skill being tested.
@@ -988,7 +990,7 @@ BASE CURRICULAR MADRID:
 - Evalúa sobre contenidos nucleares del curso, especialmente: ${curriculum.focus.join(', ')}.
 - Observa si demuestra estas evidencias: ${curriculum.outcomes.join('; ')}.
 IDIOMA: ESPAÑOL SOLAMENTE.
-Para fórmulas, usa LaTeX: en línea \\( ... \\), bloque \\[ ... \\].
+Para fórmulas usa LaTeX: en línea $...$, bloque $$...$$.
 REGLAS DEL EXAMEN:
 1. Haz preguntas tipo examen una por una — espera la respuesta antes de continuar.
 2. Tras cada respuesta: ✅ correcta o ❌ incorrecta — explica por qué, da la respuesta correcta si falló y di qué criterio o destreza se está entrenando.
@@ -1613,19 +1615,35 @@ const btnEl  = document.getElementById('sendBtn');
 function fmt(t) {
   if (!t) return '';
   let temp = t, mathBlocks = [];
+
   // 1. Extract display math: $$...$$ or \[...\]
+  // Must run before single-$ so $$ is consumed first.
   temp = temp.replace(/(\$\$|\\+\[)([\s\S]+?)(\$\$|\\+\])/g, (m, _l, math) => {
     mathBlocks.push({ math: math.trim(), display: true, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
+
   // 2. Extract inline math: \(...\)
   temp = temp.replace(/(\\+\()([\s\S]+?)(\\+\))/g, (m, _l, math) => {
     mathBlocks.push({ math: math.trim(), display: false, raw: m });
     return `__MATH_${mathBlocks.length - 1}__`;
   });
-  // 3. Markdown: bold, italic, line breaks
-  temp = temp.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
-  // 4. Render math with KaTeX
+
+  // 3. Extract inline math: $...$ (single dollar — what the model actually outputs)
+  // Negative lookahead/lookbehind avoids matching already-consumed $$ placeholders.
+  // Only matches when content is non-empty and doesn't span a blank line.
+  temp = temp.replace(/(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)/g, (m, math) => {
+    mathBlocks.push({ math: math.trim(), display: false, raw: m });
+    return `__MATH_${mathBlocks.length - 1}__`;
+  });
+
+  // 4. Markdown: bold, italic, line breaks
+  temp = temp
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+
+  // 5. Render all collected math blocks with KaTeX
   temp = temp.replace(/__MATH_(\d+)__/g, (m, i) => {
     const b = mathBlocks[parseInt(i)];
     if (typeof katex !== 'undefined') {
@@ -1634,6 +1652,7 @@ function fmt(t) {
     }
     return `<span style="color:red;font-weight:bold;">[KaTeX no cargó] ${b.raw}</span>`;
   });
+
   return temp;
 }
 
