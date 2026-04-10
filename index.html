@@ -1943,13 +1943,23 @@ function getSubjectSessions(subj) {
  * so the session preview still makes sense without ballooning storage.
  */
 function stripImagesFromHistory(msgs) {
+  if (!Array.isArray(msgs)) return [];
   return msgs.map(msg => {
-    if (!Array.isArray(msg.content)) return msg;
-    const cleaned = msg.content.map(part => {
-      if (part.type === 'image') return { type: 'text', text: '[📷 imagen]' };
-      return part;
-    });
-    return { ...msg, content: cleaned };
+    // Si el contenido es un array (formato Groq/Claude con imágenes)
+    if (Array.isArray(msg.content)) {
+      const cleaned = msg.content.map(part => {
+        if (part.type === 'image' || (part.source && part.source.data)) {
+          return { type: 'text', text: '[📷 imagen]' };
+        }
+        return part;
+      });
+      return { ...msg, content: cleaned };
+    }
+    // Si el contenido es un string pero es una imagen en base64
+    if (typeof msg.content === 'string' && msg.content.length > 1000) {
+      return { ...msg, content: '[📷 imagen]' };
+    }
+    return msg;
   });
 }
 
@@ -1961,21 +1971,23 @@ const MAX_STORED_MESSAGES = 40;
 
 function persistSessionsLocally() {
   try {
+    // Intentamos guardar normal
     localStorage.setItem('sofia_sessions_v2', JSON.stringify(sessionsPerSubject));
   } catch(e) {
-    // Quota exceeded — try pruning aggressively then retry once
+    console.warn('LocalStorage lleno, aplicando limpieza agresiva...');
     try {
       const pruned = {};
-      ALL_SUBJECTS.forEach(s => {
-        pruned[s] = (sessionsPerSubject[s] || []).slice(0, 3).map(session => ({
+      // Solo guardamos las últimas 2 sesiones por asignatura y solo 10 mensajes
+      Object.keys(sessionsPerSubject).forEach(s => {
+        pruned[s] = (sessionsPerSubject[s] || []).slice(0, 2).map(session => ({
           ...session,
-          history: stripImagesFromHistory((session.history || []).slice(-20)),
+          history: stripImagesFromHistory((session.history || []).slice(-10)),
         }));
       });
       localStorage.setItem('sofia_sessions_v2', JSON.stringify(pruned));
     } catch(e2) {
-      // Still failing — silently skip local persistence; remote sync still works
-      console.warn('localStorage quota exceeded even after pruning — skipping local save');
+      // Si falla aquí, dejamos de intentar para no bloquear el hilo principal
+      console.error('No se pudo guardar localmente. El historial solo persistirá en la nube.');
     }
   }
 }
