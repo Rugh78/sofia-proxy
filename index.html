@@ -1942,10 +1942,16 @@ function getSubjectSessions(subj) {
  * Keeps text content intact. Replaces image parts with a small placeholder
  * so the session preview still makes sense without ballooning storage.
  */
+/**
+ * Strip all image data from a history array before writing to storage.
+ * Handles all formats the frontend produces:
+ *   - Array content with part.type === 'image' (Anthropic format)
+ *   - Array content with part.source.data present (base64 nested in source)
+ *   - String content that looks like raw base64 (length > 500 and no spaces)
+ */
 function stripImagesFromHistory(msgs) {
   if (!Array.isArray(msgs)) return [];
   return msgs.map(msg => {
-    // Si el contenido es un array (formato Groq/Claude con imágenes)
     if (Array.isArray(msg.content)) {
       const cleaned = msg.content.map(part => {
         if (part.type === 'image' || (part.source && part.source.data)) {
@@ -1955,8 +1961,8 @@ function stripImagesFromHistory(msgs) {
       });
       return { ...msg, content: cleaned };
     }
-    // Si el contenido es un string pero es una imagen en base64
-    if (typeof msg.content === 'string' && msg.content.length > 1000) {
+    // String content that is suspiciously long with no spaces = likely raw base64
+    if (typeof msg.content === 'string' && msg.content.length > 500 && !msg.content.includes(' ')) {
       return { ...msg, content: '[📷 imagen]' };
     }
     return msg;
@@ -1964,30 +1970,42 @@ function stripImagesFromHistory(msgs) {
 }
 
 /**
- * Keep only the last N messages per session to bound storage size.
- * The full history lives in memory; only a trimmed version is persisted.
+ * Return a storage-safe copy of sessionsPerSubject:
+ * images stripped, history trimmed to last MAX_STORED_MESSAGES per session.
  */
 const MAX_STORED_MESSAGES = 40;
 
+function buildStorableSessions(maxSessions = 10, maxMessages = MAX_STORED_MESSAGES) {
+  const out = {};
+  ALL_SUBJECTS.forEach(s => {
+    out[s] = (sessionsPerSubject[s] || []).slice(0, maxSessions).map(session => ({
+      ...session,
+      history: stripImagesFromHistory((session.history || []).slice(-maxMessages)),
+    }));
+  });
+  return out;
+}
+
 function persistSessionsLocally() {
+  // Always strip images + trim before attempting to write
+  const storable = buildStorableSessions(10, MAX_STORED_MESSAGES);
   try {
-    // Intentamos guardar normal
-    localStorage.setItem('sofia_sessions_v2', JSON.stringify(sessionsPerSubject));
+    localStorage.setItem('sofia_sessions_v2', JSON.stringify(storable));
   } catch(e) {
-    console.warn('LocalStorage lleno, aplicando limpieza agresiva...');
+    // Still too large — prune harder (3 sessions × 20 messages) and retry
     try {
-      const pruned = {};
-      // Solo guardamos las últimas 2 sesiones por asignatura y solo 10 mensajes
-      Object.keys(sessionsPerSubject).forEach(s => {
-        pruned[s] = (sessionsPerSubject[s] || []).slice(0, 2).map(session => ({
-          ...session,
-          history: stripImagesFromHistory((session.history || []).slice(-10)),
-        }));
-      });
+      const pruned = buildStorableSessions(3, 20);
       localStorage.setItem('sofia_sessions_v2', JSON.stringify(pruned));
     } catch(e2) {
-      // Si falla aquí, dejamos de intentar para no bloquear el hilo principal
-      console.error('No se pudo guardar localmente. El historial solo persistirá en la nube.');
+      // Last resort — clear the key entirely and write a minimal skeleton
+      try {
+        localStorage.removeItem('sofia_sessions_v2');
+        const skeleton = {};
+        ALL_SUBJECTS.forEach(s => { skeleton[s] = []; });
+        localStorage.setItem('sofia_sessions_v2', JSON.stringify(skeleton));
+      } catch(e3) {
+        console.warn('localStorage completely full — sessions not persisted locally');
+      }
     }
   }
 }
@@ -1995,13 +2013,22 @@ function persistSessionsLocally() {
 function loadSessionsLocally() {
   try {
     const saved = localStorage.getItem('sofia_sessions_v2');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      ALL_SUBJECTS.forEach(s => {
-        if (Array.isArray(parsed[s])) sessionsPerSubject[s] = parsed[s];
-      });
-    }
-  } catch(e) {}
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    ALL_SUBJECTS.forEach(s => {
+      if (Array.isArray(parsed[s])) {
+        // Migrate: strip any images that may have been stored before this fix
+        sessionsPerSubject[s] = parsed[s].map(session => ({
+          ...session,
+          history: stripImagesFromHistory(session.history || []),
+        }));
+      }
+    });
+    // Write back the cleaned version immediately so old base64 is purged from disk
+    persistSessionsLocally();
+  } catch(e) {
+    console.warn('Could not load local sessions:', e.message);
+  }
 }
 
 // ── SESSION MEMORY ────────────────────────────────────────────────────────────
