@@ -981,13 +981,17 @@ function buildSystemNormal(name, grade, subject) {
 
   if (lang === 'en') {
     const studentRef = name || 'the student';
+    const memory     = getPriorMemory(subject);
+    const memoryBlock = memory
+      ? `PRIOR LEARNING MEMORY (from previous sessions in ${subject}):\n${memory}\nUse this to avoid repeating what the student already knows and to pick up where things were left off.\n`
+      : '';
     return `You are Sofía, an expert and empathetic private tutor working in the Madrid Bilingual Programme.
 LANGUAGE: ENGLISH ONLY. Every single word of every response must be in English. Never switch to Spanish under any circumstances, regardless of topic names or curriculum content further in this prompt.
 For formulas use LaTeX: inline $...$ e.g. $\\frac{3}{4}$, display $$...$$ e.g. $$a^2 + b^2 = c^2$$
 Student: ${studentRef}, in ${grade} in Madrid (approx. ${g.age} years old), ${g.level} level.
 Current subject: ${subject} (Non-Linguistic Subject — taught entirely in English).
 DIFFICULTY LEVEL: ${g.detail}
-${pedagogy}
+${memoryBlock}${pedagogy}
 TEACHING METHOD:
 - Act as a real private tutor: diagnose, teach, check understanding, and reinforce.
 - Start by identifying the goal, the student's starting point, and the main error.
@@ -1006,12 +1010,16 @@ CLOSING: Where it makes sense, end with a micro-task or a question that requires
   }
 
   const studentRef = name || 'la alumna';
+  const memory     = getPriorMemory(subject);
+  const memoryBlock = memory
+    ? `MEMORIA DE SESIONES ANTERIORES (${subject}):\n${memory}\nÚsala para no repetir lo que ya domina y para retomar donde se quedó.\n`
+    : '';
   return `Eres Sofía, una tutora privada experta y empática del Programa Bilingüe de Madrid.
 Alumna: ${studentRef}, cursando ${grade} en Madrid (${g.age} años aprox.), nivel ${g.level}.
 Currículo: Comunidad de Madrid ESO. Mantente en contenidos nucleares del curso — no inventes criterios hiper-específicos.
 Asignatura actual: ${subject} (impartida en español).
 NIVEL DE DIFICULTAD: ${g.detail}
-${pedagogy}
+${memoryBlock}${pedagogy}
 METODOLOGÍA DOCENTE:
 - Actúa como una profesora particular real: diagnostica, enseña, comprueba y refuerza.
 - Empieza por identificar el objetivo, el punto de partida y el error principal.
@@ -1039,13 +1047,17 @@ function buildSystemExam(name, grade, subject) {
   const curriculum = getCurriculumGuide(grade, subject);
 
   if (lang === 'en') {
-    const studentRef = name || 'the student';
+    const studentRef  = name || 'the student';
+    const memory      = getPriorMemory(subject);
+    const memoryBlock = memory
+      ? `PRIOR LEARNING MEMORY (from previous sessions in ${subject}):\n${memory}\n`
+      : '';
     return `You are Sofía in EXAM MODE, helping ${studentRef} (${grade}, ${g.level} level) prepare for an exam.
 LANGUAGE: ENGLISH ONLY. Every single word of every response must be in English. Never switch to Spanish under any circumstances.
 For formulas use LaTeX: inline $...$ e.g. $\\frac{3}{4}$, display $$...$$ e.g. $$a^2 + b^2 = c^2$$
 Subject: ${subject} (Non-Linguistic Subject — taught entirely in English).
 LEVEL: ${g.detail}
-MADRID CURRICULUM BASE:
+${memoryBlock}MADRID CURRICULUM BASE:
 - Assess on the core content for this year, especially: ${curriculum.focus.join(', ')}.
 - Look for evidence of: ${curriculum.outcomes.join('; ')}.
 LANGUAGE REMINDER: ENGLISH ONLY.
@@ -1065,11 +1077,15 @@ Never put options on the same line separated by commas or dashes.
 Start by asking which topic the student wants to practise and how many questions they want.`;
   }
 
-  const studentRef = name || 'la alumna';
-  return `Eres Sofía en MODO EXAMEN ayudando a ${studentRef} (${grade}, nivel ${g.level}) a preparar un examen.
+  const studentRef2  = name || 'la alumna';
+  const memory2      = getPriorMemory(subject);
+  const memoryBlock2 = memory2
+    ? `MEMORIA DE SESIONES ANTERIORES (${subject}):\n${memory2}\n`
+    : '';
+  return `Eres Sofía en MODO EXAMEN ayudando a ${studentRef2} (${grade}, nivel ${g.level}) a preparar un examen.
 Asignatura: ${subject} (impartida en español).
 NIVEL: ${g.detail}
-BASE CURRICULAR MADRID:
+${memoryBlock2}BASE CURRICULAR MADRID:
 - Evalúa sobre contenidos nucleares del curso, especialmente: ${curriculum.focus.join(', ')}.
 - Observa si demuestra estas evidencias: ${curriculum.outcomes.join('; ')}.
 IDIOMA: ESPAÑOL SOLAMENTE.
@@ -1087,6 +1103,85 @@ FORMATO OBLIGATORIO PARA OPCIONES MÚLTIPLES — pon cada opción en su PROPIA L
   c) texto de la opción
 Nunca pongas las opciones en la misma línea separadas por comas o guiones.
 Empieza preguntando qué tema quiere practicar y cuántas preguntas.`;
+}
+
+// ── PRIOR LEARNING MEMORY ─────────────────────────────────────────────────────
+//
+// After each session of meaningful length, we ask the model to write a short
+// structured summary of what the student worked on, what they understood well,
+// and what still needs work. This is stored in progressData.memory[subject] and
+// injected into the system prompt at the start of every subsequent session,
+// giving Sofía continuity across conversations.
+
+/**
+ * Return the stored memory summary for the current subject, or null.
+ */
+function getPriorMemory(subj) {
+  return (progressData.memory || {})[subj || subject] || null;
+}
+
+/**
+ * Build the prompt that asks the model to summarise a just-finished session.
+ * Intentionally short — we want 3 tight sentences max.
+ */
+function buildMemorySummaryPrompt(subj, lang) {
+  if (lang === 'en') {
+    return `You are a tutor assistant. Based on the conversation above, write a SHORT memory note (maximum 3 sentences) that a tutor would use to remember this student's progress in ${subj}. Include:
+1. What topic(s) were covered.
+2. What the student understood well or got right.
+3. What still needs work or caused confusion.
+Write ONLY the 3-sentence note. No preamble, no labels, no bullet points. Plain text only.`;
+  }
+  return `Eres un asistente de tutora. Basándote en la conversación anterior, escribe una NOTA DE MEMORIA BREVE (máximo 3 frases) que una tutora usaría para recordar el progreso de esta alumna en ${subj}. Incluye:
+1. Qué tema(s) se trabajaron.
+2. Qué entendió bien o respondió correctamente.
+3. Qué aún necesita trabajo o causó confusión.
+Escribe SOLO las 3 frases. Sin preámbulo, sin etiquetas, sin listas. Solo texto plano.`;
+}
+
+/**
+ * Call the worker to generate a session summary, then store it.
+ * Called fire-and-forget at the end of a session — never blocks the UI.
+ * Only runs if the session had at least 4 user turns (enough to be meaningful).
+ */
+async function generateSessionSummary(subj) {
+  const sessionHistory = subjectState[subj]?.history || [];
+  const userTurns = sessionHistory.filter(m => m.role === 'user').length;
+  if (userTurns < 4) return; // session too short to be worth summarising
+
+  const lang    = getSubjectLanguage(subj);
+  const summary = buildMemorySummaryPrompt(subj, lang);
+
+  // Build a trimmed history for the summary call — last 20 messages only
+  const trimmed = sessionHistory.slice(-20).map(m => ({
+    role:    m.role === 'ai' ? 'assistant' : m.role,
+    content: typeof m.content === 'string' ? m.content
+           : (Array.isArray(m.content)
+               ? m.content.filter(p => p.type === 'text').map(p => p.text).join('\n')
+               : ''),
+  })).filter(m => m.content);
+
+  try {
+    const res = await fetch(`${WORKER_URL}/message`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system:   summary,
+        messages: trimmed,
+        userId:   studentSyncKey || 'anonymous',
+        subject:  subj,
+      }),
+    });
+    const d = await res.json();
+    const text = d.content?.[0]?.text?.trim();
+    if (text && text.length > 20) {
+      progressData.memory = progressData.memory || {};
+      progressData.memory[subj] = text;
+      persistProgressData();
+    }
+  } catch(e) {
+    // Summary failed silently — not critical
+  }
 }
 
 // ── STATE ──────────────────────────────────────────────────────────────────────
@@ -1113,7 +1208,7 @@ let pendingImages        = [];
 let learningMode         = 'guiada';
 let currentView          = 'home';
 let themeMode            = localStorage.getItem('sofia_theme') || 'light';
-let progressData         = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1 };
+let progressData         = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1, memory: {} };
 let studentName          = '';
 let studentGrade         = '1º ESO';
 let studentSyncKey       = '';
@@ -1415,12 +1510,21 @@ function updateStudyPanel() {
   document.getElementById('dailyGoalLabel').textContent = goal.label;
   document.getElementById('dailyGoalMain').textContent  = goal.main;
   document.getElementById('dailyGoalSub').textContent   = goal.sub;
-  document.getElementById('recapLabel').textContent = lang === 'en' ? 'Next step' : 'Siguiente paso';
-  document.getElementById('recapMain').textContent  = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
-  const masteryTop = getMasterySnapshot();
-  document.getElementById('recapSub').textContent = masteryTop
-    ? (lang === 'en' ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}` : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
-    : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
+  document.getElementById('recapLabel').textContent = lang === 'en' ? 'Sofía remembers' : 'Sofía recuerda';
+
+  // Show prior memory if it exists, otherwise fall back to lastRecap
+  const memory = getPriorMemory(subject);
+  if (memory) {
+    document.getElementById('recapMain').textContent = lang === 'en' ? 'From last session:' : 'De la sesión anterior:';
+    document.getElementById('recapSub').textContent  = memory;
+  } else {
+    document.getElementById('recapMain').textContent = progressData.lastRecap || (lang === 'en' ? 'Your next step will appear here.' : 'Tu siguiente paso aparecerá aquí.');
+    const masteryTop = getMasterySnapshot();
+    document.getElementById('recapSub').textContent = masteryTop
+      ? (lang === 'en' ? `Focus topic: ${getDisplayUnitTitle(masteryTop.unit, lang)}` : `Tema de foco: ${getDisplayUnitTitle(masteryTop.unit, lang)}`)
+      : (lang === 'en' ? 'Sofía will suggest the next useful step.' : 'Sofía sugerirá el siguiente paso útil.');
+  }
+}
 }
 
 function updateMasteryPanel() {
@@ -1931,12 +2035,6 @@ function getSubjectSessions(subj) {
   return sessionsPerSubject[subj || subject] || [];
 }
 
-// ── SESSION STORAGE HELPERS ──────────────────────────────────────────────────
-
-function getSubjectSessions(subj) {
-  return sessionsPerSubject[subj || subject] || [];
-}
-
 /**
  * Strip base64 image data from a history array before writing to storage.
  * Keeps text content intact. Replaces image parts with a small placeholder
@@ -2109,6 +2207,8 @@ function renderHistory(msgs) {
 
 function newSession(e) {
   if (e) e.preventDefault();
+  // Generate a memory summary of the session we're ending (fire-and-forget)
+  if (history.length >= 8) generateSessionSummary(subject);
   subjectState[subject].history  = [];
   subjectState[subject].sessionId = null;
   subjectState[subject].sessionAwarded = false;
@@ -2139,6 +2239,12 @@ function showWelcome() {
 
 function switchTab(newSubject) {
   if (newSubject === subject && currentView === 'conversation') return;
+
+  // If leaving a subject with meaningful history, generate a memory summary
+  const leavingSubject = subject;
+  if (newSubject !== leavingSubject && subjectState[leavingSubject].history.length >= 8) {
+    generateSessionSummary(leavingSubject);
+  }
 
   subject = newSubject;
   refreshHistory(); // point `history` at new subject's array
