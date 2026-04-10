@@ -6,9 +6,10 @@ app.use('/*', cors());
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────────
 
-const GROQ_MODEL   = 'llama-3.3-70b-versatile';
-const MAX_TOKENS   = 1024;
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL_TEXT   = 'llama-3.3-70b-versatile';   // text-only
+const GROQ_MODEL_VISION = 'meta-llama/llama-4-scout-17b-16e-instruct'; // vision
+const MAX_TOKENS        = 1024;
+const GROQ_API_URL      = 'https://api.groq.com/openai/v1/chat/completions';
 
 const VALID_SUBJECTS = ['Matemáticas', 'Biología', 'Física y Química', 'Historia', 'Lengua', 'Inglés'];
 
@@ -129,7 +130,41 @@ async function fetchSubjectSessions(env, studentKey) {
 
 // ── MESSAGE SANITISATION ──────────────────────────────────────────────────────
 
-function sanitiseMessages(messages) {
+/**
+ * Check whether any message in the array contains image content.
+ */
+function messagesHaveImages(messages) {
+  return messages.some(msg =>
+    Array.isArray(msg.content) && msg.content.some(p => p.type === 'image')
+  );
+}
+
+/**
+ * Convert Anthropic-style image objects to Groq/OpenAI vision format.
+ * Groq vision expects: { type: 'image_url', image_url: { url: 'data:...' } }
+ */
+function formatForVision(messages) {
+  return messages.map(msg => {
+    if (!Array.isArray(msg.content)) return msg;
+    const parts = msg.content.map(part => {
+      if (part.type === 'text') return { type: 'text', text: part.text };
+      if (part.type === 'image' && part.source?.type === 'base64') {
+        return {
+          type: 'image_url',
+          image_url: { url: `data:${part.source.media_type};base64,${part.source.data}` },
+        };
+      }
+      return null;
+    }).filter(Boolean);
+    return { ...msg, content: parts };
+  });
+}
+
+/**
+ * Strip all image content — used when routing to the text-only model.
+ * Replaces image-only messages with a placeholder text.
+ */
+function sanitiseToText(messages) {
   return messages.map(msg => {
     if (!Array.isArray(msg.content)) return msg;
     const textParts = msg.content
@@ -207,7 +242,10 @@ app.post('/message', async (c) => {
   if (!system || typeof system !== 'string')
     return c.json({ error: { message: '`system` must be a non-empty string' } }, 400);
 
-  const sanitised = sanitiseMessages(messages);
+  // Route to vision model if the student attached an image, text-only model otherwise
+  const useVision = messagesHaveImages(messages);
+  const model     = useVision ? GROQ_MODEL_VISION : GROQ_MODEL_TEXT;
+  const formatted = useVision ? formatForVision(messages) : sanitiseToText(messages);
 
   let groqRes;
   try {
@@ -215,9 +253,9 @@ app.post('/message', async (c) => {
       method:  'POST',
       headers: { 'Authorization': `Bearer ${c.env.GROQ_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model:      GROQ_MODEL,
+        model:      model,
         max_tokens: MAX_TOKENS,
-        messages:   [{ role: 'system', content: system }, ...sanitised],
+        messages:   [{ role: 'system', content: system }, ...formatted],
       }),
     });
   } catch (err) { return c.json({ error: { message: `Groq fetch failed: ${err.message}` } }, 502); }
@@ -235,7 +273,7 @@ app.post('/message', async (c) => {
     ?? '¡Lo siento! Hubo un error inesperado. Por favor, inténtalo de nuevo.';
 
   if (hasFirestore(c.env)) {
-    const lastUser = sanitised[sanitised.length - 1];
+    const lastUser = formatted[formatted.length - 1];
     c.executionCtx.waitUntil(
       Promise.allSettled([
         saveMessageToFirestore(c.env, userId, subject, lastUser.role, lastUser.content),
