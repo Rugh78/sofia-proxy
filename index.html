@@ -1287,10 +1287,28 @@ async function loadRemoteStudentMemory() {
   } catch(e) { return false; }
 }
 
-async function saveRemoteStudentMemory() {
+// Debounced remote save — fires at most once every 30 seconds.
+// This prevents a Firestore write on every single AI reply while still
+// guaranteeing the data is synced within half a minute of any change.
+let _saveRemoteTimer = null;
+function saveRemoteStudentMemory() {
+  if (!studentSyncKey) return;
+  clearTimeout(_saveRemoteTimer);
+  _saveRemoteTimer = setTimeout(_doSaveRemoteStudentMemory, 30_000);
+}
+
+// Flush immediately — call this when the user is about to leave (page unload)
+// or when we know we need the data saved right now (e.g. after loading a profile).
+function flushRemoteStudentMemory() {
+  if (!studentSyncKey) return;
+  clearTimeout(_saveRemoteTimer);
+  _saveRemoteTimer = null;
+  _doSaveRemoteStudentMemory();
+}
+
+async function _doSaveRemoteStudentMemory() {
   if (!studentSyncKey) return;
   try {
-    // Build a trimmed copy — max 10 sessions per subject
     const trimmed = {};
     ALL_SUBJECTS.forEach(s => {
       trimmed[s] = (sessionsPerSubject[s] || []).slice(0, 10);
@@ -1363,7 +1381,7 @@ async function saveSettings() {
   chatEl.innerHTML = '';
 
   if (loadedRemote) { updateStudentUI(); loadLastSession(); }
-  else { saveRemoteStudentMemory(); }
+  else { flushRemoteStudentMemory(); }
   showHomeView();
 }
 
@@ -2224,7 +2242,21 @@ function showWelcome() {
   const meta      = getSubjectMeta(subject);
   const lang      = meta.lang;
   const modeLabel = getModeLabel(learningMode, lang);
-  const greeting  = lang === 'en'
+  const memory    = getPriorMemory(subject);
+  const subjectLabel = getSubjectDisplayName(subject, lang);
+
+  // ── Personalised opening when we have memory ──
+  if (memory && studentName) {
+    const msg = lang === 'en'
+      ? `Hi, **${studentName}**! 👋 Welcome back to **${subjectLabel}**.\n\nHere's what I remember from last time:\n*${memory}*\n\nWould you like to continue from where we left off, or is there something new you want to work on today?`
+      : `¡Hola, **${studentName}**! 👋 De vuelta a **${subjectLabel}**.\n\nEsto es lo que recuerdo de la última sesión:\n*${memory}*\n\n¿Seguimos desde donde lo dejamos, o hay algo nuevo que quieras trabajar hoy?`;
+    addMsg('ai', msg);
+    history.push({ role: 'assistant', content: msg });
+    return;
+  }
+
+  // ── Generic first-time welcome ──
+  const greeting = lang === 'en'
     ? (studentName ? `Hi, **${studentName}**! 👋 I'm **Sofía**, your tutor for ${studentGrade}.` : `Hi! 👋 I'm **Sofía**, your tutor.`)
     : (studentName ? `¡Hola, **${studentName}**! 👋 Soy **Sofía**, tu tutora de ${studentGrade}.` : `¡Hola! 👋 Soy **Sofía**, tu tutora.`);
   const msg = lang === 'en'
@@ -2344,6 +2376,23 @@ function clearAllSessions() {
   }
 }
 function closeHistory(e) { if (e.target === document.getElementById('historyPanel')) document.getElementById('historyPanel').style.display = 'none'; }
+
+// Flush any pending remote save when the student closes or navigates away.
+// beforeunload gives us a narrow window — keepalive fetch ensures it completes.
+window.addEventListener('beforeunload', () => {
+  if (!studentSyncKey) return;
+  clearTimeout(_saveRemoteTimer);
+  const trimmed = {};
+  ALL_SUBJECTS.forEach(s => { trimmed[s] = (sessionsPerSubject[s] || []).slice(0, 10); });
+  const body = JSON.stringify({
+    profile:            { name: studentName, grade: studentGrade, syncKey: studentSyncKey },
+    progress:           progressData,
+    sessionsPerSubject: trimmed,
+  });
+  navigator.sendBeacon
+    ? navigator.sendBeacon(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`, new Blob([body], { type: 'application/json' }))
+    : fetch(`${WORKER_URL}/student/${encodeURIComponent(studentSyncKey)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true }).catch(() => {});
+});
 
 // ── PWA INSTALL HINT (iOS) ─────────────────────────────────────────────────────
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone && !localStorage.getItem('hint_shown')) {
