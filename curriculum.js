@@ -205,6 +205,44 @@ const SUBJECTS_ES = {
     },
   },
 
+  'Francés': {
+  lang: 'es', // Language of instruction for the tutor UI
+  rationale: 'El aprendizaje del francés como segunda lengua extranjera se enfoca en el desarrollo de la competencia comunicativa: comprensión, expresión e interacción oral y escrita en situaciones cotidianas.',
+  grades: {
+    '1º ESO': {
+      focus: ['saludos y presentaciones', 'artículos definidos e indefinidos', 'verbos être y avoir', 'presente de indicativo (1º grupo)', 'números y fechas', 'vocabulario de la familia y escuela'],
+      outcomes: ['comprende y produce frases sencillas de la vida diaria', 'se presenta y describe a otras personas', 'aplica reglas básicas de pronunciación'],
+      misconceptions: ['pronunciar todas las letras finales', 'confundir los verbos être y avoir', 'traducir literalmente del español'],
+    },
+    '2º ESO': {
+      focus: ['artículos partitivos', 'verbos del 2º grupo y de tercer grupo frecuentes', 'el pasado reciente (venir de) y futuro próximo (aller + inf)', 'descripción de personas y lugares', 'expresar gustos y preferencias'],
+      outcomes: ['utiliza tiempos compuestos básicos', 'redacta textos breves sobre rutinas y viajes', 'comprende audios con ritmo pausado'],
+      misconceptions: ['omitir los artículos partitivos', 'confundir la pronunciación de vocales nasales', 'error en la concordancia del adjetivo'],
+    },
+    '3º ESO': {
+      focus: ['el passé composé con être y avoir', 'pronombres COD y COI', 'imperfeto frente a passé composé', 'expresión de la causa y consecuencia', 'vocabulario de ocio, trabajo y viajes'],
+      outcomes: ['narra acontecimientos pasados con coherencia', 'sustituye complementos usando pronombres directos e indirectos', 'mantiene una conversación sencilla sobre experiencias'],
+      misconceptions: ['no acordar el participio pasado cuando corresponde', 'confundir la posición de los pronombres', 'mezclar passé composé e imparfait'],
+    },
+    '4º ESO': {
+      focus: ['el futuro simple y el condicional', 'la hipótesis con si', 'pronombres relativos (qui, que, où, dont)', 'el subjuntivo presente (introducción)', 'redacción formal y opinión'],
+      outcomes: ['expresa hipótesis, deseos y opiniones de forma estructurada', 'comprende textos auténticos sencillos', 'prepara nivel A2+/B1 del MCER'],
+      misconceptions: ['usar el futuro después de "si" condicional', 'confundir los pronombres relativos qui y que', 'no aplicar el subjuntivo tras expresiones de voluntad'],
+    },
+    '1º Bach': {
+      focus: ['consolidación de tiempos pasados', 'pronombres en y y', 'subjonctif vs indicatif', 'discurso indirecto en pasado', 'argumentación y ensayo breve'],
+      outcomes: ['redacta textos argumentativos bien estructurados', 'utiliza estructuras complejas con mayor fluidez', 'alcanza nivel B1 pleno'],
+      misconceptions: ['confundir el uso de los pronombres adverbiales en y y', 'errores de concordancia en el discurso indirecto', 'reutilizar estructuras simples de ESO'],
+    },
+    '2º Bach': {
+      focus: ['subjonctif avanzado y conectores lógicos', 'la pasiva y la forma pronominal', 'comentario de texto y preparación EBAU', 'expresión de la condición y concesión', 'repaso gramatical B1+/B2'],
+      outcomes: ['comenta textos y analiza estructuras complejas con rigor', 'redacta ensayos argumentativos de nivel preuniversitario', 'domina las pruebas tipo EBAU / DELF B2'],
+      misconceptions: ['abuso del infinitivo sin conector', 'desconocer los conectores lógicos formales', 'falta de precisión en el registro escrito'],
+    },
+  },
+},
+  
+
 };
 
 
@@ -434,6 +472,26 @@ const SUBJECT_META = {
       exam: '📝 Exam mode',
     },
   },
+
+  'Francés': {
+  lang: 'es',
+  badge: 'FR',
+  icon: '🇫🇷',
+  welcomePrompt: '¿Por qué tema de Francés empezamos hoy?',
+  topicPrompt: '¿Qué tema quieres trabajar y qué parte te cuesta más?',
+  modePrompts: {
+    diagnostico: 'Vamos a empezar con un **diagnóstico** en Francés. Te haré preguntas cortas para ver desde dónde partimos.',
+    guiada: 'Pasamos a **enseñanza guiada** en Francés. Iremos paso a paso, con explicaciones breves y ejemplos.',
+    practica: 'Entramos en **práctica** de Francés. Te propondré ejercicios cortos con feedback inmediato.',
+  },
+  chips: {
+    diagnostico: '🎯 Diagnóstico',
+    guiada: '🧭 Guiada',
+    practica: '💪 Práctica',
+    exam: '📝 Modo examen',
+  },
+},
+  
 };
 
 
@@ -671,6 +729,31 @@ const SUBJECT_UNIT_MAP = {
     ],
   },
 
+  'Francés': {
+  '1º ESO': [
+    { id: 'fr1-u1', title: 'Se présenter et saluer (Presentarse y saludar)', keywords: ['saluer', 'se presenter', 'nom', 'prenom', 'presentacion', 'saludos'] },
+    { id: 'fr1-u2', title: 'Les verbes Être et Avoir et les nombres', keywords: ['etre', 'avoir', 'nombres', 'numeros', 'age', 'edad'] },
+    { id: 'fr1-u3', title: 'La famille et la description physique', keywords: ['famille', 'familia', 'description', 'adjectifs', 'descripcion'] },
+    { id: 'fr1-u4', title: 'L\'école et les fournitures scolaires', keywords: ['ecole', 'colegio', 'matieres', 'asignaturas', 'material'] },
+  ],
+  '2º ESO': [
+    { id: 'fr2-u1', title: 'La routine quotidienne et l\'heure', keywords: ['routine', 'heure', 'rutina', 'hora', 'journee'] },
+    { id: 'fr2-u2', title: 'Les articles partitifs et l\'alimentation', keywords: ['partitifs', 'partitivos', 'nourriture', 'comida', 'manger'] },
+    { id: 'fr2-u3', title: 'Le passé récent et le futur proche', keywords: ['futur proche', 'passe recent', 'venir de', 'aller'] },
+  ],
+  '3º ESO': [
+    { id: 'fr3-u1', title: 'Le passé composé avec Être et Avoir', keywords: ['passe compose', 'pasado compuesto', 'participe passe'] },
+    { id: 'fr3-u2', title: 'L\'imparfait vs Passé Composé', keywords: ['imparfait', 'imperfecto', 'recit', 'narracion'] },
+    { id: 'fr3-u3', title: 'Les pronoms COD et COI', keywords: ['cod', 'coi', 'pronombres', 'pronoms'] },
+  ],
+  '4º ESO': [
+    { id: 'fr4-u1', title: 'Le futur simple et le conditionnel', keywords: ['futur simple', 'conditionnel', 'condicional', 'futuro'] },
+    { id: 'fr4-u2', title: 'L\'expression de l\'hypothèse (Si...)', keywords: ['hypothese', 'hipotesis', 'si'] },
+    { id: 'fr4-u3', title: 'Les pronoms relatifs (qui, que, où, dont)', keywords: ['relatifs', 'relativos', 'qui', 'que', 'dont', 'ou'] },
+  ],
+},
+  
+
 };
 
 
@@ -720,6 +803,9 @@ function resolveSubjectKey(subject) {
     ingles:                'Inglés',
     english:               'Inglés',
     'advanced english':    'Inglés',
+    frances:               'Francés',
+    french:                'Francés',
+    francais:              'Francés',
   };
 
   if (aliases[normalized]) return aliases[normalized];
@@ -731,6 +817,7 @@ function resolveSubjectKey(subject) {
   if (normalized.includes('fisica') || normalized.includes('quimica')) return 'Física y Química';
   if (normalized.includes('lengua') || normalized.includes('castellan')) return 'Lengua';
   if (normalized.includes('mat'))                             return 'Matemáticas';
+  if (normalized.includes('franc')) return 'Francés';
 
   return subject; // return as-is if nothing matched
 }
