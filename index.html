@@ -708,6 +708,10 @@ body.dark .subj-tab:active { color: #8ed9c3; }
     <button class="subj-btn" id="sb-Inglés" onclick="selectSubject('Inglés',this)">
       <span class="subj-icon">🇬🇧</span> Inglés
     </button>
+    <button class="subj-btn" onclick="selectSubject('Francés')">
+      <span class="subj-icon">🇫🇷</span>
+      <span>Francés</span>
+    </button>
 
     <div class="side-divider"></div>
     <div class="side-section-label">Modo de estudio</div>
@@ -899,6 +903,11 @@ body.dark .subj-tab:active { color: #8ed9c3; }
         <div class="subject-card-title">English</div>
         <div class="subject-card-sub">Grammar, reading, speaking, and writing.</div>
       </button>
+      <div class="subject-card" onclick="selectSubject('Francés')">
+      <div class="subject-card-icon">🇫🇷</div>
+      <div class="subject-card-title">Francés</div>
+      <div class="subject-card-sub">Vocabulaire, grammaire et expression oral/écrite.</div>
+      </div>
     </div>
   </div>
 
@@ -937,6 +946,10 @@ body.dark .subj-tab:active { color: #8ed9c3; }
     </button>
     <button class="subj-tab" id="tab-Inglés" onclick="switchTab('Inglés')">
       <span class="tab-icon">🇬🇧</span> English
+      <span class="tab-dot"></span>
+    </button>
+    <button class="subj-tab" id="tab-Francés" onclick="switchTab('Francés')">
+      <span class="tab-icon">🇫🇷</span> Francés
       <span class="tab-dot"></span>
     </button>
   </div>
