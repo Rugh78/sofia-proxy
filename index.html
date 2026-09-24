@@ -685,7 +685,7 @@ body.dark .subj-tab:active { color: #8ed9c3; }
       <div class="side-avatar">🎓</div>
       <div>
         <div class="side-title">Sofía · Tutora IA</div>
-        <div class="side-sub" id="sideStudentInfo">1º ESO · Madrid</div>
+        <div class="side-sub" id="sideStudentInfo">2º ESO · Madrid</div>
       </div>
     </div>
 
@@ -988,7 +988,7 @@ const WORKER_URL = 'https://sofia-tutor.roi-abre.workers.dev';
 // No more mixed-language instructions confusing the model.
 
 function buildSystemNormal(name, grade, subject) {
-  const g        = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const g        = GRADE_INFO[grade] || GRADE_INFO['2º ESO'];
   const lang     = getSubjectLanguage(subject);
   const pedagogy = buildPedagogyBlock(learningMode, grade, subject);
 
@@ -1055,7 +1055,7 @@ CIERRE: Cuando tenga sentido, termina con una microtarea o una pregunta que obli
 }
 
 function buildSystemExam(name, grade, subject) {
-  const g          = GRADE_INFO[grade] || GRADE_INFO['1º ESO'];
+  const g          = GRADE_INFO[grade] || GRADE_INFO['2º ESO'];
   const lang       = getSubjectLanguage(subject);
   const curriculum = getCurriculumGuide(grade, subject);
 
@@ -1223,7 +1223,7 @@ let currentView          = 'home';
 let themeMode            = localStorage.getItem('sofia_theme') || 'light';
 let progressData         = { lessonsCompleted: 0, score: 0, streak: 0, lastStudyDate: '', activeDays: 0, mastery: {}, lastRecap: '', dailyGoalDone: 0, dailyGoalTarget: 1, memory: {} };
 let studentName          = '';
-let studentGrade         = '1º ESO';
+let studentGrade         = '2º ESO';
 let studentSyncKey       = '';
 let _selectedGrade       = '';
 let searchActive         = false;
@@ -1668,7 +1668,7 @@ function loadStudentProfile() {
     try {
       const p = JSON.parse(saved);
       studentName    = p.name     || '';
-      studentGrade   = p.grade    || '1º ESO';
+      studentGrade   = p.grade    || '2º ESO';
       studentSyncKey = p.syncKey  || '';
       updateStudentUI();
       return true;
@@ -2284,7 +2284,7 @@ function showWelcome() {
 function switchTab(newSubject) {
   // 1. Ensure subject state exists before accessing history
   if (!subjectState[newSubject]) {
-    subjectState[newSubject] = { history: [], mode: 'guiada', grade: '1º ESO' };
+    subjectState[newSubject] = { history: [], mode: 'guiada', grade: '2º ESO' };
   }
 
   if (newSubject === subject && currentView === 'conversation') return;
