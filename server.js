@@ -6,7 +6,7 @@ app.use('/*', cors());
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────────
 
-const GROQ_MODEL_TEXT   = 'llama-3.3-70b-versatile';   // text-only
+const GROQ_MODEL_TEXT   = 'openai/gpt-oss-120b';             // text-only (Replaces deprecated Llama 3.3 70b)
 const GROQ_MODEL_VISION = 'meta-llama/llama-4-scout-17b-16e-instruct'; // vision
 const MAX_TOKENS        = 1024;
 const GROQ_API_URL      = 'https://api.groq.com/openai/v1/chat/completions';
