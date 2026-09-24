@@ -1200,7 +1200,7 @@ async function generateSessionSummary(subj) {
 // ── STATE ──────────────────────────────────────────────────────────────────────
 
 // All 6 subjects
-const ALL_SUBJECTS = ['Matemáticas', 'Biología', 'Física y Química', 'Historia', 'Lengua', 'Inglés'];
+const ALL_SUBJECTS = ['Matemáticas', 'Biología', 'Física y Química', 'Historia', 'Lengua', 'Inglés', 'Francés'];
 
 // Per-subject conversation state
 // Each entry: { history: [], sessionId: null, sessionAwarded: false }
@@ -2282,35 +2282,48 @@ function showWelcome() {
 // ── SUBJECT TAB SWITCHING ─────────────────────────────────────────────────────
 
 function switchTab(newSubject) {
+  // 1. Ensure subject state exists before accessing history
+  if (!subjectState[newSubject]) {
+    subjectState[newSubject] = { history: [], mode: 'guiada', grade: '1º ESO' };
+  }
+
   if (newSubject === subject && currentView === 'conversation') return;
 
-  // If leaving a subject with meaningful history, generate a memory summary
+  // 2. Safely check leaving subject state
   const leavingSubject = subject;
-  if (newSubject !== leavingSubject && subjectState[leavingSubject].history.length >= 8) {
+  if (
+    leavingSubject &&
+    subjectState[leavingSubject] &&
+    subjectState[leavingSubject].history &&
+    subjectState[leavingSubject].history.length >= 8
+  ) {
     generateSessionSummary(leavingSubject);
   }
 
   subject = newSubject;
   refreshHistory(); // point `history` at new subject's array
 
-  // Update tab UI
+  // 3. Update tab UI (removes active class and finds matching button even with special characters)
   document.querySelectorAll('.subj-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tab-${newSubject}`)?.classList.add('active');
+  const activeTab = document.getElementById(`tab-${newSubject}`) || 
+                    Array.from(document.querySelectorAll('.subj-tab')).find(btn => btn.getAttribute('onclick')?.includes(`'${newSubject}'`));
+  if (activeTab) activeTab.classList.add('active');
 
-  // Update side menu active button
+  // 4. Update side menu active button
   document.querySelectorAll('.subj-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`sb-${newSubject}`)?.classList.add('active');
+  const activeSideBtn = document.getElementById(`sb-${newSubject}`) || 
+                        Array.from(document.querySelectorAll('.subj-btn')).find(btn => btn.getAttribute('onclick')?.includes(`'${newSubject}'`));
+  if (activeSideBtn) activeSideBtn.classList.add('active');
 
-  // Clear chat area and render this subject's current session
+  // 5. Clear chat area and render session
   chatEl.innerHTML = '';
   updateLocalizedUI();
 
-  if (history.length > 0) {
+  if (history && history.length > 0) {
     renderHistory(history);
     currentView = 'conversation';
     updateLocalizedUI();
   } else {
-    // No history yet for this subject — show welcome in conversation view
     currentView = 'conversation';
     showWelcome();
     updateLocalizedUI();
